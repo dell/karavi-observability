@@ -166,7 +166,7 @@ Once Grafana is properly configured, you can import the pre-built observability 
 
 The OpenTelemetry Collector is deployed and configured as part of this project's deployment.  It is configured to require all communication happen using TLS.  The deployment options listed below will require a signed certificate file and a signed certificate private key file.
 
-The metrics service requires the OpenTelemetry Collector so that metrics can be pushed and later consumed by a backend. The [Helm chart](https://github.com/dell/helm-charts/tree/main/charts/karavi-metrics-powerflex) takes care of deploying the OpenTelemetry Collector and securing communication between the metrics service and the OpenTelemetry Collector using TLS 1.2 via the user-provided certificate and key files.
+The metrics service requires the OpenTelemetry Collector so that metrics can be pushed and later consumed by a backend. The [Karavi Observability Helm chart](https://github.com/dell/helm-charts/tree/main/charts/karavi-observability) takes care of deploying the OpenTelemetry Collector and securing communication between the metrics service and the OpenTelemetry Collector using TLS 1.2 via the user-provided certificate and key files.
 
 **Note**: Although the OpenTelemetry Collector can provide metrics for different backends, we currently only support Prometheus.
 
