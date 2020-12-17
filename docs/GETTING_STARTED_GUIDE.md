@@ -197,7 +197,7 @@ Once all prerequisites are on the Linux host, follow the steps below to clone an
 
 __Note:__ Linux support only. If you are using a local insecure docker registry, ensure you configure the insecure registries on each of the Kubernetes worker nodes to allow access to the local docker repository
 
-## Testing Karavi Metrics for PowerFlex
+## Testing Karavi Observability
 
 From the root directory where the repo was cloned, the unit tests can be executed as follows:
 
