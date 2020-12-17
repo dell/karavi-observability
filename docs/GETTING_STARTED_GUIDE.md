@@ -16,19 +16,27 @@ This document steps through the deployment and configuration of this application
 
 ## Kubernetes
 
-First and foremost, the metrics service requires a Kubernetes cluster that aligns with the supported versions listed below.
+First and foremost, the services require a Kubernetes cluster that aligns with the supported versions listed below.
 
 | Version   |
 | --------- |
 | 1.17-1.19 |
 
-## Supported Dell EMC Products
+## Openshift
 
-This project currently supports the following versions of Dell EMC PowerFlex.
+For Openshift, the services requires the cluster to align with these supported versions.
 
 | Version |
-| ---------- |
-| v3.0, v3.5 |
+| ------- |
+| 4.5,4.6 |
+
+## Supported Dell EMC Products
+
+The topology service currently supports the following versions of Dell EMC storage systems.
+
+| Dell EMC Storage Product      |
+| ----------------------------- |
+| Dell EMC PowerFlex v3.0, v3.5 |
 
 ## CSI Driver for Dell EMC PowerFlex
 
