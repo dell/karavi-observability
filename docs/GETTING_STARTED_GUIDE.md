@@ -43,7 +43,11 @@ This project captures telemetry data about Kubernetes storage usage and performa
 
 ## Deploying Karavi Observability
 
-This project is deployed using Helm.
+This project is deployed using Helm. The below Helm version needs to be installed in the Kubernetes cluster.
+
+| Component       | Version   | Additional Information |
+| --------------- | --------- | ---------------------- |
+| Helm            | v.3.3.0   | [Helm installation](https://helm.sh/docs/intro/install/) |
 
 ## Installing the Chart
 
