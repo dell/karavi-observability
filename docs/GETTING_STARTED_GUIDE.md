@@ -12,57 +12,55 @@ You may obtain a copy of the License at
 
 This project captures telemetry data about storage usage and performance and pushes it to the [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector), so it can be processed, and exported in a format consumable by Prometheus.  Prometheus can then be configured to scrape the OpenTelemetry Collector exporter endpoint to provide metrics so they can be visualized in Grafana.  
 
-This document steps through the deployment and configuration of this application using Helm.
+The topology service provides Kubernetes administrators, via Grafana, the topology data related to containerized storage that are provisioned by a CSI (Container Storage Interface) Driver for Dell EMC storage products.
 
-## Kubernetes
+## Karavi Observability Capabilities
 
-First and foremost, the services require a Kubernetes cluster that aligns with the supported versions listed below.
+| Metrics | PowerFlex |
+| -------- | --------- |
+| Storage Pool Consumption | Yes |
+| Storage System I/O | Yes |
+| Volume I/O | Yes |
+| Topology | Yes |
 
-| Version   |
-| --------- |
-| 1.17-1.19 |
+## Supported Platforms
 
-## Openshift
+The following matrix provides a list of all supported versions for each Dell EMC Storage product.
 
-For Openshift, the services requires the cluster to align with these supported versions.
+| Platforms | PowerFlex |
+| -------- | --------- |
+| Storage Array | v3.0, v3.5 |
+| Kubernetes | 1.17, 1,18, 1.19 |
+| Openshift | 4.5,4.6 |
 
-| Version |
-| ------- |
-| 4.5,4.6 |
+## CSI Drivers
 
-## Supported Dell EMC Products
+This project captures telemetry data about Kubernetes storage usage and performance as it relates the CSI (Container Storage Interface) Driver for Dell storage products. The metrics service requires that the CSI Driver for each of the supported storage arrays is deployed in the Kubernetes cluster.
 
-The topology service currently supports the following versions of Dell EMC storage systems.
-
-| Dell EMC Storage Product      |
-| ----------------------------- |
-| Dell EMC PowerFlex v3.0, v3.5 |
-
-## CSI Driver for Dell EMC PowerFlex
-
-This project captures telemetry data about Kubernetes storage usage and performance as it relates the CSI (Container Storage Interface) Driver for Dell EMC PowerFlex. The metrics service requires that the CSI Driver for Dell EMC PowerFlex is deployed in the Kubernetes cluster.
-
-| CSI Driver |
-| ---------- |
-| [CSI Driver for Dell EMC PowerFlex v1.1.5, 1.2.0, 1.2.1](https://github.com/dell/csi-vxflexos) |
+| Storage Array | CSI Driver | Supported Versions |
+| ------------- | ---------- | ------------------ |
+| PowerFlex | [csi-powerflex](https://github.com/dell/csi-powerflex) | v1.1.5, 1.2.0, 1.2.1 |
 
 ## Deploying Karavi Observability
 
-This project is deployed using Helm. To install the helm chart:
+This project is deployed using Helm.
+
+## Installing the Chart
 
 ```console
 $ helm repo add dell https://dell.github.io/helm-charts
-$ helm install karavi-observability dell/karavi-observability -n karavi --create-namespace \
-    --set-file karaviTopology.certificateFile=<location-of-karavi-topology-certificate-file> \
-    --set-file karaviTopology.privateKeyFile=<location-of-karavi-topology-private-key-file> \
-    --set-file otelCollector.certificateFile=<location-of-otel-collector-certificate-file> \
-    --set-file otelCollector.privateKeyFile=<location-of-otel-collector-private-key-file> \
-    --set karaviMetricsPowerflex.powerflexPassword=<base64-encoded-password> \
-    --set karaviMetricsPowerflex.powerflexUser=<base64-encoded-username> \
-    --set karaviMetricsPowerflex.powerflexEndpoint=https://<powerflex-endpoint>
+$ helm install karavi-observability dell/karavi-observability -n karavi --create-namespace
 ```
 
-If you built the Docker image and pushed it to a local registry, you can deploy it using the same Helm chart above.  You simply need to override the helm chart value pointing to where the image lives. The table below shows all the configuration options for the installation.
+The command deploys Karavi Observability on the Kubernetes cluster in the default configuration. To install the helm chart, two signed certificate files and associated private key files must be passed to the helm install command. The first set is for the otelCollector parameter and should be created with domain name 'otel-collector'. The other set is required for karaviTopology parameter using the domain name 'karavi-topology'. The [configuration](##Configuration) section below lists all the parameters that can be configured during installation.
+
+## Uninstalling the Chart
+
+The command removes all the Kubernetes components associated with the chart.
+
+```console
+$ helm delete karavi-observability --namespace karavi
+```
 
 ### Configuration
 
@@ -90,6 +88,27 @@ If you built the Docker image and pushed it to a local registry, you can deploy 
 | `karaviMetricsPowerflex.storageClassPoolMetricsEnabled`                        | Enable PowerFlex  Storage Class/Pool Metrics Collection                         | `true`                                       |
 | `karaviMetricsPowerflex.endpoint`                        | Endpoint for pod leader election                       | `karavi-metrics-powerflex`                                       |
 
+Specify each parameter using the '--set key=value[,key=value]' and/or '--set-file key=value[,key=value] arguments to 'helm install'. For example:
+
+```console
+$ helm install karavi-observability dell/karavi-observability -n karavi --create-namespace \
+    --set-file karaviTopology.certificateFile=<location-of-karavi-topology-certificate-file> \
+    --set-file karaviTopology.privateKeyFile=<location-of-karavi-topology-private-key-file> \
+    --set-file otelCollector.certificateFile=<location-of-otel-collector-certificate-file> \
+    --set-file otelCollector.privateKeyFile=<location-of-otel-collector-private-key-file> \
+    --set karaviMetricsPowerflex.powerflexPassword=<base64-encoded-password> \
+    --set karaviMetricsPowerflex.powerflexUser=<base64-encoded-username> \
+    --set karaviMetricsPowerflex.powerflexEndpoint=https://<powerflex-endpoint>
+```
+
+Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example:
+
+```console
+$ helm install karavi-observability dell/karavi-observability -n karavi --create-namespace -f values.yaml
+ ```
+
+ A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
+
 ## Required Components
 
 The following third party components are required to be deployed in the same Kubernetes cluster as the karavi-metrics-powerflex service:
@@ -103,7 +122,7 @@ It is the user's responsibility to deploy these components in the same Kubernete
 
 ### Prometheus
 
-The Prometheus service should be running on the same Kubernetes cluster as the Karavi metrics services. As part of the Karavi Observability deployment, the OpenTelemetry Collector gets deployed.  The OpenTelemetry Collector is what the Karavi metrics services use to push metrics to that can be consumed by Prometheus.  This means that Prometheus must be configured to scrape the metrics data from the OpenTelemetry Collector.
+The Prometheus service should be running on the same Kubernetes cluster as the Karavi Observability services. As part of the Karavi Observability deployment, the OpenTelemetry Collector gets deployed.  The OpenTelemetry Collector is what the Karavi metrics services use to push metrics to that can be consumed by Prometheus.  This means that Prometheus must be configured to scrape the metrics data from the OpenTelemetry Collector.
 
 | Supported Version | Image                   | Helm Chart                                                   |
 | ----------------- | ----------------------- | ------------------------------------------------------------ |
@@ -179,48 +198,3 @@ The metrics service requires the OpenTelemetry Collector so that metrics can be 
 **Note**: Although the OpenTelemetry Collector can provide metrics for different backends, we currently only support Prometheus.
 
 The OpenTelemetry Collector endpoint is to be scraped by Prometheus, which must be running within the same Kubernetes cluster.                   |                                                 |
-
-## Building the Services
-
-If you wish to clone and build any of the the Karavi Observability services, a Linux host is required with the following installed:
-
-| Component       | Version   | Additional Information                                                                                                                     |
-| --------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| Docker          | v19+      | [Docker installation](https://docs.docker.com/engine/install/)                                                                                                    |
-| Docker Registry |           | Access to a local/corporate [Docker registry](https://docs.docker.com/registry/)                                                           |
-| Golang          | v1.14+    | [Golang installation](https://github.com/travis-ci/gimme)                                                                                                         |
-| gosec           |           | [gosec](https://github.com/securego/gosec)                                                                                                          |
-| gomock          | v.1.4.3   | [Go Mock](https://github.com/golang/mock)                                                                                                             |
-| git             | latest    | [Git installation](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)                                                                              |
-| gcc             |           | Run ```sudo apt install build-essential```                                                                                                 |
-| kubectl         | 1.16-1.17 | Ensure you copy the kubeconfig file from the Kubernetes cluster to the linux host. [kubectl installation](https://kubernetes.io/docs/tasks/tools/install-kubectl/) |
-| Helm            | v.3.3.0   | [Helm installation](https://helm.sh/docs/intro/install/)                                                                                                        |
-
-Once all prerequisites are on the Linux host, follow the steps below to clone and build the metrics service:
-
-1. Clone the repository: `git clone https://github.com/dell/karavi-metrics-powerflex.git`
-1. Set the DOCKER_REPO environment variable to point to the local Docker repository, example: `export DOCKER_REPO=<ip-address>:<port>`
-1. In the karavi-metrics-powerflex directory, run the following to build the Docker image called karavi-metrics-powerflex: `make clean build docker`
-1. To tag (with the "latest" tag) and push the image to the local Docker repository run the following: `make tag push`
-
-__Note:__ Linux support only. If you are using a local insecure docker registry, ensure you configure the insecure registries on each of the Kubernetes worker nodes to allow access to the local docker repository
-
-## Testing Karavi Observability
-
-From the root directory where the repo was cloned, the unit tests can be executed as follows:
-
-```console
-make test
-```
-
-This will also provide code coverage statistics for the various Go packages.
-
-## Uninstalling the Chart
-
-To uninstall/delete the deployment:
-
-```console
-$ helm delete karavi-observability --namespace karavi
-```
-
-The command removes all the Kubernetes components associated with the chart and deletes the release.
