@@ -190,13 +190,3 @@ Once Grafana is properly configured, you can import the pre-built observability 
 | [CSI Driver Provisioned Volume I/O Performance](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/volume_io_metrics.json) | Provides visibility into the I/O performance metrics (IOPS, bandwidth, latency) by volume |
 | [Storage Pool Consumption By CSI Driver](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/storage_consumption.json) | Provides visibility into the total, used, and available capacity for a storage class and associated underlying storage construct. |
 | [CSI Driver Provisioned Volume Topology](https://github.com/dell/karavi-topology/blob/main/grafana/dashboards/topology.json) | Provides visibility into Dell EMC CSI (Container Storage Interface) driver provisioned volume characteristics in Kubernetes correlated with volumes on the storage system. |
-
-### OpenTelemetry Collector
-
-The OpenTelemetry Collector is deployed and configured as part of this project's deployment.  It is configured to require all communication happen using TLS.  The deployment options listed below will require a signed certificate file and a signed certificate private key file.
-
-The metrics service requires the OpenTelemetry Collector so that metrics can be pushed and later consumed by a backend. The [Karavi Observability Helm chart](https://github.com/dell/helm-charts/tree/main/charts/karavi-observability) takes care of deploying the OpenTelemetry Collector and securing communication between the metrics service and the OpenTelemetry Collector using TLS 1.2 via the user-provided certificate and key files.
-
-**Note**: Although the OpenTelemetry Collector can provide metrics for different backends, we currently only support Prometheus.
-
-The OpenTelemetry Collector endpoint is to be scraped by Prometheus, which must be running within the same Kubernetes cluster.                   |                                                 |
