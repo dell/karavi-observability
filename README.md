@@ -15,12 +15,13 @@ You may obtain a copy of the License at
 
 Karavi Observability is part of the [Karavi](https://github.com/dell/karavi) open source suite of Kubernetes storage enablers for Dell EMC products, providing standardized approaches for storage observability. Karavi Observability consists of several services, each of which is contained in a separate repository. This repository will be the hub for all things Karavi Observability. [Issues](https://github.com/dell/karavi-observability/issues) against any of the Karavi Observability services need to be created here.
 
-Below is a list of services that form the Karavi Observability solution:
+Karavi Observability is composed of several services each living in their own GitHub repository.  Contributions can be made to this repository or any of the Karavi Observability repositories listed below.
 
-| Karavi Observability Service | Description | Repository |
-| --------- | --------- | --------- |
-| Karavi Metrics for PowerFlex | Karavi Metrics for PowerFlex captures telemetry data about Kubernetes storage usage and performance obtained through the CSI (Container Storage Interface) Driver for Dell EMC PowerFlex. The metrics service pushes it to the OpenTelemetry Collector, so it can be processed, and exported in a format consumable by Prometheus. Prometheus can then be configured to scrape the OpenTelemetry Collector exporter endpoint to provide metrics so they can be visualized in Grafana. Please visit the repository for more information. | [Karavi Metrics for PowerFlex](https://github.com/dell/karavi-metrics-powerflex) |
-| Karavi Topology | Karavi Topology provides Kubernetes administrators with the topology data related to containerized storage that are provisioned by a CSI (Container Storage Interface) Driver for Dell EMC storage products. Please visit the repository for more information. | [Karavi Topology](https://github.com/dell/karavi-topology) |
+| Name | Repository | Description |
+| ---- | ---------  | ----------- |
+| Performance Metrics for PowerFlex | [Karavi Metrics for PowerFlex](https://github.com/dell/karavi-metrics-powerflex) | Performance Metrics for PowerFlex captures telemetry data about Kubernetes storage usage and performance obtained through the CSI (Container Storage Interface) Driver for Dell EMC PowerFlex. The metrics service pushes it to the OpenTelemetry Collector, so it can be processed, and exported in a format consumable by Prometheus. Prometheus can then be configured to scrape the OpenTelemetry Collector exporter endpoint to provide metrics so they can be visualized in Grafana. Please visit the repository for more information. |
+| Volume Topology | [Karavi Topology](https://github.com/dell/karavi-topology) | Topology provides Kubernetes administrators with the topology data related to containerized storage that is provisioned by a CSI (Container Storage Interface) Driver for Dell EMC storage products. Please visit the repository for more information. |
+| Helm Chart | [Karavi Observability Helm Chart](https://github.com/dell/helm-charts/tree/main/charts/karavi-observability) | The Karavi Observability Helm chart facilitates the deploying of the observability solution. |
 
 Please see [Getting Started Guide](./docs/GETTING_STARTED_GUIDE.md) for information on requirements, deployment, and usage.
 
