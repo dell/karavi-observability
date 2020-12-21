@@ -10,9 +10,7 @@ You may obtain a copy of the License at
 
 # Getting Started Guide
 
-This project captures telemetry data about storage usage and performance and pushes it to the [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector), so it can be processed, and exported in a format consumable by Prometheus.  Prometheus can then be configured to scrape the OpenTelemetry Collector exporter endpoint to provide metrics so they can be visualized in Grafana.  
-
-The topology service provides Kubernetes administrators, via Grafana, the topology data related to containerized storage that are provisioned by a CSI (Container Storage Interface) Driver for Dell EMC storage products.
+This project provides Kubernetes administrators insight into CSI (Container Storage Interface) Driver persistent storage topology, usage and performance. Metrics data is collected and pushed to the [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector), so it can be processed, and exported in a format consumable by Prometheus. Topology data related to containerized volumes that are provisioned by a CSI (Container Storage Interface) Driver is also captured. The metrics and topology data are visualized through Grafana dashboards.
 
 ## Karavi Observability Capabilities
 
