@@ -14,4 +14,4 @@ These organizations are using Karavi Observability in production:
 * [ORGANIZATION](https://url)
 
 If you're using Karavi Observability and wish to be listed, please feel free to
-[submit a pull request](https://github.com/ProjectName/pulls)!
+[submit a pull request](https://github.com/dell/karavi-observability/pulls)!
