@@ -11,7 +11,7 @@ You may obtain a copy of the License at
 # Karavi Observability
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](docs/CODE_OF_CONDUCT.md)
-[![License](https://img.shields.io/github/license/dell/karavi-metrics-powerflex)](LICENSE)
+[![License](https://img.shields.io/github/license/dell/karavi-observability)](LICENSE)
 
 Karavi Observability is part of the [Karavi](https://github.com/dell/karavi) open source suite of Kubernetes storage enablers for Dell EMC products, providing standardized approaches for storage observability. Karavi Observability consists of several services, each of which is contained in a separate repository. This repository will be the hub for all things Karavi Observability. [Issues](https://github.com/dell/karavi-observability/issues) against any of the Karavi Observability services need to be created here.
 
