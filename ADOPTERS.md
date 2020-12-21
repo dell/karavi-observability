@@ -9,9 +9,9 @@ You may obtain a copy of the License at
 -->
 # Adopters
 
-These organizations are using _ProjectName_ in production:
+These organizations are using Karavi Observability in production:
 
 * [ORGANIZATION](https://url)
 
-If you're using _ProjectName_ and wish to be listed, please feel free to
+If you're using Karavi Observability and wish to be listed, please feel free to
 [submit a pull request](https://github.com/ProjectName/pulls)!
