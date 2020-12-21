@@ -16,12 +16,12 @@ The topology service provides Kubernetes administrators, via Grafana, the topolo
 
 ## Karavi Observability Capabilities
 
-| Metrics | PowerFlex |
+| Feature | PowerFlex |
 | -------- | --------- |
-| Storage Pool Consumption | Yes |
-| Storage System I/O | Yes |
-| Volume I/O | Yes |
-| Topology | Yes |
+| Storage Pool Consumption By CSI Driver | Yes |
+| Storage System I/O Performance By Kubernetes Node | Yes |
+| CSI Driver Provisioned Volume I/O Performance | Yes |
+| CSI Driver Provisioned Volume Topology | Yes |
 
 ## Supported Platforms
 
@@ -31,11 +31,11 @@ The following matrix provides a list of all supported versions for each Dell EMC
 | -------- | --------- |
 | Storage Array | v3.0, v3.5 |
 | Kubernetes | 1.17, 1,18, 1.19 |
-| Openshift | 4.5,4.6 |
+| Openshift | 4.5, 4.6 |
 
 ## CSI Drivers
 
-This project captures telemetry data about Kubernetes storage usage and performance as it relates the CSI (Container Storage Interface) Driver for Dell storage products. The metrics service requires that the CSI Driver for each of the supported storage arrays is deployed in the Kubernetes cluster.
+Karavi Observability supports the following CSI drivers and versions.
 
 | Storage Array | CSI Driver | Supported Versions |
 | ------------- | ---------- | ------------------ |
@@ -43,7 +43,7 @@ This project captures telemetry data about Kubernetes storage usage and performa
 
 ## Deploying Karavi Observability
 
-This project is deployed using Helm. The below Helm version needs to be installed in the Kubernetes cluster.
+This project is deployed using Helm. The supported version of Helm is listed below.
 
 | Component       | Version   | Additional Information |
 | --------------- | --------- | ---------------------- |
@@ -56,15 +56,15 @@ $ helm repo add dell https://dell.github.io/helm-charts
 $ helm install karavi-observability dell/karavi-observability -n karavi --create-namespace
 ```
 
-The command deploys Karavi Observability on the Kubernetes cluster in the default configuration. To install the helm chart, two signed certificate files and associated private key files must be passed to the helm install command. The first set is for the otelCollector parameter and should be created with domain name 'otel-collector'. The other set is required for karaviTopology parameter using the domain name 'karavi-topology'. The [configuration](##Configuration) section below lists all the parameters that can be configured during installation.
+The command deploys Karavi Observability on the Kubernetes cluster in the default configuration. The [configuration](##Configuration) section below lists all the parameters that can be configured during installation.
 
 ## Uninstalling the Chart
-
-The command removes all the Kubernetes components associated with the chart.
 
 ```console
 $ helm delete karavi-observability --namespace karavi
 ```
+
+The command removes all the Kubernetes components associated with the chart.
 
 ### Configuration
 
@@ -188,10 +188,10 @@ Once Grafana is properly configured, you can import the pre-built observability 
 
 | Dashboard           | Description |
 | ------------------- | --------------------------------- |
-| [I/O Performance by node dashboard](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/sdc_io_metrics.json) | Provides visibility into the I/O performance metrics (IOPS, bandwidth, latency) by Kubernetes node |
-| [I/O Performance by volume dashboard](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/volume_io_metrics.json) | Provides visibility into the I/O performance metrics (IOPS, bandwidth, latency) by volume |
-| [Storage consumption dashboard](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/storage_consumption.json) | Provides visibility into the total, used, and available capacity for a storage class and associated underlying storage construct. |
-| [Topology dashboard](https://github.com/dell/karavi-topology/blob/main/grafana/dashboards/topology.json) | Provides visibility into Dell EMC CSI (Container Storage Interface) driver provisioned volume characteristics in Kubernetes correlated with volumes on the storage system. |
+| [Storage System I/O Performance By Kubernetes Node](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/sdc_io_metrics.json) | Provides visibility into the I/O performance metrics (IOPS, bandwidth, latency) by Kubernetes node |
+| [CSI Driver Provisioned Volume I/O Performance](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/volume_io_metrics.json) | Provides visibility into the I/O performance metrics (IOPS, bandwidth, latency) by volume |
+| [Storage Pool Consumption By CSI Driver](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/storage_consumption.json) | Provides visibility into the total, used, and available capacity for a storage class and associated underlying storage construct. |
+| [CSI Driver Provisioned Volume Topology](https://github.com/dell/karavi-topology/blob/main/grafana/dashboards/topology.json) | Provides visibility into Dell EMC CSI (Container Storage Interface) driver provisioned volume characteristics in Kubernetes correlated with volumes on the storage system. |
 
 ### OpenTelemetry Collector
 
