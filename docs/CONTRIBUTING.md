@@ -19,7 +19,7 @@ Become one of the contributors to this project! We thrive to build a welcoming a
 * [Submitting issues](#Submitting-issues)
 * [Triage issues](#Triage-issues)
 * [Your first contribution](#Your-first-contribution)
-* [Branching Strategy](#Branching-strategy)
+* [Branching](#Branching)
 * [Signing your commits](#Signing-your-commits)
 * [Pull requests](#Pull-requests)
 * [Code reviews](#Code-reviews)
@@ -98,29 +98,15 @@ Unsure where to begin contributing? Start by browsing issues labeled `beginner f
 
 When you're ready to contribute, it's time to create a pull request.
 
-## Branching Strategy
+## Branching
 
-This repository will use a release branching strategy.  Maintainers will create a release branch for a future release and all changes related to that release will be made on that branch.  When changes for a release are complete, the release branch is merged into the main branch after being approved as part of a pull request.
+Each of the Karavi Observability repositories follows its own branching strategy. Depending on which repository you contribute to, you must follow that repository's branching strategy:
 
-When contributing to other Karavi Observability repositories, please follow the documentation in those repositories as the branching strategy may differ.
-
-### Branch Naming Convention
-
-The only type of branch that should be created in this repository is a release branch.  Release branches should follow the naming convention below.
-
-|  Branch Type |  Example                          |  Comment                                  |
-|--------------|-----------------------------------|-------------------------------------------|
-|  main        |  main                             |                                           |
-|  Release     |  release-1.0                      |  hotfix: release-1.1 patch: release-1.0.1 |
-
-### Steps for working on a release branch
-
-1. Fork the repository.
-2. Create a branch off of the release branch. The branch name should follow [branch naming convention](#branch-naming-convention).
-3. Make your changes and commit them to your branch.
-4. If other code changes have merged into the upstream release branch, perform a rebase of those changes into your branch.
-5. Open a [pull request](#pull-requests) between your branch and the upstream release branch.
-6. Once your pull request has merged, your branch can be deleted.
+| Branching Strategy |
+| - |
+| [Karavi Observability](BRANCHING.md) |
+| [Karavi Metrics PowerFlex](https://github.com/dell/karavi-metrics-powerflex/blob/main/docs/BRANCHING.md) |
+| [Karavi Topology](https://github.com/dell/karavi-topology/blob/main/docs/BRANCHING.md) |
 
 ## Signing your commits
 
@@ -173,6 +159,36 @@ We use the pull request title when we generate change logs for releases. As such
 
 Make sure that the title for your pull request uses the same format as the subject line in the commit message.
 
+### Quality Gates for pull requests
+
+Depending on the Karavi Observability repository, GitHub Actions are used to enforce quality gates when a pull request is created or when any commit is made to the pull request. These GitHub Actions enforce our minimum code quality requirement for any code that get checked into Karavi Observability Go code repositories. If any of the quality gates fail, it is expected that the contributor will look into the check log, understand the problem and resolve the issue. If help is needed, please feel free to reach out the maintainers of the project for [support](SUPPORT.md).
+
+#### Security scans
+
+* [Golang Security Checker](https://github.com/securego/gosec) inspects source code for security vulnerabilities by scanning the Go AST.
+* [Malware Scanner](https://github.com/dell/common-github-actions/tree/main/malware-scanner) inspects source code for malware.
+* [Container Scanner](https://github.com/Azure/container-scan) scans containers for security vulnerabilities.
+
+#### Code vetting
+
+[GitHub action](https://github.com/dell/common-github-actions/tree/main/go-code-formatter-linter-vetter) that analyzes source code to report suspicious constructs such as Printf calls whose arguments do not align with the format string, abnormal or not used code in pull requests. Please refer to [vet](https://golang.org/cmd/vet/) for more information.
+
+#### Code linting
+
+[GitHub action](https://github.com/dell/common-github-actions/tree/main/go-code-formatter-linter-vetter) that analyzes source code to flag programming errors, stylistics errors, and suspicious constructs. Please refer to [Go lint](https://github.com/golang/lint) for more information.
+
+#### Code formatting
+
+[GitHub action](https://github.com/dell/common-github-actions/tree/main/go-code-formatter-linter-vetter) that analyzes source code to flag formatting errors. Please refer to [gofmt](https://golang.org/cmd/gofmt/) for more information.
+
+#### Code sanitization
+
+[GitHub action](https://github.com/dell/common-github-actions/tree/main/code-sanitizer) that analyzes source code for non-inclusive words and language.
+
+#### Code build/test/coverage
+
+[GitHub action](https://github.com/dell/common-github-actions/tree/main/go-code-tester) that runs Go unit tests and checks that the code coverage of each package meets a configured threshold (currently 90%). An error is flagged if a given pull request does not meet the test coverage threshold and blocks the pull request from being merged.
+
 ## Code Reviews
 
 All submissions, including submissions by project members, require review. We use GitHub pull requests for this purpose. Consult [GitHub Help](https://help.github.com/articles/about-pull-requests/) for more information on using pull requests.
@@ -182,6 +198,92 @@ A pull request must satisfy following for it to be merged:
 * A pull request will require at least 2 maintainer approvals.
 * Maintainers must perform a review to ensure the changes adhere to guidelines laid out in this document.
 * If any commits are made after the PR has been approved, the PR approval will automatically be removed and the above process must happen again.
+
+## Code Style
+
+For the Go code in Karavi Observability repositories, we expect the code styling outlined in [Effective Go](https://golang.org/doc/effective_go.html). In addition to this, we have the following supplements:
+
+### Handle Errors
+
+See [Effective Go](https://golang.org/doc/effective_go.html#errors) for details on handling errors.
+
+Do not discard errors using _ variables. If a function returns an error, check it to make sure the function succeeded.  Handle the error, return it, or, in truly exceptional situations, panic.  This can be checked using the errcheck tool if you have it installed locally.
+
+Do not log the error if it will also be logged by a caller higher up the call stack;  doing so causes the logs to become repetitive.  Instead, consider wrapping the error in order to provide more detail.  To see practical examples of this, see this bad practice and this preferred practice:
+
+#### Bad
+
+```go
+package main
+
+import (
+    "errors"
+    "log"
+)
+
+func main() {
+    err := foo()
+    if err != nil {
+        log.Printf("error: %+v", err)
+        return
+    }
+}
+
+func foo() error {
+    err := bar()
+    if err != nil {
+        log.Printf("error: %+v", err)
+        return err
+    }
+    return nil
+}
+
+func bar() error {
+    return errors.New("something bad happened")
+}
+```
+
+#### Preferred
+
+```go
+package main
+
+import (
+    "errors"
+    "fmt"
+    "log"
+)
+
+func main() {
+    err := foo()
+    if err != nil {
+        log.Printf("error: %+v", err)
+        return
+    }
+}
+
+func foo() error {
+    err := bar()
+    if err != nil {
+        return fmt.Errorf("calling bar: %w", err)
+    }
+    return nil
+}
+
+func bar() error {
+    return errors.New("something bad happened")
+}
+```
+
+Do not use the github.com/pkg/errors package as it is now in maintenance mode since Go 1.13+ added official support for error wrapping. See [go1.13-errors](https://blog.golang.org/go1.13-errors) and [errwrap](https://github.com/fatih/errwrap) for more information.
+
+### Gofmt
+
+Run gofmt on your code to automatically fix the majority of mechanical style issues. Almost all Go code in the wild uses gofmt. The rest of this document addresses non-mechanical style points.
+
+An alternative is to use goimports, a superset of gofmt which additionally adds (and removes) import lines as necessary.
+
+A recommended approach is to ensure your editor supports running of goimports automatically on save.
 
 ### TODOs in the code
 
