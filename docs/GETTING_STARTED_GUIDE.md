@@ -64,7 +64,11 @@ $ helm delete karavi-observability --namespace karavi
 
 The command removes all the Kubernetes components associated with the chart.
 
-### Configuration
+## Offline Installation
+
+In situations where an offline installation of Karavi Observability is required, please visit [Offline Installer](../installer/README.md) for more details.
+
+## Configuration
 
 | Parameter                                 | Description                                   | Default                                                 |
 |-------------------------------------------|-----------------------------------------------|---------------------------------------------------------|
