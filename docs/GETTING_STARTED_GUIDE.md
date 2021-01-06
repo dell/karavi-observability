@@ -140,7 +140,7 @@ While there are several ways to install Prometheus with Helm, below are simple s
 <details>
    <summary>Create value file</summary>
 
-Create a value file named `prometheus-value.yaml`. You can add a new prometheus instance, the file should look like:
+Create a value file named `prometheus-value.yaml`. The file should look like:
 
 ```yaml
 # prometheus-values.yaml
@@ -194,7 +194,7 @@ helm repo update
 <details>
    <summary>Helm install</summary>
 
-On your terminal, run the commands below:
+On your terminal, run the command below:
 
 ```terminal
 helm install prometheus prometheus-community/prometheus -n karavi --create-namespace -f prometheus-values.yaml
