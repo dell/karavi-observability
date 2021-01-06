@@ -64,7 +64,11 @@ $ helm delete karavi-observability --namespace karavi
 
 The command removes all the Kubernetes components associated with the chart.
 
-### Configuration
+## Offline Installation
+
+In situations where an offline installation of Karavi Observability is required, please visit [Offline Installer](../installer/README.md) for more details.
+
+## Configuration
 
 | Parameter                                 | Description                                   | Default                                                 |
 |-------------------------------------------|-----------------------------------------------|---------------------------------------------------------|
@@ -186,7 +190,7 @@ Once Grafana is properly configured, you can import the pre-built observability 
 
 | Dashboard           | Description |
 | ------------------- | --------------------------------- |
-| [Storage System I/O Performance By Kubernetes Node](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/sdc_io_metrics.json) | Provides visibility into the I/O performance metrics (IOPS, bandwidth, latency) by Kubernetes node |
-| [CSI Driver Provisioned Volume I/O Performance](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/volume_io_metrics.json) | Provides visibility into the I/O performance metrics (IOPS, bandwidth, latency) by volume |
-| [Storage Pool Consumption By CSI Driver](https://github.com/dell/karavi-metrics-powerflex/blob/main/grafana/dashboards/powerflex/storage_consumption.json) | Provides visibility into the total, used, and available capacity for a storage class and associated underlying storage construct. |
-| [CSI Driver Provisioned Volume Topology](https://github.com/dell/karavi-topology/blob/main/grafana/dashboards/topology.json) | Provides visibility into Dell EMC CSI (Container Storage Interface) driver provisioned volume characteristics in Kubernetes correlated with volumes on the storage system. |
+| [Storage System I/O Performance By Kubernetes Node](https://github.com/dell/karavi-observability/blob/main/grafana/dashboards/powerflex/sdc_io_metrics.json) | Provides visibility into the I/O performance metrics (IOPS, bandwidth, latency) by Kubernetes node |
+| [CSI Driver Provisioned Volume I/O Performance](https://github.com/dell/karavi-observability/blob/main/grafana/dashboards/powerflex/volume_io_metrics.json) | Provides visibility into the I/O performance metrics (IOPS, bandwidth, latency) by volume |
+| [Storage Pool Consumption By CSI Driver](https://github.com/dell/karavi-observability/blob/main/grafana/dashboards/powerflex/storage_consumption.json) | Provides visibility into the total, used, and available capacity for a storage class and associated underlying storage construct. |
+| [CSI Driver Provisioned Volume Topology](https://github.com/dell/karavi-observability/blob/main/grafana/dashboards/topology/topology.json) | Provides visibility into Dell EMC CSI (Container Storage Interface) driver provisioned volume characteristics in Kubernetes correlated with volumes on the storage system. |
