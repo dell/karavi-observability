@@ -200,7 +200,7 @@ On your terminal, run the command below:
 helm install prometheus prometheus-community/prometheus -n karavi --create-namespace -f prometheus-values.yaml
 ```
 
-</details><br>
+</details>
 
 ### Grafana
 
@@ -343,7 +343,7 @@ kubectl create -f grafana-configmap.yaml
 helm install grafana grafana/grafana -n karavi -f grafana-values.yaml
 ```
 
-</details><br>
+</details>
 
 
 #### Importing the Karavi Observability Dashboards
