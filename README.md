@@ -30,6 +30,8 @@ Please see [Getting Started Guide](./docs/GETTING_STARTED_GUIDE.md) for informat
 
 - [Code of Conduct](./docs/CODE_OF_CONDUCT.md)
 - [Getting Started Guide](./docs/GETTING_STARTED_GUIDE.md)
+- [Branching Strategy](./docs/BRANCHING.md)
+- [Contributing Guide](./docs/CONTRIBUTING.md)
 - [Maintainers](./docs/MAINTAINERS.md)
 - [About](#about)
 
