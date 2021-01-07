@@ -136,11 +136,11 @@ Here is a sample minimal configuration for Prometheus. Please note that the conf
 
 #### Sample Prometheus Deployment
 
-While there are several ways to install Prometheus with Helm, below are simple steps to deploy `prometheus-community/prometheus`:
+While there are several ways to install Prometheus with Helm, below are simple steps to deploy [prometheus-community/prometheus](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus):
 <details>
-   <summary>Create value file</summary>
+   <summary>Create values file</summary>
 
-Create a value file named `prometheus-value.yaml`. The file should look like:
+Create a values file named `prometheus-values.yaml`. The file should look like:
 
 ```yaml
 # prometheus-values.yaml
@@ -240,7 +240,7 @@ Settings for the Grafana SimpleJson data source:
 
 #### Sample Grafana Deployment
 
-If new Grafana instance is needed, one way to deploy it into your system is summarized below:
+If a new Grafana instance is needed, one way to deploy it into your system is summarized below:
 
 <details>
    <summary>Create ConfigMap</summary>
