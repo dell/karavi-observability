@@ -245,7 +245,9 @@ If a new Grafana instance is needed, one way to deploy it into your system is su
 <details>
    <summary>Create ConfigMap</summary>
 
-Create a Config file named `grafana-configmap.yaml` The file should look like:
+If using a network that requires decryption certificate, Grafana server MUST to be configure with the required certificate. To do this, follow the steps below, otherwise skip to `Create Value file`
+
+* Create a Config file named `grafana-configmap.yaml` The file should look like:
 
 ```yaml
 # grafana-configmap.yaml
@@ -264,6 +266,13 @@ data:
 ```
 
 NOTE: you need an actual CA Cert for it to work
+
+* On your terminal, run the commands below:
+
+```terminal
+kubectl create -f grafana-configmap.yaml
+```
+
 </details>
 <details>
    <summary>Create Value file</summary>
@@ -279,13 +288,21 @@ image:
   pullPolicy: IfNotPresent
 service:
   type: NodePort
-# Administrator credentials when not using an existing secret (see below)
+
+## Administrator credentials when not using an existing secret
 adminUser: admin
 adminPassword: admin
+
+## Pass the plugins you want installed as a list.
+##
 plugins:
   - grafana-simple-json-datasource
   - briangann-datatable-panel
   - grafana-piechart-panel
+
+## Configure grafana datasources
+## ref: http://docs.grafana.org/administration/provisioning/#datasources
+##
 datasources:
   datasources.yaml:
     apiVersion: 1
@@ -313,12 +330,15 @@ sidecar:
     enabled: true
   dashboards:
     enabled: true
-extraConfigmapMounts:
-  - name: certs-configmap
-    mountPath: /etc/ssl/certs/ca-certificates.crt
-    subPath: ca-certificates.crt
-    configMap: certs-configmap
-    readOnly: true
+
+## Additional grafana server CofigMap mounts
+## Defines additional mounts with CofigMap. CofigMap must be manually created in the namespace.
+extraConfigmapMounts: [] # If you created a ConfigMap on the previous step, delete [] and uncomment the lines below 
+# - name: certs-configmap
+#   mountPath: /etc/ssl/certs/ca-certificates.crt
+#   subPath: ca-certificates.crt
+#   configMap: certs-configmap
+#   readOnly: true
 ```
 
 </details>
@@ -339,7 +359,6 @@ helm repo update
 On your terminal, run the commands below:
 
 ```terminal
-kubectl create -f grafana-configmap.yaml
 helm install grafana grafana/grafana -n karavi -f grafana-values.yaml
 ```
 
