@@ -138,16 +138,73 @@ The Prometheus service should be running on the same Kubernetes cluster as the K
 
 Here is a sample minimal configuration for Prometheus. Please note that the configuration below uses insecure skip verify. If you wish to properly configure TLS, you will need to provide a ca_file in the Prometheus configuration. The certificate provided as part of Karavi Observability deployment should be signed by this same CA. For more information about Prometheus configuration, see [Prometheus configuration](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#configuration).
 
+#### Sample Prometheus Deployment
+
+While there are several ways to install Prometheus with Helm, below are simple steps to deploy [prometheus-community/prometheus](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus):
+<details>
+   <summary>Create values file</summary>
+
+Create a values file named `prometheus-values.yaml`. The file should look like:
+
 ```yaml
-scrape_configs:
-    - job_name: 'karavi-metrics-powerflex'
-      scrape_interval: 5s
-      scheme: https
-      static_configs:
-        - targets: ['otel-collector:8443']
-      tls_config:
-        insecure_skip_verify: true
+# prometheus-values.yaml
+alertmanager:
+  enabled: false
+nodeExporter:
+  enabled: false
+pushgateway:
+  enabled: false
+kubeStateMetrics:
+  enabled: false
+configmapReload:
+  prometheus:
+    enabled: false
+server:
+  enabled: true
+  image:
+    repository: quay.io/prometheus/prometheus
+    tag: v2.22.0
+    pullPolicy: IfNotPresent
+  persistentVolume:
+    enabled: false
+  service:
+    type: NodePort
+    servicePort: 9090
+serverFiles:
+  prometheus.yml:
+    scrape_configs:
+      - job_name: 'karavi-metrics-powerflex'
+        scrape_interval: 5s
+        scheme: https
+        static_configs:
+          - targets: ['otel-collector:443']
+        tls_config:
+          insecure_skip_verify: true
 ```
+
+</details>
+<details>
+   <summary>Get Prometheus repository information</summary>
+
+On your terminal, run each of the commands below:
+
+```terminal
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add stable https://charts.helm.sh/stable
+helm repo update
+```
+
+</details>
+<details>
+   <summary>Helm install</summary>
+
+On your terminal, run the command below:
+
+```terminal
+helm install prometheus prometheus-community/prometheus -n karavi --create-namespace -f prometheus-values.yaml
+```
+
+</details>
 
 ### Grafana
 
@@ -183,6 +240,134 @@ Settings for the Grafana SimpleJson data source:
 | URL                 | Access Karavi Topology at https://karavi-topology.*namespace*.svc.cluster.local |
 | Skip TLS Verify     | Enabled (If not using CA certificate) |
 | With CA Cert        | Enabled (If using CA certificate) |
+
+
+#### Sample Grafana Deployment
+
+If a new Grafana instance is needed, one way to deploy it into your system is summarized below:
+
+<details>
+   <summary>Create ConfigMap</summary>
+
+When using a network that requires decryption certificate, Grafana server MUST be configure with the necessary certificate. To do this, follow the steps below, otherwise skip to `Create Value file`
+
+* Create a Config file named `grafana-configmap.yaml` The file should look like:
+
+```yaml
+# grafana-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: certs-configmap
+  namespace: karavi
+  labels:
+    certs-configmap: "1"
+data:
+  ca-certificates.crt: |-
+    -----BEGIN CERTIFICATE-----
+   ReplaceMeWithActualCaCERT=
+    -----END CERTIFICATE-----
+```
+
+NOTE: you need an actual CA Cert for it to work
+
+* On your terminal, run the commands below:
+
+```terminal
+kubectl create -f grafana-configmap.yaml
+```
+
+</details>
+<details>
+   <summary>Create values file</summary>
+
+Create a value file named `grafana-values.yaml`. The file should look like:
+
+```yaml
+# grafana-values.yaml 
+image:
+  repository: grafana/grafana
+  tag: 7.3.0
+  sha: ""
+  pullPolicy: IfNotPresent
+service:
+  type: NodePort
+
+## Administrator credentials when not using an existing secret
+adminUser: admin
+adminPassword: admin
+
+## Pass the plugins you want installed as a list.
+##
+plugins:
+  - grafana-simple-json-datasource
+  - briangann-datatable-panel
+  - grafana-piechart-panel
+
+## Configure grafana datasources
+## ref: http://docs.grafana.org/administration/provisioning/#datasources
+##
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Karavi-Topology
+      type: grafana-simple-json-datasource
+      access: proxy
+      url: 'https://karavi-topology.karavi.svc.cluster.local/'
+      isDefault: null
+      version: 1
+      editable: true
+      jsonData:
+        tlsSkipVerify: true
+    - name: Prometheus
+      type: prometheus
+      access: proxy
+      url: 'http://prometheus:9090'
+      isDefault: null
+      version: 1
+      editable: true
+testFramework:
+  enabled: false
+sidecar:
+  datasources:
+    enabled: true
+  dashboards:
+    enabled: true
+
+## Additional grafana server CofigMap mounts
+## Defines additional mounts with CofigMap. CofigMap must be manually created in the namespace.
+extraConfigmapMounts: [] # If you created a ConfigMap on the previous step, delete [] and uncomment the lines below 
+# - name: certs-configmap
+#   mountPath: /etc/ssl/certs/ca-certificates.crt
+#   subPath: ca-certificates.crt
+#   configMap: certs-configmap
+#   readOnly: true
+```
+
+</details>
+<details>
+   <summary>Get Grafana repository information</summary>
+
+On your terminal, run each of the commands below:
+
+```terminal
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+```
+
+</details>
+<details>
+   <summary>Helm install</summary>
+
+On your terminal, run the commands below:
+
+```terminal
+helm install grafana grafana/grafana -n karavi -f grafana-values.yaml
+```
+
+</details>
+
 
 #### Importing the Karavi Observability Dashboards
 
