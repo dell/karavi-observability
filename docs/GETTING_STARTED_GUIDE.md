@@ -245,7 +245,7 @@ If a new Grafana instance is needed, one way to deploy it into your system is su
 <details>
    <summary>Create ConfigMap</summary>
 
-If using a network that requires decryption certificate, Grafana server MUST to be configure with the required certificate. To do this, follow the steps below, otherwise skip to `Create Value file`
+When using a network that requires decryption certificate, Grafana server MUST be configure with the necessary certificate. To do this, follow the steps below, otherwise skip to `Create Value file`
 
 * Create a Config file named `grafana-configmap.yaml` The file should look like:
 
@@ -275,7 +275,7 @@ kubectl create -f grafana-configmap.yaml
 
 </details>
 <details>
-   <summary>Create Value file</summary>
+   <summary>Create values file</summary>
 
 Create a value file named `grafana-values.yaml`. The file should look like:
 
