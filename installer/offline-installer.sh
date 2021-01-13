@@ -67,6 +67,9 @@ create_bundle() {
         run_command "${DOCKER} save -o ${DISTDIR}/${IMAGEDIR}/${IMAGEFILE}.tar ${line}"
     done < ${DISTDIR}/images.txt
 
+    # add cert-manager crds file to bundle
+    run_command "wget --directory-prefix=${DISTDIR}/${HELMBACKUPDIR} https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml"
+
     # copy this script into the distribution directory
     cp $0 ${DISTDIR}
 
