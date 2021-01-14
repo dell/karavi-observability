@@ -116,7 +116,7 @@ or
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl apply --validate=false -f cert-manager.crds.yaml
 ```
 
-3. Now that the required images have been made available and the Helm Charts configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm charts repository.
+3. Now that the required images have been made available and the Helm chart's configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm chart's repository.
 
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# helm install -n install-namespace app-name karavi-observability
