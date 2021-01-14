@@ -39,6 +39,16 @@ Karavi Observability supports the following CSI drivers and versions.
 | ------------- | ---------- | ------------------ |
 | PowerFlex | [csi-powerflex](https://github.com/dell/csi-powerflex) | v1.1.5, 1.2.0, 1.2.1 |
 
+## TLS Encryption
+The Karavi Observability helm deployment relies on [cert-manager](https://github.com/jetstack/cert-manager) to manage SSL certificates that are used to encrypt communication between various components. When installing using the karavi-observability helm chart, cert-manager is installed and configured automatically.
+The cert-manager components listed below will be installed alongside karavi-observability.
+
+| Component |
+| --------- |
+| cert-manager |
+| cert-manager-cainjector |
+| cert-manager-webhook |
+
 ## Deploying Karavi Observability
 
 This project is deployed using Helm. The supported version of Helm is listed below.
