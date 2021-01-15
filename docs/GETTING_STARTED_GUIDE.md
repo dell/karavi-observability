@@ -10,7 +10,7 @@ You may obtain a copy of the License at
 
 # Getting Started Guide
 
-This project provides Kubernetes administrators insight into CSI (Container Storage Interface) Driver persistent storage topology, usage and performance. Metrics data is collected and pushed to the [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector), so it can be processed, and exported in a format consumable by Prometheus. Topology data related to containerized volumes that are provisioned by a CSI (Container Storage Interface) Driver is also captured. The metrics and topology data are visualized through Grafana dashboards.
+This project provides Kubernetes administrators insight into CSI (Container Storage Interface) Driver persistent storage topology, usage and performance. Metrics data is collected and pushed to the [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector), so it can be processed, and exported in a format consumable by Prometheus. Topology data related to containerized volumes that are provisioned by a CSI (Container Storage Interface) Driver is also captured. The metrics and topology data are visualized through Grafana dashboards. SSL certificates for TLS between nodes are handled by [cert-manager](https://github.com/jetstack/cert-manager).
 
 ## Karavi Observability Capabilities
 
@@ -39,6 +39,16 @@ Karavi Observability supports the following CSI drivers and versions.
 | ------------- | ---------- | ------------------ |
 | PowerFlex | [csi-powerflex](https://github.com/dell/csi-powerflex) | v1.1.5, 1.2.0, 1.2.1 |
 
+## TLS Encryption
+The Karavi Observability helm deployment relies on [cert-manager](https://github.com/jetstack/cert-manager) to manage SSL certificates that are used to encrypt communication between various components. When installing using the karavi-observability helm chart, cert-manager is installed and configured automatically.
+The cert-manager components listed below will be installed alongside karavi-observability.
+
+| Component |
+| --------- |
+| cert-manager |
+| cert-manager-cainjector |
+| cert-manager-webhook |
+
 ## Deploying Karavi Observability
 
 This project is deployed using Helm. The supported version of Helm is listed below.
@@ -49,20 +59,31 @@ This project is deployed using Helm. The supported version of Helm is listed bel
 
 ## Installing the Chart
 
+Before installing the karavi-observability chart, you must first install the cert-manager CustomResourceDefinition resources with the command below.
+
+```console
+$ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml
+```
+
+The command below deploys Karavi Observability on the Kubernetes cluster in the default configuration. The [configuration](##Configuration) section below lists all the parameters that can be configured during installation.
+
 ```console
 $ helm repo add dell https://dell.github.io/helm-charts
 $ helm install karavi-observability dell/karavi-observability -n karavi --create-namespace
 ```
 
-The command deploys Karavi Observability on the Kubernetes cluster in the default configuration. The [configuration](##Configuration) section below lists all the parameters that can be configured during installation.
-
 ## Uninstalling the Chart
+
+The command below removes all the Kubernetes components associated with the chart.
 
 ```console
 $ helm delete karavi-observability --namespace karavi
 ```
+You may also want to uninstall the CRDs created for cert-manager.
 
-The command removes all the Kubernetes components associated with the chart.
+```console
+$ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml
+```
 
 ## Offline Installation
 
@@ -75,10 +96,10 @@ In situations where an offline installation of Karavi Observability is required,
 | `karaviTopology.image`                   | Location of the karavi-topology Docker image                                                                                                        | `dellemc/karavi-topology:0.1.0-pre-release`|
 | `karaviTopology.provisionerNames`       | Provisioner Names used to filter the Persistent Volumes created on the Kubernetes cluster (must be a comma-separated list)    | ` csi-vxflexos.dellemc.com`                                                   |
 | `karaviTopology.service.type`            | Kubernetes service type	    | `ClusterIP`                                                   |
-| `karaviTopology.certificateFile`      | Required valid public certificate file that will be used to deploy the Topology service. Must use domain name 'karavi-topology'.            | ` `                                                   |
-| `karaviTopology.privateKeyFile`      | Required public certificate's associated private key file that will be used to deploy the Topology service. Must use domain name 'karavi-topology'.            | ` `|
-| `otelCollector.certificateFile`      | Required valid public certificate file that will be used to deploy the OpenTelemetry Collector. Must use domain name 'otel-collector'.            | ` `                                                   |
-| `otelCollector.privateKeyFile`      | Required public certificate's associated private key file that will be used to deploy the OpenTelemetry Collector. Must use domain name 'otel-collector'.            | ` `|                                                   
+| `karaviTopology.certificateFile`      | Optional valid CA public certificate file that will be used to deploy the Topology service. Must use domain name 'karavi-topology'.            | ` `                                                   |
+| `karaviTopology.privateKeyFile`      | Optional public certificate's associated private key file that will be used to deploy the Topology service. Must use domain name 'karavi-topology'.            | ` `|
+| `otelCollector.certificateFile`      | Optional valid CA public certificate file that will be used to deploy the OpenTelemetry Collector. Must use domain name 'otel-collector'.            | ` `                                                   |
+| `otelCollector.privateKeyFile`      | Optional public certificate's associated private key file that will be used to deploy the OpenTelemetry Collector. Must use domain name 'otel-collector'.            | ` `|                                                   
 | `karaviMetricsPowerflex.powerflexEndpoint`      | PowerFlex Gateway URL            | ` `                                                   |
 | `karaviMetricsPowerflex.powerflexUser`                      | PowerFlex Gateway administrator username(in base64)                           | ` `                           |
 | `karaviMetricsPowerflex.powerflexPassword`                           | PowerFlex Gateway administrator password(in base64)                      | ` ` |

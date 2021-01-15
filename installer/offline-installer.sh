@@ -67,6 +67,13 @@ create_bundle() {
         run_command "${DOCKER} save -o ${DISTDIR}/${IMAGEDIR}/${IMAGEFILE}.tar ${line}"
     done < ${DISTDIR}/images.txt
 
+    # add dependencies to bundle
+    CHART=${CHARTNAME#"$CHARTPREFIX"}
+    run_command "helm dependency update ${DISTDIR}/${HELMBACKUPDIR}/${CHART}"
+
+    # add cert-manager crds file to bundle
+    run_command "curl -o ${DISTDIR}/${HELMBACKUPDIR}/cert-manager.crds.yaml https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml"
+
     # copy this script into the distribution directory
     cp $0 ${DISTDIR}
 
