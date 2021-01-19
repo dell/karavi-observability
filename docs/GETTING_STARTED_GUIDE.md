@@ -49,6 +49,9 @@ The cert-manager components listed below will be installed alongside karavi-obse
 | cert-manager-cainjector |
 | cert-manager-webhook |
 
+If desired you may provide your own certificate key pair to be used inside the cluster by providing the path to the certificate and key in the helm chart config. If you do not provide a certificate, one will be generated for you on install.
+__NOTE__: The certificate provided must be a CA certificate. This is to facilitate automated certificate rotation for karavi-observability services.
+
 ## Deploying Karavi Observability
 
 This project is deployed using Helm. The supported version of Helm is listed below.
