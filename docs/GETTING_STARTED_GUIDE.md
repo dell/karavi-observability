@@ -141,6 +141,36 @@ $ helm install karavi-observability dell/karavi-observability -n karavi --create
 
  A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
 
+ From release 0.3.0 onwards, some parameters can also be configured during runtime without restarting the Karavi Observability services. These parameters will be stored as configmaps that can be updated on the Kubernetes cluster. This will automatically change the settings on the services.
+
+ Karavi-metrics-powerflex parameters that can be updated:
+
+* COLLECTOR_ADDR
+* PROVISIONER_NAMES
+* POWERFLEX_SDC_METRICS_ENABLED
+* POWERFLEX_SDC_IO_POLL_FREQUENCY
+* POWERFLEX_VOLUME_IO_POLL_FREQUENCY
+* POWERFLEX_VOLUME_METRICS_ENABLED
+* POWERFLEX_STORAGE_POOL_METRICS_ENABLED
+* POWERFLEX_STORAGE_POOL_POLL_FREQUENCY
+* POWERFLEX_MAX_CONCURRENT_QUERIES
+
+To update the karavi-metrics-powerflex settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
+
+```console
+kubectl edit configmap karavi-metrics-powerflex-configmap -n karavi
+ ```
+
+Karavi-topology parameters that can be updated:
+
+* PROVISIONER_NAMES
+
+To update the karavi-topology settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
+
+```console
+kubectl edit configmap karavi-topology-configmap -n karavi
+ ```
+
 ## Required Components
 
 The following third party components are required to be deployed in the same Kubernetes cluster as the karavi-metrics-powerflex service:
