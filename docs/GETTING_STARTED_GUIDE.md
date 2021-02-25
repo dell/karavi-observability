@@ -39,6 +39,8 @@ Karavi Observability supports the following CSI drivers and versions.
 | ------------- | ---------- | ------------------ |
 | PowerFlex | [csi-powerflex](https://github.com/dell/csi-powerflex) | v1.1.5, 1.2.0, 1.2.1 |
 
+> As of release 0.3.0, only v1.4.0 of the PowerFlex CSI Driver will be supported
+
 ## TLS Encryption
 The Karavi Observability helm deployment relies on [cert-manager](https://github.com/jetstack/cert-manager) to manage SSL certificates that are used to encrypt communication between various components. When installing using the karavi-observability helm chart, cert-manager is installed and configured automatically.
 The cert-manager components listed below will be installed alongside karavi-observability.
@@ -67,6 +69,17 @@ Before installing the karavi-observability chart, you must first install the cer
 ```console
 $ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml
 ```
+
+> **Changes in release 0.3.0**
+>
+> Copy the vxflexos-config Secret from the CSI PowerFlex Driver namespace into the namespace where Karavi Observability is deployed.
+> Note: The target namespace must exist before executing this command.
+>
+> *Example command to copy the secret from the vxflexos namespace to the karavi namespace.*
+>
+> ```console
+> $ kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
+> ```
 
 The command below deploys Karavi Observability on the Kubernetes cluster in the default configuration. The [configuration](##Configuration) section below lists all the parameters that can be configured during installation.
 
@@ -104,9 +117,6 @@ In situations where an offline installation of Karavi Observability is required,
 | `otelCollector.certificateFile`      | Optional valid CA public certificate file that will be used to deploy the OpenTelemetry Collector. Must use domain name 'otel-collector'.            | ` `                                                   |
 | `otelCollector.privateKeyFile`      | Optional public certificate's associated private key file that will be used to deploy the OpenTelemetry Collector. Must use domain name 'otel-collector'.            | ` `|                                                   
 | `otelCollector.service.type`            | Kubernetes service type	    | `ClusterIP`                                                   |
-| `karaviMetricsPowerflex.powerflexEndpoint`      | PowerFlex Gateway URL            | ` `                                                   |
-| `karaviMetricsPowerflex.powerflexUser`                      | PowerFlex Gateway administrator username(in base64)                           | ` `                           |
-| `karaviMetricsPowerflex.powerflexPassword`                           | PowerFlex Gateway administrator password(in base64)                      | ` ` |
 | `karaviMetricsPowerflex.image`                          |  Karavi Metrics for PowerFlex Service image                      | `dellemc/karavi-metrics-powerflex:0.1.0-pre-release`|
 | `karaviMetricsPowerflex.collectorAddr`                         | Metrics Collector accessible from the Kubernetes cluster                    | `otel-collector:55680`  |
 | `karaviMetricsPowerflex.provisionerNames`                       | Provisioner Names used to filter for determining PowerFlex SDC nodes( Must be a Comma-separated list)          | ` csi-vxflexos.dellemc.com`                                                   |
@@ -127,10 +137,7 @@ $ helm install karavi-observability dell/karavi-observability -n karavi --create
     --set-file karaviTopology.certificateFile=<location-of-karavi-topology-certificate-file> \
     --set-file karaviTopology.privateKeyFile=<location-of-karavi-topology-private-key-file> \
     --set-file otelCollector.certificateFile=<location-of-otel-collector-certificate-file> \
-    --set-file otelCollector.privateKeyFile=<location-of-otel-collector-private-key-file> \
-    --set karaviMetricsPowerflex.powerflexPassword=<base64-encoded-password> \
-    --set karaviMetricsPowerflex.powerflexUser=<base64-encoded-username> \
-    --set karaviMetricsPowerflex.powerflexEndpoint=https://<powerflex-endpoint>
+    --set-file otelCollector.privateKeyFile=<location-of-otel-collector-private-key-file>
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example:
@@ -141,35 +148,42 @@ $ helm install karavi-observability dell/karavi-observability -n karavi --create
 
  A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
 
- From release 0.3.0 onwards, some parameters can also be configured during runtime without restarting the Karavi Observability services. These parameters will be stored as configmaps that can be updated on the Kubernetes cluster. This will automatically change the settings on the services.
-
- Karavi-metrics-powerflex parameters that can be updated:
-
-* COLLECTOR_ADDR
-* PROVISIONER_NAMES
-* POWERFLEX_SDC_METRICS_ENABLED
-* POWERFLEX_SDC_IO_POLL_FREQUENCY
-* POWERFLEX_VOLUME_IO_POLL_FREQUENCY
-* POWERFLEX_VOLUME_METRICS_ENABLED
-* POWERFLEX_STORAGE_POOL_METRICS_ENABLED
-* POWERFLEX_STORAGE_POOL_POLL_FREQUENCY
-* POWERFLEX_MAX_CONCURRENT_QUERIES
-
-To update the karavi-metrics-powerflex settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
-
-```console
-kubectl edit configmap karavi-metrics-powerflex-configmap -n karavi
- ```
-
-Karavi-topology parameters that can be updated:
-
-* PROVISIONER_NAMES
-
-To update the karavi-topology settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
-
-```console
-kubectl edit configmap karavi-topology-configmap -n karavi
- ```
+ > ## Changes in release 0.3.0
+ >
+ > **PowerFlex System Details**
+ > - Karavi Observability will use the same vxflexos-config Secret that is used by release 1.4 of the CSI PowerFlex Driver. If a 'default' storage system is specified, metrics will only be gathered for that system. If no 'default' storage system is specified, the first system in the configuration will be used.
+ >
+ > **Configuration Settings**
+ > - Some parameters can be configured during runtime without restarting the Karavi Observability services. These parameters will be stored in ConfigMaps that can be updated on the Kubernetes cluster. This will automatically change the settings on the services.
+>
+>
+> Karavi-metrics-powerflex parameters that can be updated:
+>
+>* COLLECTOR_ADDR
+>* PROVISIONER_NAMES
+>* POWERFLEX_SDC_METRICS_ENABLED
+>* POWERFLEX_SDC_IO_POLL_FREQUENCY
+>* POWERFLEX_VOLUME_IO_POLL_FREQUENCY
+>* POWERFLEX_VOLUME_METRICS_ENABLED
+>* POWERFLEX_STORAGE_POOL_METRICS_ENABLED
+>* POWERFLEX_STORAGE_POOL_POLL_FREQUENCY
+>* POWERFLEX_MAX_CONCURRENT_QUERIES
+>
+>To update the karavi-metrics-powerflex settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
+>
+>```console
+>kubectl edit configmap karavi-metrics-powerflex-configmap -n karavi
+> ```
+>
+>Karavi-topology parameters that can be updated:
+>
+>* PROVISIONER_NAMES
+>
+>To update the karavi-topology settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
+>
+>```console
+>kubectl edit configmap karavi-topology-configmap -n karavi
+> ```
 
 ## Required Components
 
