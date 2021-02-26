@@ -39,7 +39,7 @@ Karavi Observability supports the following CSI drivers and versions.
 | ------------- | ---------- | ------------------ |
 | PowerFlex | [csi-powerflex](https://github.com/dell/csi-powerflex) | v1.1.5, 1.2.0, 1.2.1 |
 
-> As of release 0.3.0, only v1.4.0 of the PowerFlex CSI Driver will be supported
+> As of release 0.3.0-pre-release, only v1.4.0 of the CSI Driver for Dell EMC PowerFlex will be supported
 
 ## TLS Encryption
 The Karavi Observability helm deployment relies on [cert-manager](https://github.com/jetstack/cert-manager) to manage SSL certificates that are used to encrypt communication between various components. When installing using the karavi-observability helm chart, cert-manager is installed and configured automatically.
@@ -70,9 +70,9 @@ Before installing the karavi-observability chart, you must first install the cer
 $ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml
 ```
 
-> **Changes in release 0.3.0**
+> **Changes in upcoming release 0.3.0-pre-release**
 >
-> Copy the vxflexos-config Secret from the CSI PowerFlex Driver namespace into the namespace where Karavi Observability is deployed.
+> Copy the vxflexos-config Secret from the CSI Driver for Dell EMC PowerFlex namespace into the namespace where Karavi Observability is deployed.
 > Note: The target namespace must exist before executing this command.
 >
 > *Example command to copy the secret from the vxflexos namespace to the karavi namespace.*
@@ -151,7 +151,7 @@ $ helm install karavi-observability dell/karavi-observability -n karavi --create
  > ## Changes in release 0.3.0
  >
  > **PowerFlex System Details**
- > - Karavi Observability will use the same vxflexos-config Secret that is used by release 1.4 of the CSI PowerFlex Driver. If a 'default' storage system is specified, metrics will only be gathered for that system. If no 'default' storage system is specified, the first system in the configuration will be used.
+ > - Karavi Observability will use the same vxflexos-config Secret that is used by release 1.4 of the CSI Driver for Dell EMC PowerFlex. If a 'default' storage system is specified, metrics will only be gathered for that system. If no 'default' storage system is specified, the first system in the configuration will be used.
  >
  > **Configuration Settings**
  > - Some parameters can be configured during runtime without restarting the Karavi Observability services. These parameters will be stored in ConfigMaps that can be updated on the Kubernetes cluster. This will automatically change the settings on the services.
