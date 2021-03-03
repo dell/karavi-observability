@@ -26,6 +26,7 @@ VERIFY=1
 RELEASE="karavi-observability"
 
 export DEBUGLOG="${SCRIPTDIR}/install-debug.log"
+export HELMLOG="${SCRIPTDIR}/helm-install.log"
 
 HELMREPO="https://dell.github.io/helm-charts"
 
@@ -53,7 +54,7 @@ function helm_repo_add() {
 
 # creates the namespace for installing Karavi Observability
 function create_namespace() {
-  NUM=$(run_command "kubectl get namespaces | grep -e ^${NAMESPACE} | wc -l")
+  NUM=$(run_command "kubectl get namespaces | grep -e '^${NAMESPACE}\s' | wc -l")
   if [ "${NUM}" != "0" ]; then
     log info "Namespace ${NAMESPACE} already exists"
   else
@@ -70,7 +71,7 @@ function create_namespace() {
 
 # copies the vxflexos-config Secret from the CSI PowerFlex namespace into the namespace for Karavi Observability
 function copy_vxflexos_config_secret() {
-  NUM=$(run_command kubectl get secret --namespace "${NAMESPACE}" | grep -e ^vxflexos-config | wc -l)
+  NUM=$(run_command kubectl get secret --namespace "${NAMESPACE}" | grep -e '^vxflexos-config\s' | wc -l)
   if [ "${NUM}" != "0" ]; then
     log info "Secret vxflexos-config already exists"
   else
@@ -87,7 +88,7 @@ function copy_vxflexos_config_secret() {
 
 # installs the CertManager CRDs
 function install_certmanager_crds() {
-  NUM=$(run_command kubectl get crd | grep -e ^certificates.cert-manager.io | wc -l)
+  NUM=$(run_command kubectl get crd | grep -e '^certificates.cert-manager.io\s' | wc -l)
   if [ "${NUM}" != "0" ]; then
     log info "Certmanager CRDs are already installed"
   else
@@ -127,13 +128,18 @@ function install_karavi_observability() {
   run_command "helm install \
     ${OPT_VALUES_ARG} \
     --namespace ${NAMESPACE} karavi-observability \
-    dell/karavi-observability > ${DEBUGLOG} 2>&1"
+    dell/karavi-observability > ${HELMLOG} 2>&1"
     
   if [ $? -ne 0 ]; then
-    cat "${DEBUGLOG}"
-    log error "Helm operation failed, output can be found in ${DEBUGLOG}. The failure should be examined, before proceeding."
+    cat "${HELMLOG}"
+    log error "Helm operation failed, output can be found in ${HELMLOG}. The failure should be examined, before proceeding."
   fi
   log step_success
+}
+
+function display_helm_log() {
+  echo ""
+  cat "${HELMLOG}"
 }
 
 # wait for the pods in the Karavi Observability namespace to be in a ready state
@@ -398,3 +404,5 @@ install_certmanager_crds
 install_karavi_observability
 
 wait_on_pods
+
+display_helm_log
