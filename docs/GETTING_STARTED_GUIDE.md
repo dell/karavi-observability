@@ -68,6 +68,8 @@ There are several options for installing the Karavi Observability Helm chart inc
 
 ### Online Installation
 
+> The online installation script is only supported with release 0.3.0-pre-release and v1.4.0 of the CSI Driver for Dell EMC PowerFlex
+
 In situations where an online installation of Karavi Observability is required, please visit [Online Karavi Observability Helm Chart Installer](../installer/README.md#online-karavi-observability-helm-chart-installer) for more details.
 
 ### Offline Installation
@@ -98,6 +100,24 @@ The command below deploys Karavi Observability on the Kubernetes cluster in the 
 ```console
 $ helm repo add dell https://dell.github.io/helm-charts
 $ helm install karavi-observability dell/karavi-observability -n karavi --create-namespace
+```
+
+## Updating Storage System Credentials
+
+> These instructions are only supported with release 0.3.0-pre-release and v1.4.0 of the CSI Driver for Dell EMC PowerFlex
+
+If the storage system credentials have changed and been updated in the relevant CSI Driver, Karavi Observability can be updated with new credentials as follows:
+
+### PowerFlex
+
+1. Delete the current `vxflexos-config` Secret from the Karavi Observability namespace.
+2. Copy the `vxflexos-config` Secret from the CSI Driver for Dell EMC PowerFlex namespace to the Karavi Observability namespace.
+
+*Example command to copy the secret from the vxflexos namespace to the karavi namespace:*
+
+```console
+$ kubectl delete secret vxflexos-config -n karavi
+$ kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
 ```
 
 ## Uninstalling the Chart
