@@ -165,7 +165,7 @@ function verify_karavi_observability() {
     log info "Skipping verification of the environment"
     return
   fi
-  verify_k8s_versions "1.17" "1.20"
+  verify_k8s_versions "1.17" "1.19"
   verify_openshift_versions "4.5" "4.6"
   verify_helm_3
 }

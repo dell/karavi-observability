@@ -10,7 +10,7 @@ You may obtain a copy of the License at
 
 # Karavi Observability Install Scripts
 
-This directory contains scripts to perform installation of Karavi Observability in the following environments:
+This `installer` directory contains scripts to perform installation of Karavi Observability in the following environments:
 
 - [Online Karavi Observability Helm Chart Installer](#online-karavi-observability-helm-chart-installer) - Installation environment has access to the internet to download Docker images, helm charts, and other dependencies.
 - [Offline Karavi Observability Helm Chart Installer](#offline-karavi-observability-helm-chart-installer) - Installation environment does not have access to the internet.
@@ -86,7 +86,7 @@ The following example will install Karavi Observability into the `karavi` namesp
 ```
 [user@system /home/user/karavi-observability/installer]# ./karavi-observability-install.sh --namespace karavi --values myvalues.yaml
 ---------------------------------------------------------------------------------
-> Installing Karavi Observability in namespace karavi on 1.20
+> Installing Karavi Observability in namespace karavi on 1.19
 ---------------------------------------------------------------------------------
 |
 |- Karavi Observability is not installed                            Success
