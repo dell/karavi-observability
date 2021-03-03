@@ -1,5 +1,7 @@
 *
 !.gitignore
 !offline-installer.sh
+!karavi-observability-install.sh
+!common.sh
 !README.md
 

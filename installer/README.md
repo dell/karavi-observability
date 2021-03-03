@@ -8,6 +8,115 @@ You may obtain a copy of the License at
     http://www.apache.org/licenses/LICENSE-2.0
 -->
 
+# Karavi Observability Install Scripts
+
+This `installer` directory contains scripts to perform installation of Karavi Observability in the following environments:
+
+- [Online Karavi Observability Helm Chart Installer](#online-karavi-observability-helm-chart-installer) - Installation environment has access to the internet to download Docker images, helm charts, and other dependencies.
+- [Offline Karavi Observability Helm Chart Installer](#offline-karavi-observability-helm-chart-installer) - Installation environment does not have access to the internet.
+
+# Online Karavi Observability Helm Chart Installer
+
+The following instructions can be followed to install Karavi Observability in an environment that has an internet connection and is capable of downloading the required helm chart and Docker images.
+
+## Dependencies
+
+A Linux based system, with internet access, will be used to execute the script to install Karavi Observability into a Kubernetes/Openshift enviornment that also has internet access.
+
+| Dependency            | Usage |
+| --------------------- | ----- |
+| `kubectl`   | `kubectl` will be used to verify the Kubernetes/OpenShift environment|
+| `helm`   | `helm` will be used to install the Karavi Observability helm chart|
+
+## Installation script
+The installation script is located at https://github.com/dell/karavi-observability/blob/main/installer/karavi-observability-installer.sh. The script performs the current steps during installation of Karavi Observability:
+
+- Verify that Karavi Observability is not yet installed
+- Verify the Kubernetes/Openshift versions are supported
+- Verify helm version is supported
+- Add the Dell helm chart repository
+- Refresh the helm chart repositories to download any recent changes
+- Create the Karavi Observability namespace (if not already created)
+- Copy the vxflexos-config Secret from the CSI PowerFlex namespace into the Karavi Observability namespace (if not already copied)
+- Install the CertManager CRDs (if not already installed)
+- Install the Karavi Observability helm chart
+- Wait for the Karavi Observability pods to become ready
+
+### Usage of the script is as follows:
+```
+[user@system /home/user/karavi-observability/installer]# ./karavi-observability-install.sh --help
+
+Help for ./karavi-observability-install.sh
+
+Usage: ./karavi-observability-install.sh options...
+Options:
+  Required
+  --namespace[=]<namespace>                                   Namespace where Karavi Observability will be installed
+  Optional
+  --csi-powerflex-namespace[=]<csi powerflex namespace>       Namespace where CSI PowerFlex is installed, default is 'vxflexos'
+  --skip-verify                                               Skip verification of the environment
+  --values[=]<values.yaml>                                    Values file, which defines configuration values
+  --version[=]<helm chart version>                            Helm chart version to install, default value will be latest
+  --help                                                      Help
+```
+
+## Workflow
+
+To perform an online installation of Karavi Observability, the following steps should be performed:
+
+1. Clone the GitHub repository to be able to execute the scripts.
+2. Execute the installation script.
+
+### Clone the GitHub repository
+
+1. Clone the GitHub repository:
+```
+[user@system /home/user]# git clone https://github.com/dell/karavi-observability.git
+```
+
+### Execute the installation script
+
+1. Change to the installer directory:
+```
+[user@system /home/user]# cd karavi-observability/installer
+```
+
+2. Execute the installation script.
+The following example will install Karavi Observability into the `karavi` namespace.
+```
+[user@system /home/user/karavi-observability/installer]# ./karavi-observability-install.sh --namespace karavi --values myvalues.yaml
+---------------------------------------------------------------------------------
+> Installing Karavi Observability in namespace karavi on 1.19
+---------------------------------------------------------------------------------
+|
+|- Karavi Observability is not installed                            Success
+|
+|- Verifying Kubernetes versions
+  |
+  |--> Verifying minimum Kubernetes version                         Success
+  |
+  |--> Verifying maximum Kubernetes version                         Success
+|
+|- Verifying helm version                                           Success
+|
+|- Configure helm chart repository
+  |
+  |--> Adding helm repository https://dell.github.io/helm-charts    Success
+  |
+  |--> Updating helm repositories                                   Success
+|
+|- Creating namespace karavi                                        Success
+|
+|- Copying vxflexos/config Secret from vxflexos to karavi           Success
+|
+|- Installing CertManager CRDs                                      Success
+|
+|- Installing Karavi Observability helm chart                       Success
+|
+|- Waiting for pods in namespace karavi to be ready                 Success
+
+```
+
 # Offline Karavi Observability Helm Chart Installer
 
 The following instructions can be followed when a Helm chart will be installed in an environment that does not have an internet connection and will be unable to download the Helm chart and related Docker images.
@@ -115,6 +224,14 @@ or
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl apply --validate=false -f cert-manager.crds.yaml
 ```
+
+> As of release 0.3.0-pre-release, the vxflexos-config Secret from the namespace where CSI Driver for Dell EMC PowerFlex is installed must be copied to the 
+> namespace where Karavi Observability is to be installed.
+>
+> Example command to copy the secret from the vxflexos namespace to the karavi namespace.
+>```
+>[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
+>```
 
 3. Now that the required images have been made available and the Helm chart's configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm chart's repository.
 

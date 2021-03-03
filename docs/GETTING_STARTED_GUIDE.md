@@ -64,6 +64,20 @@ This project is deployed using Helm. The supported version of Helm is listed bel
 
 ## Installing the Chart
 
+There are several options for installing the Karavi Observability Helm chart including online and offline installer scripts and manual steps for installing the Helm chart.
+
+### Online Installation
+
+> The online installation script is only supported with release 0.3.0-pre-release and v1.4.0 of the CSI Driver for Dell EMC PowerFlex
+
+In situations where an online installation of Karavi Observability is required, please visit [Online Karavi Observability Helm Chart Installer](../installer/README.md#online-karavi-observability-helm-chart-installer) for more details.
+
+### Offline Installation
+
+In situations where an offline installation of Karavi Observability is required, please visit [Offline Karavi Observability Helm Chart Installer](../installer/README.md#offline-karavi-observability-helm-chart-installer) for more details.
+
+### Manual Installation
+
 Before installing the karavi-observability chart, you must first install the cert-manager CustomResourceDefinition resources with the command below.
 
 ```console
@@ -88,6 +102,24 @@ $ helm repo add dell https://dell.github.io/helm-charts
 $ helm install karavi-observability dell/karavi-observability -n karavi --create-namespace
 ```
 
+## Updating Storage System Credentials
+
+> These instructions are only supported with release 0.3.0-pre-release and v1.4.0 of the CSI Driver for Dell EMC PowerFlex
+
+If the storage system credentials have changed and been updated in the relevant CSI Driver, Karavi Observability can be updated with new credentials as follows:
+
+### PowerFlex
+
+1. Delete the current `vxflexos-config` Secret from the Karavi Observability namespace.
+2. Copy the `vxflexos-config` Secret from the CSI Driver for Dell EMC PowerFlex namespace to the Karavi Observability namespace.
+
+*Example command to copy the secret from the vxflexos namespace to the karavi namespace:*
+
+```console
+$ kubectl delete secret vxflexos-config -n karavi
+$ kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
+```
+
 ## Uninstalling the Chart
 
 The command below removes all the Kubernetes components associated with the chart.
@@ -100,10 +132,6 @@ You may also want to uninstall the CRDs created for cert-manager.
 ```console
 $ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml
 ```
-
-## Offline Installation
-
-In situations where an offline installation of Karavi Observability is required, please visit [Offline Installer](../installer/README.md) for more details.
 
 ## Configuration
 
