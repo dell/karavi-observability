@@ -64,6 +64,18 @@ This project is deployed using Helm. The supported version of Helm is listed bel
 
 ## Installing the Chart
 
+There are several options for installing the Karavi Observability Helm chart including online and offline installer scripts and manual steps for installing the Helm chart.
+
+### Online Installation
+
+In situations where an online installation of Karavi Observability is required, please visit [Online Karavi Observability Helm Chart Installer](../installer/README.md#online-karavi-observability-helm-chart-installer) for more details.
+
+### Offline Installation
+
+In situations where an offline installation of Karavi Observability is required, please visit [Offline Karavi Observability Helm Chart Installer](../installer/README.md#offline-karavi-observability-helm-chart-installer) for more details.
+
+### Manual Installation
+
 Before installing the karavi-observability chart, you must first install the cert-manager CustomResourceDefinition resources with the command below.
 
 ```console
@@ -100,10 +112,6 @@ You may also want to uninstall the CRDs created for cert-manager.
 ```console
 $ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml
 ```
-
-## Offline Installation
-
-In situations where an offline installation of Karavi Observability is required, please visit [Offline Installer](../installer/README.md) for more details.
 
 ## Configuration
 
