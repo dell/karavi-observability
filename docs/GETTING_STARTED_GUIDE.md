@@ -31,17 +31,20 @@ The following matrix provides a list of all supported versions for each Dell EMC
 | Kubernetes | 1.17, 1,18, 1.19 |
 | Openshift | 4.5, 4.6 |
 
-## CSI Drivers
+## Releases and supported CSI Drivers
 
-Karavi Observability supports the following CSI drivers and versions.
+The table below lists the Karavi Observability release versions.  Shown for each release version are the associated service versions, Helm chart version, and supported CSI drivers/versions.  The Helm chart version can be used to select the appropriate Helm chart version you wish to install depending on the Karavi Observability release.
 
-| Storage Array | CSI Driver | Supported Versions |
-| ------------- | ---------- | ------------------ |
-| PowerFlex | [csi-powerflex](https://github.com/dell/csi-powerflex) | v1.1.5, 1.2.0, 1.2.1 |
+| Karavi Observability | Karavi Metrics PowerFlex | Karavi Topology | Helm Chart | Supported CSI Driver |
+| - | - | - | - | - |
+| 0.2.1-pre-release | 0.2.0-pre-release | 0.2.0-pre-release | 0.2.1 | [csi-powerflex](https://github.com/dell/csi-powerflex) [1.2.0, 1.2.1, 1.3.0] |
+| 0.2.0-pre-release | 0.2.0-pre-release | 0.2.0-pre-release | 0.2.0 | [csi-powerflex](https://github.com/dell/csi-powerflex) [1.2.0, 1.2.1, 1.3.0] |
+| 0.1.0-pre-release | 0.1.0-pre-release | 0.1.0-pre-release | 0.1.0 | [csi-powerflex](https://github.com/dell/csi-powerflex) [1.2.0, 1.2.1, 1.3.0] |
 
 > As of release 0.3.0-pre-release, only v1.4.0 of the CSI Driver for Dell EMC PowerFlex will be supported
 
 ## TLS Encryption
+
 The Karavi Observability helm deployment relies on [cert-manager](https://github.com/jetstack/cert-manager) to manage SSL certificates that are used to encrypt communication between various components. When installing using the karavi-observability helm chart, cert-manager is installed and configured automatically.
 The cert-manager components listed below will be installed alongside karavi-observability.
 
@@ -99,8 +102,9 @@ The command below deploys Karavi Observability on the Kubernetes cluster in the 
 
 ```console
 $ helm repo add dell https://dell.github.io/helm-charts
-$ helm install karavi-observability dell/karavi-observability -n karavi --create-namespace
+$ helm install --version <helm chart version> karavi-observability dell/karavi-observability -n karavi --create-namespace
 ```
+**Note**: The `<helm chart version>` argument should align with one of the [Helm chart versions](##Releases-and-supported-CSI-Drivers) listed above.  If the `--version` argument is omitted, the latest released Helm chart version will be deployed.
 
 ## Updating Storage System Credentials
 
