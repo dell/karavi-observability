@@ -35,7 +35,7 @@ The following matrix provides a list of all supported versions for each Dell EMC
 
 The table below lists the Karavi Observability release versions.  Shown for each release version are the associated service versions, Helm chart version, and supported CSI drivers/versions.  The Helm chart version can be used to select the appropriate Helm chart version you wish to install depending on the Karavi Observability release.
 
-| Karavi Observability | Karavi Metrics PowerFlex | Karavi Topology | Helm Chart | Supported CSI Driver |
+| Karavi Observability | Karavi Metrics PowerFlex | Karavi Topology | Helm Chart | Supported CSI Drivers |
 | - | - | - | - | - |
 | 0.2.1-pre-release | 0.2.0-pre-release | 0.2.0-pre-release | 0.2.1 | [csi-powerflex](https://github.com/dell/csi-powerflex) [1.2.0, 1.2.1, 1.3.0] |
 | 0.2.0-pre-release | 0.2.0-pre-release | 0.2.0-pre-release | 0.2.0 | [csi-powerflex](https://github.com/dell/csi-powerflex) [1.2.0, 1.2.1, 1.3.0] |
