@@ -31,7 +31,7 @@ The following matrix provides a list of all supported versions for each Dell EMC
 | Kubernetes | 1.17, 1,18, 1.19 |
 | Openshift | 4.5, 4.6 |
 
-## Releases and supported CSI Drivers
+## Releases and Supported CSI Drivers
 
 The table below lists the Karavi Observability release versions.  Shown for each release version are the associated service versions, Helm chart version, and supported CSI drivers/versions.  The Helm chart version can be used to select the appropriate Helm chart version you wish to install depending on the Karavi Observability release.
 
