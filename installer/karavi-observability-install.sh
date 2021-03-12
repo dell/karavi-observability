@@ -22,8 +22,18 @@ CSI_POWERFLEX_NAMESPACE=""
 NAMESPACE=""
 VALUES=""
 
+AUTH_IMAGE_ADDR=""
+AUTH_PROXY_HOST=""
+
+VERBOSE=0
+
 VERIFY=1
 RELEASE="karavi-observability"
+
+FAIL_IF_AUTHORIZATION_NOT_AVAILABLE=0
+ENABLE_AUTHORIZATION_DURING_INSTALL=0
+KARAVICTL_INSTALLED=0
+KARAVI_AUTHORIZATION_PROXY_AUTHZ_TOKENS_SECRET_EXISTS=0
 
 export DEBUGLOG="${SCRIPTDIR}/install-debug.log"
 export HELMLOG="${SCRIPTDIR}/helm-install.log"
@@ -72,17 +82,42 @@ function create_namespace() {
 # copies the vxflexos-config Secret from the CSI PowerFlex namespace into the namespace for Karavi Observability
 function copy_vxflexos_config_secret() {
   NUM=$(run_command kubectl get secret --namespace "${NAMESPACE}" | grep -e '^vxflexos-config\s' | wc -l)
-  if [ "${NUM}" != "0" ]; then
-    log info "Secret vxflexos-config already exists"
-  else
-    log step "Copying vxflexos/config Secret from ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}" "small"
+  if [ "${NUM}" == "0" ]; then
+    log step "Copying Secret from ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}" "small"
     run_command "kubectl get secret vxflexos-config -n ${CSI_POWERFLEX_NAMESPACE} -o yaml | sed 's/namespace: vxflexos/namespace: ${NAMESPACE}/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
     if [ $? -eq 1 ]; then
       log step_failure
-      log error "Unable to copy secret from namespace ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}."
+      log error "Unable to copy Secret from namespace ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}."
     else
       log step_success
     fi
+  fi
+}
+
+# copies the proxy-authz-tokens Secret from the CSI PowerFlex namespace into the namespace for Karavi Observability
+function copy_proxy_authz_tokens_secret() {
+  NUM=$(run_command kubectl get secret --namespace "${NAMESPACE}" | grep -e '^proxy-authz-tokens\s' | wc -l)
+  if [ "${NUM}" == "0" ]; then
+    log step "Copying Secret from ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}" "small"
+    run_command "kubectl get secret proxy-authz-tokens -n ${CSI_POWERFLEX_NAMESPACE} -o yaml | sed 's/namespace: ${CSI_POWERFLEX_NAMESPACE}/namespace: ${NAMESPACE}/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
+    if [ $? -eq 1 ]; then
+      log step_failure
+      log error "Unable to copy Secret from namespace ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}."
+    else
+      log step_success
+    fi
+  fi
+}
+
+# inject observability with the authorization sidecar-proxy
+function inject_observability() {
+  log step "Enabling Karavi Authorization for Karavi Observability" "small"
+  run_command "kubectl get secrets,deployments -n ${NAMESPACE} -o yaml | karavictl inject --image-addr ${AUTH_IMAGE_ADDR} --proxy-host ${AUTH_PROXY_HOST} | kubectl apply -f - > /dev/null 2>&1"
+  if [ $? -eq 1 ]; then
+    log step_failure
+    log error "Unable to enable Karavi Authorization for Karavi Observability."
+  else
+    log step_success
   fi
 }
 
@@ -103,14 +138,13 @@ function install_certmanager_crds() {
   fi
 }
 
-# checks if Karavi Observability is already installed in the namespace
-function check_for_karavi_observability() {
+# is_karavi_observability_installed returns 0 if Karavi Observability is already installed in the namespace
+function is_karavi_observability_installed() {
   NUM=$(run_command helm list --namespace "${NAMESPACE}" | grep "${RELEASE}" | wc -l)
   if [ "${NUM}" != "0" ]; then
-    log error "Karavi Observability is already installed"
+    return 0
   else
-    log step "Karavi Observability is not installed" "small"
-    log step_success
+    return 1
   fi
 }
 
@@ -313,21 +347,36 @@ function usage() {
   decho
   decho "Help for $0"
   decho
-  decho "Usage: $0 options..."
+  decho "Usage: $0 mode options..."
+  decho "Mode:"
+  decho "  install                                                     Installs Karavi Observability and enables Karavi Authorization if already installed"
+  decho "  enable-authorization                                        Updates existing installation of Karavi Observability with Karavi Authorization"
   decho "Options:"
   decho "  Required"
   decho "  --namespace[=]<namespace>                                   Namespace where Karavi Observability will be installed"
 
   decho "  Optional"
+  decho "  --auth-image-addr                                           Docker registry location of the Karavi Authorization sidecar proxy image"
+  decho "  --auth-proxy-host                                           Host address of the Karavi Authorization proxy server"
   decho "  --csi-powerflex-namespace[=]<csi powerflex namespace>       Namespace where CSI PowerFlex is installed, default is 'vxflexos'"
   decho "  --skip-verify                                               Skip verification of the environment"
   decho "  --values[=]<values.yaml>                                    Values file, which defines configuration values"
+  decho "  --verbose                                                   Display verbose logging"
   decho "  --version[=]<helm chart version>                            Helm chart version to install, default value will be latest"
   decho "  --help                                                      Help"
   decho
 
   exit 0
 }
+
+MODE=$1
+
+if [ "${MODE}" == "--help" ]; then
+  usage
+  exit 0
+fi
+
+shift
 
 while getopts ":h-:" optchar; do
   case "${optchar}" in
@@ -336,12 +385,29 @@ while getopts ":h-:" optchar; do
     skip-verify)
       VERIFY=0
       ;;
+    verbose)
+      VERBOSE=1
+      ;;
     namespace)
       NAMESPACE="${!OPTIND}"
       OPTIND=$((OPTIND + 1))
       ;;
     namespace=*)
       NAMESPACE=${OPTARG#*=}
+      ;;
+    auth-image-addr)
+      AUTH_IMAGE_ADDR="${!OPTIND}"
+      OPTIND=$((OPTIND + 1))
+      ;;
+    auth-image-addr=*)
+      AUTH_IMAGE_ADDR=${OPTARG#*=}
+      ;;
+    auth-proxy-host)
+      AUTH_PROXY_HOST="${!OPTIND}"
+      OPTIND=$((OPTIND + 1))
+      ;;
+    auth-proxy-host=*)
+      AUTH_PROXY_HOST=${OPTARG#*=}
       ;;
     csi-powerflex-namespace)
       CSI_POWERFLEX_NAMESPACE="${!OPTIND}"
@@ -383,26 +449,130 @@ while getopts ":h-:" optchar; do
   esac
 done
 
-validate_params
+function karavictl_exists() {
+  if ! command -v karavictl &> /dev/null; then
+    KARAVICTL_INSTALLED=0
+    if [[ "${FAIL_IF_AUTHORIZATION_NOT_AVAILABLE}" == "1" ]]; then
+      log error "Unable to use Karavi Authorization because karavictl is not available"
+    fi
+  else
+    KARAVICTL_INSTALLED=1
+  fi
+}
 
-OPENSHIFT=$(isOpenShift)
+function proxy_authz_tokens_secret_exists() {
+  NUM=$(run_command kubectl get secret --namespace "${CSI_POWERFLEX_NAMESPACE}" | grep -e '^proxy-authz-tokens\s' | wc -l)
+  if [ "${NUM}" == "1" ]; then
+    KARAVI_AUTHORIZATION_PROXY_AUTHZ_TOKENS_SECRET_EXISTS=1
+  else
+    KARAVI_AUTHORIZATION_PROXY_AUTHZ_TOKENS_SECRET_EXISTS=0
+    if [[ "${FAIL_IF_AUTHORIZATION_NOT_AVAILABLE}" == "1" ]]; then
+      log error "Unable to use Karavi Authorization because proxy-authz-tokens does not exist in namespace ${CSI_POWERFLEX_NAMESPACE}"
+    fi
+  fi
+}
 
-log section "Installing Karavi Observability in namespace ${NAMESPACE} on ${kMajorVersion}.${kMinorVersion}"
+function get_authorization_proxy_host() {
+  PROXY_HOST=$(run_command kubectl describe deployment -n "${CSI_POWERFLEX_NAMESPACE}" vxflexos-controller | grep PROXY_HOST | awk '{print $2}')
+  if [ "${PROXY_HOST}" != "" ]; then
+    AUTH_PROXY_HOST=${PROXY_HOST}
+      if [ "${VERBOSE}" == "1" ]; then
+        log arrow
+        log smart_step "Using Karavi Authorization proxy host ${AUTH_PROXY_HOST}" "small"
+        log step_success
+      fi
+  fi
+}
 
-check_for_karavi_observability 
+function get_authorization_proxy_sidecar() {
+  PROXY_SIDECAR=$(run_command kubectl describe deployment -n "${CSI_POWERFLEX_NAMESPACE}"  vxflexos-controller | grep Image | grep sidecar-proxy | awk '{print $2}')
+  if [ "${PROXY_SIDECAR}" != "" ]; then
+    AUTH_IMAGE_ADDR=${PROXY_SIDECAR}
+    if [ "${VERBOSE}" == "1" ]; then
+      log arrow
+      log smart_step "Using Karavi Authorization proxy sidecar ${AUTH_IMAGE_ADDR}" "small"
+      log step_success
+    fi
+  fi
+}
 
-verify_karavi_observability
+function verify_authorization_environment() {
+  karavictl_exists
+  proxy_authz_tokens_secret_exists
 
-helm_repo_add
+  if [[ "${KARAVI_AUTHORIZATION_PROXY_AUTHZ_TOKENS_SECRET_EXISTS}" == "0" || "${KARAVICTL_INSTALLED}" == "0" ]]; then
+    log step "Karavi Authorization will not be enabled during installation"
+  else
+    if [ -z "${AUTH_IMAGE_ADDR}" ]; then
+      get_authorization_proxy_host
+    fi
+    
+    if [ -z "${AUTH_IMAGE_ADDR}" ]; then
+      get_authorization_proxy_sidecar
+    fi
 
-create_namespace 
+    if [ -z "${AUTH_IMAGE_ADDR}" ]; then
+      log error "Option --auth-image-addr is missing"
+    fi
+    if [ -z "${AUTH_PROXY_HOST}" ]; then
+      log error "Option --auth-proxy-host is missing"
+    fi    
+    log step "Karavi Authorization will be enabled during installation"
+    ENABLE_AUTHORIZATION_DURING_INSTALL=1
+  fi
+  decho
+}
 
-copy_vxflexos_config_secret
-
-install_certmanager_crds
-
-install_karavi_observability
-
-wait_on_pods
-
-display_helm_log
+case $MODE in
+  "install")
+    validate_params
+    OPENSHIFT=$(isOpenShift)
+    log section "Installing Karavi Observability in namespace ${NAMESPACE} on ${kMajorVersion}.${kMinorVersion}"
+    is_karavi_observability_installed
+    if [[ $? == "0" ]]; then
+      log error "Karavi Observability is already installed"
+    else
+      log step "Karavi Observability is not installed" "small"
+      log step_success
+    fi
+    verify_authorization_environment
+    verify_karavi_observability
+    helm_repo_add
+    create_namespace 
+    copy_vxflexos_config_secret
+    install_certmanager_crds
+    install_karavi_observability
+    wait_on_pods
+    if [[ "${ENABLE_AUTHORIZATION_DURING_INSTALL}" == "1" ]]; then
+      copy_proxy_authz_tokens_secret
+      inject_observability
+      wait_on_pods
+    fi
+    display_helm_log
+    ;;
+  "enable-authorization")
+    FAIL_IF_AUTHORIZATION_NOT_AVAILABLE=1
+    validate_params
+    log section "Enabling Karavi Authorization for Karavi Observability in namespace ${NAMESPACE}"
+    is_karavi_observability_installed
+    if [[ $? == "0" ]]; then
+      log step "Karavi Observability is installed" "small"
+      log step_success
+    else
+      log error "Karavi Observability is not installed" "small"
+    fi
+    verify_authorization_environment
+    verify_karavi_observability
+    if [[ "${ENABLE_AUTHORIZATION_DURING_INSTALL}" == "1" ]]; then
+      copy_proxy_authz_tokens_secret
+      inject_observability
+      wait_on_pods
+    else
+      log error "Karavi Authorization is not available to be used"
+    fi
+    ;;
+  *)
+    echo "Unknown mode ${MODE}"
+    usage
+    exit 1
+esac
