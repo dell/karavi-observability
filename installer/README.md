@@ -65,6 +65,7 @@ Options:
   --auth-image-addr                                           Docker registry location of the Karavi Authorization sidecar proxy image
   --auth-proxy-host                                           Host address of the Karavi Authorization proxy server
   --csi-powerflex-namespace[=]<csi powerflex namespace>       Namespace where CSI PowerFlex is installed, default is 'vxflexos'
+  --set-file                                                  Set values from files used during helm installation (can be specified multiple times)
   --skip-verify                                               Skip verification of the environment
   --values[=]<values.yaml>                                    Values file, which defines configuration values
   --verbose                                                   Display verbose logging

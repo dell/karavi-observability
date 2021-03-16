@@ -35,6 +35,8 @@ ENABLE_AUTHORIZATION_DURING_INSTALL=0
 KARAVICTL_INSTALLED=0
 KARAVI_AUTHORIZATION_PROXY_AUTHZ_TOKENS_SECRET_EXISTS=0
 
+HELM_SET_FILES=()
+
 export DEBUGLOG="${SCRIPTDIR}/install-debug.log"
 export HELMLOG="${SCRIPTDIR}/helm-install.log"
 
@@ -157,6 +159,9 @@ function install_karavi_observability() {
   if [ -n "$VERSION" ]; then
       OPT_VALUES_ARG+="--version ${VERSION} "
   fi
+  for i in ${!HELM_SET_FILES[@]}; do
+    OPT_VALUES_ARG+="--set-file ${HELM_SET_FILES[$i]} "
+  done
 
   log step "Installing Karavi Observability helm chart"
   run_command "helm install \
@@ -359,6 +364,7 @@ function usage() {
   decho "  --auth-image-addr                                           Docker registry location of the Karavi Authorization sidecar proxy image"
   decho "  --auth-proxy-host                                           Host address of the Karavi Authorization proxy server"
   decho "  --csi-powerflex-namespace[=]<csi powerflex namespace>       Namespace where CSI PowerFlex is installed, default is 'vxflexos'"
+  decho "  --set-file                                                  Set values from files used during helm installation (can be specified multiple times)"
   decho "  --skip-verify                                               Skip verification of the environment"
   decho "  --values[=]<values.yaml>                                    Values file, which defines configuration values"
   decho "  --verbose                                                   Display verbose logging"
@@ -415,6 +421,13 @@ while getopts ":h-:" optchar; do
       ;;
     csi-powerflex-namespace=*)
       CSI_POWERFLEX_NAMESPACE=${OPTARG#*=}
+      ;;
+    set-file)
+      HELM_SET_FILES+=(${!OPTIND})
+      OPTIND=$((OPTIND + 1))
+      ;;
+    set-file=*)
+      HELM_SET_FILES+=(${OPTARG#*=})
       ;;
     values)
       VALUES="${!OPTIND}"
