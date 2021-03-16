@@ -28,7 +28,7 @@ The following matrix provides a list of all supported versions for each Dell EMC
 | Platforms | PowerFlex |
 | -------- | --------- |
 | Storage Array | v3.0, v3.5 |
-| Kubernetes | 1.17, 1,18, 1.19 |
+| Kubernetes | 1.18, 1.19, 1.20 |
 | Openshift | 4.5, 4.6 |
 
 ## Releases and Supported CSI Drivers
