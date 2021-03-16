@@ -114,6 +114,34 @@ If the storage system credentials have changed and been updated in the relevant 
 
 ### PowerFlex
 
+#### If using Karavi Observability with Karavi Authorization
+
+##### Update Karavi Authorization Token
+1. Delete the current `proxy-authz-tokens` Secret from the Karavi Observability namespace.
+2. Copy the `proxy-authz-tokens` Secret from the CSI Driver for Dell EMC PowerFlex namespace to the Karavi Observability namespace.
+
+*Example command to copy the secret from the vxflexos namespace to the karavi namespace:*
+
+```console
+$ kubectl delete secret proxy-authz-tokens -n karavi
+$ kubectl get secret proxy-authz-tokens -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
+```
+
+##### Update Storage Systems
+If the list of storage systems managed by the CSI Driver for Dell EMC PowerFlex has changed, the following steps can be performed to update Karavi Observability to reference the updated systems:
+
+1. Delete the current `karavi-authorization-config` Secret from the Karavi Observability namespace.
+2. Copy the `karavi-authorization-config` Secret from the CSI Driver for Dell EMC PowerFlex namespace to the Karavi Observability namespace.
+
+*Example command to copy the secret from the vxflexos namespace to the karavi namespace:*
+
+```console
+$ kubectl delete secret karavi-authorization-config -n karavi
+$ kubectl get secret karavi-authorization-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
+```
+
+#### If not using Karavi Observability with Karavi Authorization
+
 1. Delete the current `vxflexos-config` Secret from the Karavi Observability namespace.
 2. Copy the `vxflexos-config` Secret from the CSI Driver for Dell EMC PowerFlex namespace to the Karavi Observability namespace.
 

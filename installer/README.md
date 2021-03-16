@@ -42,20 +42,33 @@ The installation script is located at https://github.com/dell/karavi-observabili
 - Install the Karavi Observability helm chart
 - Wait for the Karavi Observability pods to become ready
 
+If Karavi Authorization is enabled for the CSI drivers installed in the same Kubernetes cluster, the installation script will perform the current steps to enable Karavi Observability to use the same Karavi Authorization instance:
+- Verify the `karavictl` binary is available.
+- Verify the appropriate Secret exists in the CSI driver namespace.
+- Query the CSI driver environment to get references to the Karavi Authorization sidecar-proxy Docker image and URL of the proxy server.
+- Updates the Karavi Observability deployment to use the existing Karavi Authorization instance.
+
 ### Usage of the script is as follows:
 ```
 [user@system /home/user/karavi-observability/installer]# ./karavi-observability-install.sh --help
 
 Help for ./karavi-observability-install.sh
 
-Usage: ./karavi-observability-install.sh options...
+Usage: ./karavi-observability-install.sh mode options...
+Mode:
+  install                                                     Installs Karavi Observability and enables Karavi Authorization if already installed
+  enable-authorization                                        Updates existing installation of Karavi Observability with Karavi Authorization
 Options:
   Required
   --namespace[=]<namespace>                                   Namespace where Karavi Observability will be installed
   Optional
+  --auth-image-addr                                           Docker registry location of the Karavi Authorization sidecar proxy image
+  --auth-proxy-host                                           Host address of the Karavi Authorization proxy server
   --csi-powerflex-namespace[=]<csi powerflex namespace>       Namespace where CSI PowerFlex is installed, default is 'vxflexos'
+  --set-file                                                  Set values from files used during helm installation (can be specified multiple times)
   --skip-verify                                               Skip verification of the environment
   --values[=]<values.yaml>                                    Values file, which defines configuration values
+  --verbose                                                   Display verbose logging
   --version[=]<helm chart version>                            Helm chart version to install, default value will be latest
   --help                                                      Help
 ```
@@ -84,12 +97,14 @@ To perform an online installation of Karavi Observability, the following steps s
 2. Execute the installation script.
 The following example will install Karavi Observability into the `karavi` namespace.
 ```
-[user@system /home/user/karavi-observability/installer]# ./karavi-observability-install.sh --namespace karavi --values myvalues.yaml
+[user@system /home/user/karavi-observability/installer]# ./karavi-observability-install.sh install --namespace karavi --values myvalues.yaml
 ---------------------------------------------------------------------------------
 > Installing Karavi Observability in namespace karavi on 1.19
 ---------------------------------------------------------------------------------
 |
 |- Karavi Observability is not installed                            Success
+|
+|- Karavi Authorization will be enabled during installation
 |
 |- Verifying Kubernetes versions
   |
@@ -107,14 +122,19 @@ The following example will install Karavi Observability into the `karavi` namesp
 |
 |- Creating namespace karavi                                        Success
 |
-|- Copying vxflexos/config Secret from vxflexos to karavi           Success
+|- Copying Secret from vxflexos to karavi                           Success
 |
 |- Installing CertManager CRDs                                      Success
 |
 |- Installing Karavi Observability helm chart                       Success
 |
 |- Waiting for pods in namespace karavi to be ready                 Success
-
+|
+|- Copying Secret from vxflexos to karavi                           Success
+|
+|- Enabling Karavi Authorization for Karavi Observability           Success
+|
+|- Waiting for pods in namespace karavi to be ready                 Success
 ```
 
 # Offline Karavi Observability Helm Chart Installer
@@ -245,4 +265,18 @@ STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 
+```
+
+> As of release 0.3.0-pre-release, the following optional step can be performed to enable Karavi Observability to use an existing Karavi Authorization.
+
+4. (Optional) The following steps can be performed to enable Karavi Observability to use an existing instance of Karavi Authorization for accessing the REST API for the given storage systems.
+
+Copy the proxy Secret into the Karavi Observability namespace:
+```
+[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret proxy-authz-tokens -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
+```
+
+Use `karavictl` to update the Karavi Observability deployment to use Karavi Authorization. Required parameters are the location of the sidecar-proxy Docker image and URL of the Karavi Authorization proxy:
+```
+[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secrets,deployments -n karavi -o yaml | karavictl inject --image-addr <sidecar-proxy-image-location> --proxy-host <proxy-host> | kubectl apply -f -
 ```
