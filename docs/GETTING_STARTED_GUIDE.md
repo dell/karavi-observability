@@ -37,11 +37,10 @@ The table below lists the Karavi Observability release versions.  Shown for each
 
 | Karavi Observability | Karavi Metrics PowerFlex | Karavi Topology | Helm Chart | Supported CSI Drivers |
 | - | - | - | - | - |
+| 0.3.0 | 0.3.0 | 0.3.0 | 0.3.0 | [csi-powerflex](https://github.com/dell/csi-powerflex) [1.4.0] |
 | 0.2.1-pre-release | 0.2.0-pre-release | 0.2.0-pre-release | 0.2.1 | [csi-powerflex](https://github.com/dell/csi-powerflex) [1.2.0, 1.2.1, 1.3.0] |
 | 0.2.0-pre-release | 0.2.0-pre-release | 0.2.0-pre-release | 0.2.0 | [csi-powerflex](https://github.com/dell/csi-powerflex) [1.2.0, 1.2.1, 1.3.0] |
 | 0.1.0-pre-release | 0.1.0-pre-release | 0.1.0-pre-release | 0.1.0 | [csi-powerflex](https://github.com/dell/csi-powerflex) [1.2.0, 1.2.1, 1.3.0] |
-
-> As of release 0.3.0-pre-release, only v1.4.0 of the CSI Driver for Dell EMC PowerFlex will be supported
 
 ## TLS Encryption
 
@@ -71,8 +70,6 @@ There are several options for installing the Karavi Observability Helm chart inc
 
 ### Online Installation
 
-> The online installation script is only supported with release 0.3.0-pre-release and v1.4.0 of the CSI Driver for Dell EMC PowerFlex
-
 In situations where an online installation of Karavi Observability is required, please visit [Online Karavi Observability Helm Chart Installer](../installer/README.md#online-karavi-observability-helm-chart-installer) for more details.
 
 ### Offline Installation
@@ -87,16 +84,14 @@ Before installing the karavi-observability chart, you must first install the cer
 $ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml
 ```
 
-> **Changes in upcoming release 0.3.0-pre-release**
->
-> Copy the vxflexos-config Secret from the CSI Driver for Dell EMC PowerFlex namespace into the namespace where Karavi Observability is deployed.
-> Note: The target namespace must exist before executing this command.
->
-> *Example command to copy the secret from the vxflexos namespace to the karavi namespace.*
->
-> ```console
-> $ kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
-> ```
+Copy the vxflexos-config Secret from the CSI Driver for Dell EMC PowerFlex namespace into the namespace where Karavi Observability is deployed.
+Note: The target namespace must exist before executing this command.
+
+*Example command to copy the secret from the vxflexos namespace to the karavi namespace.*
+
+```console
+$ kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
+```
 
 The command below deploys Karavi Observability on the Kubernetes cluster in the default configuration. The [configuration](##Configuration) section below lists all the parameters that can be configured during installation.
 
@@ -107,8 +102,6 @@ $ helm install --version <helm chart version> karavi-observability dell/karavi-o
 **Note**: The `<helm chart version>` argument should align with one of the [Helm chart versions](##Releases-and-supported-CSI-Drivers) listed above.  If the `--version` argument is omitted, the latest released Helm chart version will be deployed.
 
 ## Updating Storage System Credentials
-
-> These instructions are only supported with release 0.3.0-pre-release and v1.4.0 of the CSI Driver for Dell EMC PowerFlex
 
 If the storage system credentials have changed and been updated in the relevant CSI Driver, Karavi Observability can be updated with new credentials as follows:
 
@@ -208,42 +201,39 @@ $ helm install karavi-observability dell/karavi-observability -n karavi --create
 
  A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
 
- > ## Changes in release 0.3.0
- >
- > **PowerFlex System Details**
- > - Karavi Observability will use the same vxflexos-config Secret that is used by release 1.4 of the CSI Driver for Dell EMC PowerFlex. If a 'default' storage system is specified, metrics will only be gathered for that system. If no 'default' storage system is specified, the first system in the configuration will be used.
- >
- > **Configuration Settings**
- > - Some parameters can be configured during runtime without restarting the Karavi Observability services. These parameters will be stored in ConfigMaps that can be updated on the Kubernetes cluster. This will automatically change the settings on the services.
->
->
-> Karavi-metrics-powerflex parameters that can be updated:
->
->* COLLECTOR_ADDR
->* PROVISIONER_NAMES
->* POWERFLEX_SDC_METRICS_ENABLED
->* POWERFLEX_SDC_IO_POLL_FREQUENCY
->* POWERFLEX_VOLUME_IO_POLL_FREQUENCY
->* POWERFLEX_VOLUME_METRICS_ENABLED
->* POWERFLEX_STORAGE_POOL_METRICS_ENABLED
->* POWERFLEX_STORAGE_POOL_POLL_FREQUENCY
->* POWERFLEX_MAX_CONCURRENT_QUERIES
->
->To update the karavi-metrics-powerflex settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
->
->```console
->kubectl edit configmap karavi-metrics-powerflex-configmap -n karavi
-> ```
->
->Karavi-topology parameters that can be updated:
->
->* PROVISIONER_NAMES
->
->To update the karavi-topology settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
->
->```console
->kubectl edit configmap karavi-topology-configmap -n karavi
-> ```
+**PowerFlex System Details**
+- Karavi Observability will use the same vxflexos-config Secret that is used by release 1.4 of the CSI Driver for Dell EMC PowerFlex. If a 'default' storage system is specified, metrics will only be gathered for that system. If no 'default' storage system is specified, the first system in the configuration will be used.
+
+**Configuration Settings**
+- Some parameters can be configured during runtime without restarting the Karavi Observability services. These parameters will be stored in ConfigMaps that can be updated on the Kubernetes cluster. This will automatically change the settings on the services.
+
+Karavi-metrics-powerflex parameters that can be updated:
+
+* COLLECTOR_ADDR
+* PROVISIONER_NAMES
+* POWERFLEX_SDC_METRICS_ENABLED
+* POWERFLEX_SDC_IO_POLL_FREQUENCY
+* POWERFLEX_VOLUME_IO_POLL_FREQUENCY
+* POWERFLEX_VOLUME_METRICS_ENABLED
+* POWERFLEX_STORAGE_POOL_METRICS_ENABLED
+* POWERFLEX_STORAGE_POOL_POLL_FREQUENCY
+* POWERFLEX_MAX_CONCURRENT_QUERIES
+
+To update the karavi-metrics-powerflex settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
+
+```console
+kubectl edit configmap karavi-metrics-powerflex-configmap -n karavi
+```
+
+Karavi-topology parameters that can be updated:
+
+* PROVISIONER_NAMES
+
+To update the karavi-topology settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
+
+```console
+kubectl edit configmap karavi-topology-configmap -n karavi
+```
 
 ## Required Components
 
