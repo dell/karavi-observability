@@ -247,7 +247,7 @@ or
 
 3. The vxflexos-config Secret from the namespace where CSI Driver for Dell EMC PowerFlex is installed must be copied to the namespace where Karavi Observability is to be installed.
 
-Example command to copy the secret from the vxflexos namespace to the karavi namespace.
+Example command to copy the Secret from the vxflexos namespace to the karavi namespace.
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
 ```
