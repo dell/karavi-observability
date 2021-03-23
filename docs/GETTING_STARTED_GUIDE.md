@@ -87,7 +87,7 @@ $ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/rel
 Copy the vxflexos-config Secret from the CSI Driver for Dell EMC PowerFlex namespace into the namespace where Karavi Observability is deployed.
 Note: The target namespace must exist before executing this command.
 
-*Example command to copy the secret from the vxflexos namespace to the karavi namespace.*
+*Example command to copy the Secret from the vxflexos namespace to the karavi namespace.*
 
 ```console
 $ kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
@@ -113,7 +113,7 @@ If the storage system credentials have changed and been updated in the relevant 
 1. Delete the current `proxy-authz-tokens` Secret from the Karavi Observability namespace.
 2. Copy the `proxy-authz-tokens` Secret from the CSI Driver for Dell EMC PowerFlex namespace to the Karavi Observability namespace.
 
-*Example command to copy the secret from the vxflexos namespace to the karavi namespace:*
+*Example command to copy the Secret from the vxflexos namespace to the karavi namespace:*
 
 ```console
 $ kubectl delete secret proxy-authz-tokens -n karavi
@@ -126,7 +126,7 @@ If the list of storage systems managed by the CSI Driver for Dell EMC PowerFlex 
 1. Delete the current `karavi-authorization-config` Secret from the Karavi Observability namespace.
 2. Copy the `karavi-authorization-config` Secret from the CSI Driver for Dell EMC PowerFlex namespace to the Karavi Observability namespace.
 
-*Example command to copy the secret from the vxflexos namespace to the karavi namespace:*
+*Example command to copy the Secret from the vxflexos namespace to the karavi namespace:*
 
 ```console
 $ kubectl delete secret karavi-authorization-config -n karavi
@@ -138,7 +138,7 @@ $ kubectl get secret karavi-authorization-config -n vxflexos -o yaml | sed 's/na
 1. Delete the current `vxflexos-config` Secret from the Karavi Observability namespace.
 2. Copy the `vxflexos-config` Secret from the CSI Driver for Dell EMC PowerFlex namespace to the Karavi Observability namespace.
 
-*Example command to copy the secret from the vxflexos namespace to the karavi namespace:*
+*Example command to copy the Secret from the vxflexos namespace to the karavi namespace:*
 
 ```console
 $ kubectl delete secret vxflexos-config -n karavi
@@ -413,7 +413,7 @@ image:
 service:
   type: NodePort
 
-## Administrator credentials when not using an existing secret
+## Administrator credentials when not using an existing Secret
 adminUser: admin
 adminPassword: admin
 
