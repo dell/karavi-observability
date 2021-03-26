@@ -245,15 +245,14 @@ or
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl apply --validate=false -f cert-manager.crds.yaml
 ```
 
-> As of release 0.3.0-pre-release, the vxflexos-config Secret from the namespace where CSI Driver for Dell EMC PowerFlex is installed must be copied to the 
-> namespace where Karavi Observability is to be installed.
->
-> Example command to copy the secret from the vxflexos namespace to the karavi namespace.
->```
->[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
->```
+3. The vxflexos-config Secret from the namespace where CSI Driver for Dell EMC PowerFlex is installed must be copied to the namespace where Karavi Observability is to be installed.
 
-3. Now that the required images have been made available and the Helm chart's configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm chart's repository.
+Example command to copy the Secret from the vxflexos namespace to the karavi namespace.
+```
+[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
+```
+
+4. Now that the required images have been made available and the Helm chart's configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm chart's repository.
 
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# helm install -n install-namespace app-name karavi-observability
@@ -267,9 +266,7 @@ TEST SUITE: None
 
 ```
 
-> As of release 0.3.0-pre-release, the following optional step can be performed to enable Karavi Observability to use an existing Karavi Authorization.
-
-4. (Optional) The following steps can be performed to enable Karavi Observability to use an existing instance of Karavi Authorization for accessing the REST API for the given storage systems.
+5. (Optional) The following steps can be performed to enable Karavi Observability to use an existing instance of Karavi Authorization for accessing the REST API for the given storage systems.
 
 Copy the proxy Secret into the Karavi Observability namespace:
 ```
