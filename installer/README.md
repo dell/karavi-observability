@@ -27,6 +27,7 @@ A Linux based system, with internet access, will be used to execute the script t
 | --------------------- | ----- |
 | `kubectl`   | `kubectl` will be used to verify the Kubernetes/OpenShift environment|
 | `helm`   | `helm` will be used to install the Karavi Observability helm chart|
+| `jq`     | `jq` will be used to parse the Karavi Authorization configuration file during installation|
 
 ## Installation script
 The installation script is located at https://github.com/dell/karavi-observability/blob/main/installer/karavi-observability-installer.sh. The script performs the current steps during installation of Karavi Observability:
@@ -273,7 +274,7 @@ Copy the proxy Secret into the Karavi Observability namespace:
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret proxy-authz-tokens -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
 ```
 
-Use `karavictl` to update the Karavi Observability deployment to use Karavi Authorization. Required parameters are the location of the sidecar-proxy Docker image and URL of the Karavi Authorization proxy:
+Use `karavictl` to update the Karavi Observability deployment to use Karavi Authorization. Required parameters are the location of the sidecar-proxy Docker image and URL of the Karavi Authorization proxy. If Karavi Authorization was installed using certificates, the flags `--insecure=false` and `--root-certificate <location-of-root-certificate>` must be also be provided. If certificates were not provided during installation, the flag `--insecure=true` must be provided.
 ```
-[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secrets,deployments -n karavi -o yaml | karavictl inject --image-addr <sidecar-proxy-image-location> --proxy-host <proxy-host> | kubectl apply -f -
+[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secrets,deployments -n karavi -o yaml | karavictl inject --insecure=false --root-certificate <location-of-root-certificate> --image-addr <sidecar-proxy-image-location> --proxy-host <proxy-host> | kubectl apply -f -
 ```

@@ -113,8 +113,22 @@ function copy_proxy_authz_tokens_secret() {
 
 # inject observability with the authorization sidecar-proxy
 function inject_observability() {
+  extra_flags="--insecure=true"
+
+  # Check for configuration files located at ~/.karavi/config.json and ~/.karavictl.yaml to check if a root certificate was used to deploy Karavi Authorization
+  if [ -f ~/.karavi/config.json ]; then
+    rootCertificate=`cat ~/.karavi/config.json | jq -r .certificate.rootCertificate`
+    if [ "$rootCertificate" != "null" ]; then
+      extra_flags="--insecure=false --root-certificate $rootCertificate"
+    fi
+  elif [ -f ~/.karavictl.yaml ]; then
+    rootCertificate=`grep rootCertificate ~/.karavictl.yaml | awk '{print $2}' | tr -d '"'`
+    if [ "$rootCertificate" != "" ]; then
+      extra_flags="--insecure=false --root-certificate $rootCertificate"
+    fi
+  fi
   log step "Enabling Karavi Authorization for Karavi Observability" "small"
-  run_command "kubectl get secrets,deployments -n ${NAMESPACE} -o yaml | karavictl inject --image-addr ${AUTH_IMAGE_ADDR} --proxy-host ${AUTH_PROXY_HOST} | kubectl apply -f - > /dev/null 2>&1"
+  run_command "kubectl get secrets,deployments -n ${NAMESPACE} -o yaml | karavictl inject ${extra_flags} --image-addr ${AUTH_IMAGE_ADDR} --proxy-host ${AUTH_PROXY_HOST} | kubectl apply -f - > /dev/null 2>&1"
   if [ $? -eq 1 ]; then
     log step_failure
     log error "Unable to enable Karavi Authorization for Karavi Observability."
