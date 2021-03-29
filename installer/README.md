@@ -30,7 +30,7 @@ A Linux based system, with internet access, will be used to execute the script t
 | `jq`     | `jq` will be used to parse the Karavi Authorization configuration file during installation|
 
 ## Installation script
-The installation script is located at https://github.com/dell/karavi-observability/blob/main/installer/karavi-observability-installer.sh. The script performs the current steps during installation of Karavi Observability:
+The installation script is located at https://github.com/dell/karavi-observability/blob/main/installer/karavi-observability-install.sh. The script performs the current steps during installation of Karavi Observability:
 
 - Verify that Karavi Observability is not yet installed
 - Verify the Kubernetes/Openshift versions are supported
