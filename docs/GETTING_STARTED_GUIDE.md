@@ -297,7 +297,7 @@ serverFiles:
         scrape_interval: 5s
         scheme: https
         static_configs:
-          - targets: ['otel-collector:443']
+          - targets: ['otel-collector:8443']
         tls_config:
           insecure_skip_verify: true
 ```
@@ -434,7 +434,7 @@ datasources:
     - name: Karavi-Topology
       type: grafana-simple-json-datasource
       access: proxy
-      url: 'https://karavi-topology.karavi.svc.cluster.local/'
+      url: 'https://karavi-topology:8443'
       isDefault: null
       version: 1
       editable: true
