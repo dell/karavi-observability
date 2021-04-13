@@ -145,6 +145,22 @@ $ kubectl delete secret vxflexos-config -n karavi
 $ kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
 ```
 
+## Viewing Logs
+
+Logs can be viewed by using the `kubectl logs` CLI command to output logs for a specific Pod or Deployment.
+
+For example, the following script will capture logs of all Pods in the `karavi` namespace and save the output to one file per Pod.
+
+```
+#!/bin/bash
+
+namespace=karavi
+for pod in $(kubectl get pods -n $namespace -o name); do
+  logFileName=$(echo $pod | tr / -).txt
+  kubectl logs -n $namespace $pod --all-containers > $logFileName
+done
+```
+
 ## Uninstalling the Chart
 
 The command below removes all the Kubernetes components associated with the chart.
@@ -167,6 +183,8 @@ $ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v
 | `karaviTopology.service.type`            | Kubernetes service type	    | `ClusterIP`                                                   |
 | `karaviTopology.certificateFile`      | Optional valid CA public certificate file that will be used to deploy the Topology service. Must use domain name 'karavi-topology'.            | ` `                                                   |
 | `karaviTopology.privateKeyFile`      | Optional public certificate's associated private key file that will be used to deploy the Topology service. Must use domain name 'karavi-topology'.            | ` `|
+| `karaviTopology.logLevel`      | *As of Release 0.4.0:* Output logs that are at or above the given log level severity (Valid values: TRACE, DEBUG, INFO, WARN, ERROR, FATAL, PANIC)           | `INFO`|
+| `karaviTopology.logFormat`      | *As of Release 0.4.0:* Output logs in the specified format (Valid values: text, json)            | `text`|
 | `otelCollector.certificateFile`      | Optional valid CA public certificate file that will be used to deploy the OpenTelemetry Collector. Must use domain name 'otel-collector'.            | ` `                                                   |
 | `otelCollector.privateKeyFile`      | Optional public certificate's associated private key file that will be used to deploy the OpenTelemetry Collector. Must use domain name 'otel-collector'.            | ` `|                                                   
 | `otelCollector.service.type`            | Kubernetes service type	    | `ClusterIP`                                                   |
@@ -182,6 +200,8 @@ $ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v
 | `karaviMetricsPowerflex.storageClassPoolMetricsEnabled`                        | Enable PowerFlex  Storage Class/Pool Metrics Collection                         | `true`                                       |
 | `karaviMetricsPowerflex.endpoint`                        | Endpoint for pod leader election                       | `karavi-metrics-powerflex`                                       |
 | `karaviMetricsPowerflex.service.type`            | Kubernetes service type	    | `ClusterIP`                                                   |
+| `karaviMetricsPowerflex.logLevel`      | *As of Release 0.4.0:* Output logs that are at or above the given log level severity (Valid values: TRACE, DEBUG, INFO, WARN, ERROR, FATAL, PANIC)           | `INFO`|
+| `karaviMetricsPowerflex.logFormat`      | *As of Release 0.4.0:* Output logs in the specified format (Valid values: text, json)            | `text`|
 
 Specify each parameter using the '--set key=value[,key=value]' and/or '--set-file key=value[,key=value] arguments to 'helm install'. For example:
 
@@ -218,6 +238,9 @@ Karavi-metrics-powerflex parameters that can be updated:
 * POWERFLEX_STORAGE_POOL_METRICS_ENABLED
 * POWERFLEX_STORAGE_POOL_POLL_FREQUENCY
 * POWERFLEX_MAX_CONCURRENT_QUERIES
+>As of Release 0.4.0:
+>* LOG_LEVEL
+>* LOG_FORMAT
 
 To update the karavi-metrics-powerflex settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
 
@@ -228,6 +251,9 @@ kubectl edit configmap karavi-metrics-powerflex-configmap -n karavi
 Karavi-topology parameters that can be updated:
 
 * PROVISIONER_NAMES
+>As of Release 0.4.0:
+>* LOG_LEVEL
+>* LOG_FORMAT
 
 To update the karavi-topology settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
 
