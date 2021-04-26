@@ -253,7 +253,14 @@ Example command to copy the Secret from the vxflexos namespace to the karavi nam
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
 ```
 
-4. Now that the required images have been made available and the Helm chart's configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm chart's repository.
+4. The powerstore-config Secret from the namespace where CSI Driver for Dell EMC PowerStore is installed must be copied to the namespace where Karavi Observability is to be installed.
+
+Example command to copy the Secret from the csi-powerstore namespace to the karavi namespace.
+```
+[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret pwoerstore-config -n csi-powerstore -o yaml | sed 's/namespace: csi-powerstore/namespace: karavi/' | kubectl create -f -
+```
+
+5. Now that the required images have been made available and the Helm chart's configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm chart's repository.
 
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# helm install -n install-namespace app-name karavi-observability

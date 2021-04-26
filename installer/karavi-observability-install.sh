@@ -18,9 +18,14 @@ DARK_GRAY='\033[1;30m'
 NC='\033[0m' # No Color
 
 DEFAULT_CSI_POWERFLEX_NAMESPACE="vxflexos"
+DEFAULT_CSI_POWERSTORE_NAMESPACE="csi-powerstore"
 CSI_POWERFLEX_NAMESPACE=""
+CSI_POWERSTORE_NAMESPACE=""
 NAMESPACE=""
 VALUES=""
+
+DISABLE_POWERFLEX_COMPONENTS=false
+DISABLE_POWERSTORE_COMPONENTS=false
 
 AUTH_IMAGE_ADDR=""
 AUTH_PROXY_HOST=""
@@ -81,12 +86,47 @@ function create_namespace() {
   fi  
 }
 
+# is_csi_powerstore_installed returns 0 if CSI Driver for PowerStore is installed
+function is_csi_powerstore_installed() {
+  NUM=$(run_command kubectl get secret -n ${CSI_POWERSTORE_NAMESPACE} 2> /dev/null | grep -e '^powerstore-config\s' | wc -l)
+  if [ "${NUM}" != "0" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# copies the powerstore-config Secret from the CSI PowerStore namespace into the namespace for Karavi Observability
+function copy_powerstore_config_secret() {
+  NUM=$(run_command kubectl get secret --namespace "${NAMESPACE}" | grep -e '^powerstore-config\s' | wc -l)
+  if [ "${NUM}" == "0" ]; then
+    log step "Copying Secret from ${CSI_POWERSTORE_NAMESPACE} to ${NAMESPACE}" "small"
+    run_command "kubectl get secret powerstore-config -n ${CSI_POWERSTORE_NAMESPACE} -o yaml | sed 's/namespace: ${CSI_POWERSTORE_NAMESPACE}/namespace: ${NAMESPACE}/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
+    if [ $? -eq 1 ]; then
+      log step_failure
+      log error "Unable to copy Secret from namespace ${CSI_POWERSTORE_NAMESPACE} to ${NAMESPACE}."
+    else
+      log step_success
+    fi
+  fi
+}
+
+# is_csi_powerflex_installed returns 0 if CSI Driver for PowerFlex is installed
+function is_csi_powerflex_installed() {
+  NUM=$(run_command kubectl get secret -n ${CSI_POWERFLEX_NAMESPACE} 2> /dev/null | grep -e '^vxflexos-config\s' | wc -l)
+  if [ "${NUM}" != "0" ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 # copies the vxflexos-config Secret from the CSI PowerFlex namespace into the namespace for Karavi Observability
 function copy_vxflexos_config_secret() {
   NUM=$(run_command kubectl get secret --namespace "${NAMESPACE}" | grep -e '^vxflexos-config\s' | wc -l)
   if [ "${NUM}" == "0" ]; then
     log step "Copying Secret from ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}" "small"
-    run_command "kubectl get secret vxflexos-config -n ${CSI_POWERFLEX_NAMESPACE} -o yaml | sed 's/namespace: vxflexos/namespace: ${NAMESPACE}/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
+    run_command "kubectl get secret vxflexos-config -n ${CSI_POWERFLEX_NAMESPACE} -o yaml | sed 's/namespace: ${CSI_POWERFLEX_NAMESPACE}/namespace: ${NAMESPACE}/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
     if [ $? -eq 1 ]; then
       log step_failure
       log error "Unable to copy Secret from namespace ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}."
@@ -176,13 +216,19 @@ function install_karavi_observability() {
   for i in ${!HELM_SET_FILES[@]}; do
     OPT_VALUES_ARG+="--set-file ${HELM_SET_FILES[$i]} "
   done
+  if [ "$DISABLE_POWERFLEX_COMPONENTS" == "true" ]; then
+    OPT_VALUES_ARG+="--set karaviMetricsPowerflex.enabled=false "
+  fi
+  if [ "$DISABLE_POWERSTORE_COMPONENTS" == "true" ]; then
+    OPT_VALUES_ARG+="--set karaviMetricsPowerstore.enabled=false "
+  fi
 
   log step "Installing Karavi Observability helm chart"
   run_command "helm install \
     ${OPT_VALUES_ARG} \
     --namespace ${NAMESPACE} karavi-observability \
     dell/karavi-observability > ${HELMLOG} 2>&1"
-    
+
   if [ $? -ne 0 ]; then
     cat "${HELMLOG}"
     log error "Helm operation failed, output can be found in ${HELMLOG}. The failure should be examined, before proceeding."
@@ -319,7 +365,10 @@ function validate_params() {
   if [ -z "${CSI_POWERFLEX_NAMESPACE}" ]; then
     CSI_POWERFLEX_NAMESPACE="${DEFAULT_CSI_POWERFLEX_NAMESPACE}"
   fi
-  
+  # if not overriding csi powerstore namespace, use the default
+  if [ -z "${CSI_POWERSTORE_NAMESPACE}" ]; then
+    CSI_POWERSTORE_NAMESPACE="${DEFAULT_CSI_POWERSTORE_NAMESPACE}"
+  fi
 }
 
 # determines the version of OpenShift 
@@ -378,6 +427,7 @@ function usage() {
   decho "  --auth-image-addr                                           Docker registry location of the Karavi Authorization sidecar proxy image"
   decho "  --auth-proxy-host                                           Host address of the Karavi Authorization proxy server"
   decho "  --csi-powerflex-namespace[=]<csi powerflex namespace>       Namespace where CSI PowerFlex is installed, default is 'vxflexos'"
+  decho "  --csi-powerstore-namespace[=]<csi powerflex namespace>      Namespace where CSI PowerStore is installed, default is 'csi-powerstore'"
   decho "  --set-file                                                  Set values from files used during helm installation (can be specified multiple times)"
   decho "  --skip-verify                                               Skip verification of the environment"
   decho "  --values[=]<values.yaml>                                    Values file, which defines configuration values"
@@ -436,6 +486,13 @@ while getopts ":h-:" optchar; do
     csi-powerflex-namespace=*)
       CSI_POWERFLEX_NAMESPACE=${OPTARG#*=}
       ;;
+    csi-powerstore-namespace)
+      CSI_POWERSTORE_NAMESPACE="${!OPTIND}"
+      OPTIND=$((OPTIND + 1))
+      ;;
+    csi-powerstore-namespace=*)
+      CSI_POWERSTORE_NAMESPACE=${OPTARG#*=}
+      ;;
     set-file)
       HELM_SET_FILES+=(${!OPTIND})
       OPTIND=$((OPTIND + 1))
@@ -488,7 +545,7 @@ function karavictl_exists() {
 }
 
 function proxy_authz_tokens_secret_exists() {
-  NUM=$(run_command kubectl get secret --namespace "${CSI_POWERFLEX_NAMESPACE}" | grep -e '^proxy-authz-tokens\s' | wc -l)
+  NUM=$(run_command kubectl get secret --namespace "${CSI_POWERFLEX_NAMESPACE}" 2> /dev/null | grep -e '^proxy-authz-tokens\s' | wc -l)
   if [ "${NUM}" == "1" ]; then
     KARAVI_AUTHORIZATION_PROXY_AUTHZ_TOKENS_SECRET_EXISTS=1
   else
@@ -566,7 +623,29 @@ case $MODE in
     verify_karavi_observability
     helm_repo_add
     create_namespace 
-    copy_vxflexos_config_secret
+
+    is_csi_powerflex_installed
+    if [[ $? == "0" ]]; then
+      log step "CSI Driver for PowerFlex is installed"
+      log step_success
+      copy_vxflexos_config_secret
+    else
+      log step "CSI Driver for PowerFlex is not installed" "small"
+      log step_success
+      DISABLE_POWERFLEX_COMPONENTS=true
+    fi
+
+    is_csi_powerstore_installed
+    if [[ $? == "0" ]]; then
+      log step "CSI Driver for PowerStore is installed"
+      log step_success
+      copy_powerstore_config_secret
+    else
+      log step "CSI Driver for PowerStore is not installed" "small"
+      log step_success
+      DISABLE_POWERSTORE_COMPONENTS=true
+    fi
+
     install_certmanager_crds
     install_karavi_observability
     wait_on_pods
