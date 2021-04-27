@@ -93,13 +93,13 @@ Note: The target namespace must exist before executing this command.
 $ kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
 ```
 
-The command below deploys Karavi Observability on the Kubernetes cluster in the default configuration. The [configuration](##Configuration) section below lists all the parameters that can be configured during installation.
+The command below deploys Karavi Observability on the Kubernetes cluster in the default configuration. The [configuration](#Configuration) section below lists all the parameters that can be configured during installation.
 
 ```console
 $ helm repo add dell https://dell.github.io/helm-charts
 $ helm install --version <helm chart version> karavi-observability dell/karavi-observability -n karavi --create-namespace
 ```
-**Note**: The `<helm chart version>` argument should align with one of the [Helm chart versions](##Releases-and-supported-CSI-Drivers) listed above.  If the `--version` argument is omitted, the latest released Helm chart version will be deployed.
+**Note**: The `<helm chart version>` argument should align with one of the [Helm chart versions](#Releases-and-supported-CSI-Drivers) listed above.  If the `--version` argument is omitted, the latest released Helm chart version will be deployed.
 
 ## Updating Storage System Credentials
 
@@ -365,7 +365,7 @@ Grafana must be configured with the following data sources/plugins:
 | Name                   | Additional Information                                                     |
 | ---------------------- | -------------------------------------------------------------------------- |
 | Prometheus data source | [Prometheus data source](https://grafana.com/docs/grafana/latest/features/datasources/prometheus/)   |
-| Data Table plugin      | [Data Table plugin](https://grafana.com/grafana/plugins/briangann-datatable-panel/installation) |
+| Data Table plugin      | [Data Table plugin](https://grafana.com/grafana/plugins/briangann-datatable-panel) |
 | Pie Chart plugin       | [Pie Chart plugin](https://grafana.com/grafana/plugins/grafana-piechart-panel)                 |
 | SimpleJson data source | [SimpleJson data source](https://grafana.com/grafana/plugins/grafana-simple-json-datasource)                 |
 
@@ -383,7 +383,7 @@ Settings for the Grafana SimpleJson data source:
 | Setting             | Value                             |
 | ------------------- | --------------------------------- |
 | Name                | Karavi-Topology |
-| URL                 | Access Karavi Topology at https://karavi-topology.*namespace*.svc.cluster.local |
+| URL                 | Access Karavi Topology at https://karavi-topology.*namespace*.svc.cluster.local:8443 |
 | Skip TLS Verify     | Enabled (If not using CA certificate) |
 | With CA Cert        | Enabled (If using CA certificate) |
 
