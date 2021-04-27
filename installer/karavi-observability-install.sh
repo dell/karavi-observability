@@ -427,7 +427,7 @@ function usage() {
   decho "  --auth-image-addr                                           Docker registry location of the Karavi Authorization sidecar proxy image"
   decho "  --auth-proxy-host                                           Host address of the Karavi Authorization proxy server"
   decho "  --csi-powerflex-namespace[=]<csi powerflex namespace>       Namespace where CSI PowerFlex is installed, default is 'vxflexos'"
-  decho "  --csi-powerstore-namespace[=]<csi powerflex namespace>      Namespace where CSI PowerStore is installed, default is 'csi-powerstore'"
+  decho "  --csi-powerstore-namespace[=]<csi powerstore namespace>     Namespace where CSI PowerStore is installed, default is 'csi-powerstore'"
   decho "  --set-file                                                  Set values from files used during helm installation (can be specified multiple times)"
   decho "  --skip-verify                                               Skip verification of the environment"
   decho "  --values[=]<values.yaml>                                    Values file, which defines configuration values"
