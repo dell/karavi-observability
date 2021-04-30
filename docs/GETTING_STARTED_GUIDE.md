@@ -215,6 +215,9 @@ $ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v
 | `karaviMetricsPowerstore.service.type`            | *As of Release 0.4.0:* Kubernetes service type	    | `ClusterIP`                                                   |
 | `karaviMetricsPowerstore.logLevel`      | *As of Release 0.4.0:* Output logs that are at or above the given log level severity (Valid values: TRACE, DEBUG, INFO, WARN, ERROR, FATAL, PANIC)           | `INFO`|
 | `karaviMetricsPowerstore.logFormat`      | *As of Release 0.4.0:* Output logs in the specified format (Valid values: text, json)            | `text`|
+| `karaviMetricsPowerstore.zipkin.uri`      | *As of Release 0.4.0:* URI of a Zipkin instance where tracing data can be forwarded           | ``|
+| `karaviMetricsPowerstore.zipkin.serviceName`      | *As of Release 0.4.0:* Service name used for Zipkin tracing data            | `metrics-powerstore`|
+| `karaviMetricsPowerstore.zipkin.probability`      | *As of Release 0.4.0:* Percentage of trace information to send to Zipkin (Valid range: 0.0 to 1.0)          | `0`|
 
 Specify each parameter using the '--set key=value[,key=value]' and/or '--set-file key=value[,key=value] arguments to 'helm install'. For example:
 
@@ -274,6 +277,9 @@ kubectl edit configmap karavi-metrics-powerflex-configmap -n karavi
 >* POWERSTORE_MAX_CONCURRENT_QUERIES
 >* LOG_LEVEL
 >* LOG_FORMAT
+>* ZIPKIN_URI
+>* ZIPKIN_SERVICE_NAME
+>* ZIPKIN_PROBABILITY
 >
 > To update the karavi-metrics-powerstore settings during runtime, run the below command on the Kubernetes cluster and save the updated configmap data.
 >
