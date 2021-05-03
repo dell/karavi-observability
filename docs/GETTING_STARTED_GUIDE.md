@@ -14,12 +14,12 @@ This project provides Kubernetes administrators insight into CSI (Container Stor
 
 ## Karavi Observability Capabilities
 
-| Feature | PowerFlex |
-| -------- | --------- |
-| Storage Pool Consumption By CSI Driver | Yes |
-| Storage System I/O Performance By Kubernetes Node | Yes |
-| CSI Driver Provisioned Volume I/O Performance | Yes |
-| CSI Driver Provisioned Volume Topology | Yes |
+| Feature | PowerFlex | PowerStore |
+| -------- | --------- | --------- |
+| Storage Pool Consumption By CSI Driver | Yes | No |
+| Storage System I/O Performance By Kubernetes Node | Yes | No |
+| CSI Driver Provisioned Volume I/O Performance | Yes | Yes |
+| CSI Driver Provisioned Volume Topology | Yes | No |
 
 ## Supported Platforms
 
