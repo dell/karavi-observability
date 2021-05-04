@@ -145,7 +145,7 @@ $ kubectl delete secret vxflexos-config -n karavi
 $ kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
 ```
 
-### PowerStore
+### PowerStore *As of Release 0.4.0*
 
 1. Delete the current `powerstore-config` Secret from the Karavi Observability namespace.
 2. Copy the `powerstore-config` Secret from the CSI Driver for Dell EMC PowerStore namespace to the Karavi Observability namespace.
