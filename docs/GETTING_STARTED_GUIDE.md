@@ -14,7 +14,7 @@ This project provides Kubernetes administrators insight into CSI (Container Stor
 
 ## Karavi Observability Capabilities
 
-| Feature | PowerFlex | PowerStore |
+| Feature | PowerFlex | PowerStore *As of Release 0.4.0* |
 | -------- | --------- | --------- |
 | Storage Pool Consumption By CSI Driver | Yes | No |
 | Storage System I/O Performance By Kubernetes Node | Yes | No |
@@ -25,7 +25,7 @@ This project provides Kubernetes administrators insight into CSI (Container Stor
 
 The following matrix provides a list of all supported versions for each Dell EMC Storage product.
 
-| Platforms | PowerFlex | PowerStore |
+| Platforms | PowerFlex | PowerStore *As of Release 0.4.0* |
 | -------- | --------- | --------- |
 | Storage Array | v3.0, v3.5 | 1.0.x |
 | Kubernetes | 1.18, 1.19, 1.20 | 1.18, 1.19, 1.20 |
