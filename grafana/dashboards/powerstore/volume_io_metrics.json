@@ -646,9 +646,9 @@
         {
           "allValue": null,
           "current": {
-            "selected": false,
-            "text": "",
-            "value": ""
+            "selected": true,
+            "text": "Yes",
+            "value": "Yes"
           },
           "hide": 0,
           "includeAll": false,
