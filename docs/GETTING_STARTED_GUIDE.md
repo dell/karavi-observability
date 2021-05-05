@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2020 Dell Inc., or its subsidiaries. All Rights Reserved.
+Copyright (c) 2021 Dell Inc., or its subsidiaries. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,22 +14,22 @@ This project provides Kubernetes administrators insight into CSI (Container Stor
 
 ## Karavi Observability Capabilities
 
-| Feature | PowerFlex |
-| -------- | --------- |
-| Storage Pool Consumption By CSI Driver | Yes |
-| Storage System I/O Performance By Kubernetes Node | Yes |
-| CSI Driver Provisioned Volume I/O Performance | Yes |
-| CSI Driver Provisioned Volume Topology | Yes |
+| Feature | PowerFlex | PowerStore (*As of Release 0.4.0*) |
+| -------- | --------- | --------- |
+| Storage Pool Consumption By CSI Driver | Yes | No |
+| Storage System I/O Performance By Kubernetes Node | Yes | No |
+| CSI Driver Provisioned Volume I/O Performance | Yes | Yes |
+| CSI Driver Provisioned Volume Topology | Yes | No |
 
 ## Supported Platforms
 
 The following matrix provides a list of all supported versions for each Dell EMC Storage product.
 
-| Platforms | PowerFlex |
-| -------- | --------- |
-| Storage Array | v3.0, v3.5 |
-| Kubernetes | 1.18, 1.19, 1.20 |
-| Openshift | 4.5, 4.6 |
+| Platforms | PowerFlex | PowerStore (*As of Release 0.4.0*) |
+| -------- | --------- | --------- |
+| Storage Array | v3.0, v3.5 | 1.0.x |
+| Kubernetes | 1.18, 1.19, 1.20 | 1.18, 1.19, 1.20 |
+| Openshift | 4.5, 4.6 | 4.5, 4.6 |
 
 ## Releases and Supported CSI Drivers
 
@@ -143,6 +143,18 @@ $ kubectl get secret karavi-authorization-config -n vxflexos -o yaml | sed 's/na
 ```console
 $ kubectl delete secret vxflexos-config -n karavi
 $ kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
+```
+
+### PowerStore (*As of Release 0.4.0*)
+
+1. Delete the current `powerstore-config` Secret from the Karavi Observability namespace.
+2. Copy the `powerstore-config` Secret from the CSI Driver for Dell EMC PowerStore namespace to the Karavi Observability namespace.
+
+*Example command to copy the Secret from the csi-powerstore namespace to the karavi namespace:*
+
+```console
+$ kubectl delete secret powerstore-config -n karavi
+$ kubectl get secret powerstore-config -n csi-powerstore -o yaml | sed 's/namespace: csi-powerstore/namespace: karavi/' | kubectl create -f -
 ```
 
 ## Viewing Logs
