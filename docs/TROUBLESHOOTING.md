@@ -1,7 +1,7 @@
 # Troubleshooting
 
 ## Table of Contents
-- [TLS handshake error](karavi-topology-module-reports-tls-handshake-error)
+- [TLS handshake error](#karavi-topology-module-reports-tls-handshake-error)
 
 ### karavi-topology module reports TLS handshake error
 
@@ -45,6 +45,7 @@ RaNDOMcErTifCATeRaNDOMcErTifCATe..RaNDOMcErTifCATe
 
 <details>
    <summary>Deploy New Grafana</summary>
+
 - Attach the certificate to your `grafana-values.yaml`. The file should look like:
 
 ```yaml
@@ -112,14 +113,16 @@ sidecar:
   dashboards:
     enabled: true
 
-## Additional grafana server CofigMap mounts
-## Defines additional mounts with CofigMap. CofigMap must be manually created in the namespace.
+## Additional grafana server ConfigMap mounts
+## Defines additional mounts with ConfigMap. ConfigMap must be manually created in the namespace.
 extraConfigmapMounts: []
 ```
+
 </details>
 
 <details>
    <summary>Add to existing Grafana</summary>
+
 -  This only happens if you configure jsonData to not skip tls verification. If this is the case, you'll  need to re-deploy grafana as shown above or, form Grafana UI, edit Karavi-Topology datasource to use the certificate. To do the latter
 1. visit your Grafana UI on a browser
 2. navigate to setting and go to Data Sources
@@ -128,4 +131,5 @@ extraConfigmapMounts: []
 5. switch on `With CA Cert`
 6. Copy the above certificate into the `TLS Auth Details` text box that appears
 7. click `Save & Test` and validate that eveyrthing is working fine when a green bar showing `Data source is working` appears
+
 </details>
