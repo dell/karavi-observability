@@ -15,10 +15,11 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
+  "iteration": 1622642836227,
   "links": [],
   "panels": [
     {
+      "alignNumbersToRightEnabled": true,
       "columnAliases": [],
       "columnFiltersEnabled": true,
       "columnWidthHints": [],
@@ -27,7 +28,8 @@
       "datasource": "Karavi-Topology",
       "datatablePagingType": "simple_numbers",
       "datatableTheme": "basic_theme",
-      "emptyData": false,
+      "description": "[Topology](https://github.com/dell/karavi-topology) provides Kubernetes administrators with the topology data related to containerized storage that is provisioned by a CSI (Container Storage Interface) Driver for Dell EMC storage products. Please visit the repository for more information",
+      "emptyData": true,
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -61,29 +63,42 @@
       "id": 2,
       "infoEnabled": true,
       "lengthChangeEnabled": true,
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "CSM Topology",
+          "url": "https://github.com/dell/karavi-topology"
+        }
+      ],
       "orderColumnEnabled": true,
       "pagingTypes": [
         {
+          "$$hashKey": "object:121",
           "text": "Page number buttons only",
           "value": "numbers"
         },
         {
+          "$$hashKey": "object:122",
           "text": "'Previous' and 'Next' buttons only",
           "value": "simple"
         },
         {
+          "$$hashKey": "object:123",
           "text": "'Previous' and 'Next' buttons, plus page numbers",
           "value": "simple_numbers"
         },
         {
+          "$$hashKey": "object:124",
           "text": "'First', 'Previous', 'Next' and 'Last' buttons",
           "value": "full"
         },
         {
+          "$$hashKey": "object:125",
           "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
           "value": "full_numbers"
         },
         {
+          "$$hashKey": "object:126",
           "text": "'First' and 'Last' buttons, plus page numbers",
           "value": "first_last_numbers"
         }
@@ -95,6 +110,7 @@
       "scroll": false,
       "scrollHeight": "default",
       "searchEnabled": true,
+      "searchHighlightingEnabled": false,
       "showCellBorders": false,
       "showHeader": true,
       "showRowBorders": true,
@@ -104,6 +120,7 @@
       },
       "sortByColumns": [
         {
+          "$$hashKey": "object:44",
           "columnData": 0,
           "sortMethod": "desc"
         }
@@ -117,11 +134,13 @@
       "stripedRowsEnabled": true,
       "styles": [
         {
+          "$$hashKey": "object:46",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "pattern": "Time",
           "type": "date"
         },
         {
+          "$$hashKey": "object:47",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -140,8 +159,9 @@
         {
           "data": "",
           "hide": false,
+          "rawQuery": false,
           "refId": "A",
-          "target": "[object Object]",
+          "target": "{\n   \"Storage System\":\"$StorageSystem\",\n   \"Namespace\":\"$Namespace\",\n   \"Protocol\":\"$Protocol\",\n   \"CSI Driver\":\"$CSIDriver\",\n   \"Status\":\"$Status\",\n   \"Storage Pool\":\"$StoragePool\"\n}",
           "type": "table"
         }
       ],
@@ -151,21 +171,25 @@
       },
       "themes": [
         {
+          "$$hashKey": "object:96",
           "disabled": false,
           "text": "Basic",
           "value": "basic_theme"
         },
         {
+          "$$hashKey": "object:97",
           "disabled": true,
           "text": "Bootstrap",
           "value": "bootstrap_theme"
         },
         {
+          "$$hashKey": "object:98",
           "disabled": true,
           "text": "Foundation",
           "value": "foundation_theme"
         },
         {
+          "$$hashKey": "object:99",
           "disabled": true,
           "text": "ThemeRoller",
           "value": "themeroller_theme"
@@ -173,7 +197,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "CSI Driver and PowerFlex Volumes",
+      "title": "CSI Driver Topologies",
       "transform": "table",
       "type": "briangann-datatable-panel"
     }
@@ -183,7 +207,166 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "Karavi-Topology",
+        "definition": "Storage System",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Storage System",
+        "multi": true,
+        "name": "StorageSystem",
+        "options": [],
+        "query": "Storage System",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Karavi-Topology",
+        "definition": "Namespace",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Namespace",
+        "multi": true,
+        "name": "Namespace",
+        "options": [],
+        "query": "Namespace",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Karavi-Topology",
+        "definition": "Protocol",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Protocol",
+        "multi": true,
+        "name": "Protocol",
+        "options": [],
+        "query": "Protocol",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Karavi-Topology",
+        "definition": "Status",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Status",
+        "multi": true,
+        "name": "Status",
+        "options": [],
+        "query": "Status",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Karavi-Topology",
+        "definition": "CSI Driver",
+        "hide": 0,
+        "includeAll": true,
+        "label": "CSI Driver",
+        "multi": true,
+        "name": "CSIDriver",
+        "options": [],
+        "query": "CSI Driver",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Karavi-Topology",
+        "definition": "Storage Pool",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Storage Pool",
+        "multi": true,
+        "name": "StoragePool",
+        "options": [],
+        "query": "Storage Pool",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -205,5 +388,5 @@
   "timezone": "",
   "title": "Kubernetes Admin Dashboard",
   "uid": "OeAoEnIGk",
-  "version": 2
+  "version": 3
 }
