@@ -1,18 +1,53 @@
 # Troubleshooting
 
 ## Table of Contents
-- [TLS handshake error](#karavi-topology-module-reports-tls-handshake-error)
+- [Troubleshooting](#troubleshooting)
+  - [Table of Contents](#table-of-contents)
+    - [karavi-topology module reports TLS handshake error](#karavi-topology-module-reports-tls-handshake-error)
+      - [Resolution](#resolution)
 
 ### karavi-topology module reports TLS handshake error
 
-This situation may occur when the client making a request to `karavi-topology` server does not recognized the topology server certificate. For example, when topology module is installed as usual (no custom certificate plain cert-manager) and exposed as a `NodePort`, if you visit the full http part for the topology service on any browser, you'll get a TLS handskahe error as the browser is not aware of your self-signed certificate.
+This situation may occur **every time** a client making a request to `karavi-topology` server does not recognized the topology server's certificate. For example, when topology module is installed as usual (no custom certificate plain cert-manager) and exposed as a `NodePort`, if you visit the full https address for the topology service on any browser or with `curl`, you'll be get an error about the certificate  as the client is not aware of the `karavi-topology` self-signed certificate. For instance when you try to make a secure connection to `karavi-topology` using `curl`. You'll get the error below:
 
+```console
+[root@:~]$ curl -v https://<karavi-topology-cluster-IP>:31433/query
+*   Trying ***********...
+* TCP_NODELAY set
+* Connected to *********** (***********) port 31433 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: /etc/ssl/certs/ca-certificates.crt
+  CApath: /etc/ssl/certs
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.3 (IN), TLS Unknown, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Unknown (8):
+* TLSv1.3 (IN), TLS Unknown, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+* TLSv1.3 (OUT), TLS alert, Server hello (2):
+* SSL certificate problem: unable to get local issuer certificate
+* stopped the pause stream!
+* Closing connection 0
+curl: (60) SSL certificate problem: unable to get local issuer certificate
+More details here: https://curl.haxx.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
 ```
-$ kubectl  logs  -n powerflex karavi-topology-5d4669d6dd-trzxw
+
+The client (in the example above, `curl`) pings the topology server with the error. The error is logged in `karavi-topology` pod as any **TLS handshake error** similar to the og below
+
+```console
+[root@:~]$ kubectl  logs  -n powerflex karavi-topology-5d4669d6dd-trzxw
 2021/04/27 09:38:28 Set DriverNames to [csi-vxflexos.dellemc.com]
 2021/04/28 07:15:05 http: TLS handshake error from 10.42.0.0:58450: local error: tls: bad record MAC
 2021/04/28 07:16:14 http: TLS handshake error from 10.42.0.0:55311: local error: tls: bad record MAC
 ```
+
+On common browsers like Chrome, you'll be prompted to trust the certificate
 
 #### Resolution
 
@@ -41,11 +76,10 @@ RaNDOMcErTifCATeRaNDOMcErTifCATe..RaNDOMcErTifCATe
 -----END CERTIFICATE-----
 ```
 
-2. Look up the several ways to configure your client to accept the above certificate. For the case of demonstration, below are possible two ways to configure Grafana to use the above certificate for karavi-topology DataSource:
+2. Look up the several ways to configure your client to accept the above certificate. On most browsers, you'll be prompted to accept the `karavi-topology` and all other successive communication will not cause any certificate error.  For the case of demonstration, below are possible two ways to configure Grafana to use the above certificate for karavi-topology DataSource:
 
 <details>
    <summary>Deploy New Grafana</summary>
-
 - Attach the certificate to your `grafana-values.yaml`. The file should look like:
 
 ```yaml
@@ -113,16 +147,14 @@ sidecar:
   dashboards:
     enabled: true
 
-## Additional grafana server ConfigMap mounts
-## Defines additional mounts with ConfigMap. ConfigMap must be manually created in the namespace.
+## Additional grafana server CofigMap mounts
+## Defines additional mounts with CofigMap. CofigMap must be manually created in the namespace.
 extraConfigmapMounts: []
 ```
-
 </details>
 
 <details>
    <summary>Add to existing Grafana</summary>
-
 -  This only happens if you configure jsonData to not skip tls verification. If this is the case, you'll  need to re-deploy grafana as shown above or, form Grafana UI, edit Karavi-Topology datasource to use the certificate. To do the latter
 1. visit your Grafana UI on a browser
 2. navigate to setting and go to Data Sources
@@ -131,5 +163,4 @@ extraConfigmapMounts: []
 5. switch on `With CA Cert`
 6. Copy the above certificate into the `TLS Auth Details` text box that appears
 7. click `Save & Test` and validate that eveyrthing is working fine when a green bar showing `Data source is working` appears
-
 </details>
