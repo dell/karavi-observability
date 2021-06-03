@@ -38,7 +38,7 @@ establish a secure connection to it. To learn more about this situation and
 how to fix it, please visit the web page mentioned above.
 ```
 
-The client (in the example above, `curl`) pings the topology server with the error. The error is logged in `karavi-topology` pod as any **TLS handshake error** similar to the og below
+The client (in the example above, `curl`) pings the topology server with the error. The error is logged in `karavi-topology` pod as any **TLS handshake error** similar to the log below
 
 ```console
 [root@:~]$ kubectl  logs  -n powerflex karavi-topology-5d4669d6dd-trzxw
