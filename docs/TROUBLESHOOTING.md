@@ -1,16 +1,8 @@
 # Troubleshooting
 
 # Table of Contents
-- [Troubleshooting](#troubleshooting)
-- [Table of Contents](#table-of-contents)
-  - [Frequently Asked Questions](#frequently-asked-questions)
-    - [Why do I see a certificate problem when accessing the topology service outside of my Kubernetes cluster?](#why-do-i-see-a-certificate-problem-when-accessing-the-topology-service-outside-of-my-kubernetes-cluster)
-      - [Browser experience](#browser-experience)
-      - [Curl experience](#curl-experience)
-      - [Kubernetes Admin experience](#kubernetes-admin-experience)
-    - [Resolution](#resolution)
-      - [Get a copy of the certificate used by karavi-topology](#get-a-copy-of-the-certificate-used-by-karavi-topology)
-      - [Configure your client to accept the above certificate](#configure-your-client-to-accept-the-above-certificate)
+- [Frequently Asked Questions](#frequently-asked-questions)
+    1. [Why do I see a certificate problem when accessing the topology service outside of my Kubernetes cluster?](#why-do-i-see-a-certificate-problem-when-accessing-the-topology-service-outside-of-my-kubernetes-cluster)
 
 ## Frequently Asked Questions
 
@@ -23,7 +15,9 @@ This issue can arise when the topology service manifest is updated to expose the
 A user who tries to connect to `karavi-topology` on any browser may receive an error/warming message about the certificate. The message may vary depeding on the broswer. For instrance, in Internet Explorer, you'll see:
 
 ```console
-There is a problem with this website's security certificate. The security certificate presented by this website was not issued by a trusted certificate authority
+There is a problem with this website's security certificate. 
+The security certificate presented by this website was not
+issued by a trusted certificate authority
 ```
 
 While this certificate problem may indicate an attempt to fool you or intercept data you send to the server, see [resolution](#resolution) on how to fix it
@@ -71,11 +65,11 @@ Due to the error above, the client pings the topology server with a **TLS handsh
 2021/04/28 07:16:14 http: TLS handshake error from 10.42.0.0:55311: local error: tls: bad record MAC
 ```
 
-### Resolution
+#### Resolution
 
 To resolve this issue, we need to configure the client to be aware of the karavi-topology certificate (this includes all custom SSL certificate that are not issued from a trusted Certificate Authority (CA))
 
-#### Get a copy of the certificate used by karavi-topology
+##### Get a copy of the certificate used by karavi-topology
 
 If we supplied a custom certificate during installing karavi-topology, we can simply open the `.crt` and copy the text. However, if it was assigned by cert-manager, you can get a copy of the certificate by running the following `kubectl` command on the clusters.
 
@@ -94,7 +88,7 @@ RaNDOMcErTifCATeRaNDOMcErTifCATe..RaNDOMcErTifCATe
 -----END CERTIFICATE-----
 ```
 
-#### Configure your client to accept the above certificate
+##### Configure your client to accept the above certificate
 
 A workaround on most browsers is to accept the `karavi-topology` by clicking **Continue to this website (not recommended)**. This will make all other successive communication to not cause any certificate error. Look up the several ways to configure your client to accept the above certificate. For the sake of illustration, below are possible two ways to configure Grafana client to use the above certificate for karavi-topology DataSource:
 
