@@ -8,7 +8,7 @@
 
 ### Why do I see a certificate problem when accessing the topology service outside of my Kubernetes cluster?
 
-This issue can arise when the topology service manifest is updated to expose the service as `NodePort` and for *every time** a client is making a request to the service. Generally, when a client does not recognize a server's certificate, it shows an error and pings the server(karavi-topology) with the error.  You would see the issue when accessing the service through a browser or curl:
+This issue can arise when the topology service manifest is updated to expose the service as NodePort and a client makes a request to the service. Generally, when a client does not recognize a server's certificate, it shows an error and pings the server(karavi-topology) with the error.  You would see the issue when accessing the service through a browser or curl:
 
 #### Browser experience
 
