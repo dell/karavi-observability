@@ -8,7 +8,7 @@
 
 ### Why do I see a certificate problem when accessing the topology service outside of my Kubernetes cluster?
 
-This issue can arise when the topology service manifest is updated to expose the service as NodePort and a client makes a request to the service. Generally, when a client does not recognize a server's certificate, it shows an error and pings the server(karavi-topology) with the error.  You would see the issue when accessing the service through a browser or curl:
+This issue can arise when the topology service manifest is updated to expose the service as NodePort and a client makes a request to the service. Karavi-toplogy is configured with a self-signed or custom certificate and when a client does not recognize a server's certificate, it shows an error and pings the server(karavi-topology) with the error.  You would see the issue when accessing the service through a browser or curl:
 
 #### Browser experience
 
@@ -90,7 +90,7 @@ RaNDOMcErTifCATeRaNDOMcErTifCATe..RaNDOMcErTifCATe
 
 ##### Configure your client to accept the above certificate
 
-A workaround on most browsers is to accept the `karavi-topology` by clicking **Continue to this website (not recommended)**. This will make all other successive communication to not cause any certificate error. Look up the several ways to configure your client to accept the above certificate. For the sake of illustration, below are possible two ways to configure Grafana client to use the above certificate for karavi-topology DataSource:
+A workaround on most browsers is to accept the `karavi-topology` by clicking **Continue to this website (not recommended)**. This will make all other successive communication to not cause any certificate error. Anyhow, you will need to read the documentation for your specific client to configure the above certificate. For Grafana, here are two ways to configure the karavi-topology datasource to use the above certificate:
 
   <details>
    <summary>Deploy certificate with new Grafana instance</summary>
