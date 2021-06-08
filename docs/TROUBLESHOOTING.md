@@ -12,7 +12,7 @@ This issue can arise when the topology service manifest is updated to expose the
 
 #### Browser experience
 
-A user who tries to connect to `karavi-topology` on any browser may receive an error/warming message about the certificate. The message may vary depending on the browser. For instance, in Internet Explorer, you'll see:
+A user who tries to connect to `karavi-topology` on any browser may receive an error/warning message about the certificate. The message may vary depending on the browser. For instance, in Internet Explorer, you'll see:
 
 ```console
 There is a problem with this website's security certificate. 
