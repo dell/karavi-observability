@@ -161,22 +161,22 @@ sidecar:
   dashboards:
     enabled: true
 
-## Additional grafana server CofigMap mounts
-## Defines additional mounts with CofigMap. CofigMap must be manually created in the namespace.
+## Additional grafana server ConfigMap mounts
+## Defines additional mounts with ConfigMap. CofigMap must be manually created in the namespace.
 extraConfigmapMounts: []
 ```
   </details>
 
 <details>
    <summary>Add certificate to an existing Grafana instance</summary>
--  This only happens if you configure jsonData to not skip tls verification. If this is the case, you'll  need to re-deploy grafana as shown above or, form Grafana UI, edit Karavi-Topology datasource to use the certificate. To do the latter
+-  This only happens if you configure jsonData to not skip tls verification. If this is the case, you'll need to re-deploy grafana as shown above or, form Grafana UI, edit Karavi-Topology datasource to use the certificate. To do the latter:
 
-1. visit your Grafana UI on a browser
-2. navigate to setting and go to Data Sources
-3. click on `Karavi-Topology`
-4. ensure that `Skip TLS Verify` is already off
-5. switch on `With CA Cert`
+1. Visit your Grafana UI on a browser
+2. Navigate to setting and go to Data Sources
+3. Click on `Karavi-Topology`
+4. Ensure that `Skip TLS Verify` is already off
+5. Switch on `With CA Cert`
 6. Copy the above certificate into the `TLS Auth Details` text box that appears
-7. click `Save & Test` and validate that eveyrthing is working fine when a green bar showing `Data source is working` appears
+7. Click `Save & Test` and validate that eveyrthing is working fine when a green bar showing `Data source is working` appears
 
 </details>
