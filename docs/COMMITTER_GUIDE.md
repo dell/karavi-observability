@@ -10,9 +10,9 @@ You may obtain a copy of the License at
 
 # Committer Guidelines
 
-These are the guidelines for people with commit privileges on the GitHub repository. Committers act as members of the Core Team and not necessarily employees of Dell.
+These are the guidelines for people with commit privileges on the GitHub repository. Committers act as members of the Core Team and are not necessarily employees of Dell.
 
-These guidelines apply to everyone and as Committers you have been given access to commit changes because you exhibit good judgment and have demonstrated your commitment to the vision of the project. We trust that you will use these privileges wisely and not abuse it.
+These guidelines apply to everyone. As Committers, you have been given access to commit changes because you exhibit good judgment and have demonstrated your commitment to the vision of the project. We trust that you will use these privileges wisely and not abuse them.
 
 If these privileges are abused in any way and the quality of the project is compromised, our trust will be diminished and you may be asked to not commit or lose these privileges all together.
 
