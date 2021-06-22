@@ -14,9 +14,9 @@ As a Maintainer of this project you have the responsibility of keeping true to t
 
 ## Becoming a Maintainer
 
-Most Maintainers started as Contributors that have demonstrated their commitment to the success of the project. Contributors wishing to become Maintainers, must demonstrate commitment to the success of the project by contributing code, reviewing others' work, and triaging issues on a regular basis for at least three months.
+Most Maintainers started as Contributors that have demonstrated their commitment to the success of the project. Contributors wishing to become Maintainers, must demonstrate commitment to the success of the project by contributing code, reviewing other's work, and triaging issues on a regular basis for at least three months.
 
-The contributions alone don't make you a Maintainer. You need to earn the trust of the current Maintainers and other project Contributors, that your decisions and actions are in the best interest of the project.
+The contributions alone don't make you a Maintainer. You need to earn the trust of the current Maintainers and other project Contributors, so that your decisions and actions are in the best interest of the project.
 
 Periodically, the existing Maintainers curate a list of Contributors who have shown regular activity on the project over the prior months. It is from this list that Maintainer candidates are selected.
 
