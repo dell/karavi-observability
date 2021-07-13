@@ -10,13 +10,16 @@ You may obtain a copy of the License at
 
 # Maintainers
 
-* @alikdell
-* @ameer-jabbar
-* @atye
-* @gallacher
-* @hoppea2
-* @ianbibby
-* @lj-software
-* @medegw01
-* @sharmilarama
-* @tdawe
+| Name                 | GitHub ID          |
+|----------------------|--------------------|
+| Alik Saring          | @alikdell          |
+| Ameer Jabbar         | @ameer-jabbar      |
+| Aaron Tye            | @atye              |
+| Sean Gallacher       | @gallacher         |
+| Alexander Hoppe      | @hoppea2           |
+| Logan Jones          | @lj-software       |
+| Michael Edegware     | @medegw01          |
+| Sharmila Ramamoorthy | @sharmilarama      |
+| Trevor Dawe          | @tdawe             |
+| Shayna Finocchiaro   | @shaynafinocchiaro |
+| Florian Coulombel    | @coulof            |
