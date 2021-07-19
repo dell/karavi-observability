@@ -21,7 +21,7 @@ The following instructions can be followed to install Karavi Observability in an
 
 ## Dependencies
 
-A Linux based system, with internet access, will be used to execute the script to install Karavi Observability into a Kubernetes/Openshift enviornment that also has internet access.
+A Linux based system, with internet access, will be used to execute the script to install Karavi Observability into a Kubernetes/Openshift environment that also has internet access.
 
 | Dependency            | Usage |
 | --------------------- | ----- |
@@ -97,6 +97,8 @@ To perform an online installation of Karavi Observability, the following steps s
 
 2. Execute the installation script.
 The following example will install Karavi Observability into the `karavi` namespace.
+
+**Note**: A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
 ```
 [user@system /home/user/karavi-observability/installer]# ./karavi-observability-install.sh install --namespace karavi --values myvalues.yaml
 ---------------------------------------------------------------------------------
@@ -170,13 +172,13 @@ To perform an offline installation of a helm chart, the following steps should b
 1. Copy the `offline-installer.sh` script to a local Linux system using `curl` or `wget`:
 
 ```
-[user@anothersystem /home/user]# curl https://raw.githubusercontent.com/dell/helm-charts/main/charts/karavi-observability/installer/offline-installer.sh --output offline-installer.sh
+[user@anothersystem /home/user]# curl https://raw.githubusercontent.com/dell/karavi-observability/main/installer/offline-installer.sh --output offline-installer.sh
 ```
 
 or
 
 ```
-[user@anothersystem /home/user]# wget -O offline-installer.sh https://raw.githubusercontent.com/dell/helm-charts/main/charts/karavi-observability/installer/offline-installer.sh
+[user@anothersystem /home/user]# wget -O offline-installer.sh https://raw.githubusercontent.com/dell/karavi-observability/main/installer/offline-installer.sh
 ```
 
 2. Set the file as executable.
@@ -191,7 +193,7 @@ or
 [user@anothersystem /home/user]# ./offline-installer.sh -c dell/karavi-observability
 
 *
-* Adding Helm repository https://github.com/dell/helm-charts
+* Adding Helm repository https://dell.github.io/helm-charts
 
 
 *
@@ -201,8 +203,10 @@ or
 *
 * Downloading and saving Docker images
 
-   dellemc/karavi-metrics-powerflex:0.1.0
-   dellemc/karavi-topology:0.1.0
+   dellemc/csm-topology:v0.3.0
+   dellemc/csm-metrics-powerflex:v0.3.0
+   otel/opentelemetry-collector:0.9.0
+   nginxinc/nginx-unprivileged:1.18
 
 *
 * Compressing offline-karavi-observability-bundle.tar.gz
@@ -225,13 +229,15 @@ or
 3. Prepare the bundle by providing the internal Docker registry URL.
 
 ```
-[user@anothersystem /home/user/offline-karavi-observability-bundle]# ./offline-installer.sh -p my-registry:5000
-
+[user@anothersystem /home/user/offline-karavi-observability-bundle]# ./offline-installer.sh -p <my-registry>:5000
+  
 *
-* Loading, tagging, and pushing Docker images to registry my-registry:5000/
+* Loading, tagging, and pushing Docker images to registry <my-registry>:5000/
 
-   dellemc/karavi-metrics-powerflex:0.1.0 -> my-registry:5000/karavi-metrics-powerflex:0.1.0
-   dellemc/karavi-topology:0.1.0 -> my-registry:5000/karavi-topology:0.1.0
+   dellemc/csm-topology:v0.3.0 -> <my-registry>:5000/csm-topology:v0.3.0
+   dellemc/csm-metrics-powerflex:v0.3.0 -> <my-registry>:5000/csm-metrics-powerflex:v0.3.0
+   otel/opentelemetry-collector:0.9.0 -> <my-registry>:5000/opentelemetry-collector:0.9.0
+   nginxinc/nginx-unprivileged:1.18 -> <my-registry>:5000/nginx-unprivileged:1.18
 ```
 
 ### Perform Helm installation
@@ -257,10 +263,12 @@ Example command to copy the Secret from the vxflexos namespace to the karavi nam
 
 Example command to copy the Secret from the csi-powerstore namespace to the karavi namespace.
 ```
-[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret pwoerstore-config -n csi-powerstore -o yaml | sed 's/namespace: csi-powerstore/namespace: karavi/' | kubectl create -f -
+[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret powerstore-config -n csi-powerstore -o yaml | sed 's/namespace: csi-powerstore/namespace: karavi/' | kubectl create -f -
 ```
 
 5. Now that the required images have been made available and the Helm chart's configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm chart's repository.
+
+**Note**: Optionally, you could provide your own [configurations](../docs/GETTING_STARTED_GUIDE.md#Configuration). A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
 
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# helm install -n install-namespace app-name karavi-observability
