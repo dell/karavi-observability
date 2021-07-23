@@ -182,7 +182,26 @@ serverFiles:
         tls_config:
           insecure_skip_verify: true
 ```
+If using Rancher, creating a ServiceMonitor object should look like: 
 
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: otel-collector
+  namespace: powerflex
+spec:
+  endpoints:
+  - path: /metrics
+    port: exporter-https
+    scheme: https
+    tlsConfig:
+      insecureSkipVerify: true
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: karavi-observability
+      app.kubernetes.io/name: otel-collector
+```
 </details>
 <details>
    <summary>Get Prometheus repository information</summary>
