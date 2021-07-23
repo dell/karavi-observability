@@ -189,16 +189,16 @@ Once you have attempted to install Karavi Observability to your Kubernetes or Op
 
 Get information on the state of your Pods.
 ```console
-Kubectl get pods -n $namespace 
+kubectl get pods -n $namespace 
 ```
 Get verbose output of the current state of a Pod.
 ```console
-Kubectl describe pod -n $namespace $pod
+kubectl describe pod -n $namespace $pod
 ```
 #### How can I view logs?
 View pod container logs. Output logs to a file for further debugging.
 ```console
-Kubectl logs -n $namespace $pod $container
+kubectl logs -n $namespace $pod $container
 kubectl logs -n $namespace $pod $container > $logFileName
 ```
 Viewing logs can also be found [here](/docs/GETTING_STARTED_GUIDE.md#Viewing-logs). 
