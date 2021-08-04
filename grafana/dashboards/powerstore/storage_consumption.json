@@ -1,2345 +1,2840 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": "-- Grafana --",
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "type": "dashboard"
-        }
-      ]
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "PowerStore Storage Class Capacity",
+  "editable": true,
+  "gnetId": 8162,
+  "graphTooltip": 0,
+  "id": 10,
+  "iteration": 1628012038386,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "targetBlank": true,
+      "title": "More Dashboards",
+      "type": "dashboards"
+    }
+  ],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 144,
+      "panels": [],
+      "title": "Storage Class Capacity",
+      "type": "row"
     },
-    "description": "PowerStore Storage Class Capacity",
-    "editable": true,
-    "gnetId": 8162,
-    "graphTooltip": 0,
-    "id": 10,
-    "iteration": 1626878165080,
-    "links": [
-      {
-        "asDropdown": true,
-        "icon": "external link",
-        "includeVars": true,
-        "keepTime": true,
-        "targetBlank": true,
-        "title": "More Dashboards",
-        "type": "dashboards"
-      }
-    ],
-    "panels": [
-      {
-        "collapsed": false,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 0
-        },
-        "id": 144,
-        "panels": [],
-        "title": "Storage Class Capacity",
-        "type": "row"
-      },
-      {
-        "alignNumbersToRightEnabled": true,
-        "columnAliases": [
-          {
-            "alias": "Provisioned",
-            "name": "Value #A"
-          },
-          {
-            "alias": "Used",
-            "name": "Value #B"
-          }
-        ],
-        "columnFiltersEnabled": false,
-        "columnWidthHints": [],
-        "columns": [],
-        "compactRowsEnabled": false,
-        "datasource": "Prometheus",
-        "datatablePagingType": "simple_numbers",
-        "datatableTheme": "basic_theme",
-        "emptyData": false,
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "align": null
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "fontSize": "100%",
-        "gridPos": {
-          "h": 8,
-          "w": 24,
-          "x": 0,
-          "y": 1
-        },
-        "hoverEnabled": true,
-        "id": 134,
-        "infoEnabled": true,
-        "lengthChangeEnabled": true,
-        "orderColumnEnabled": true,
-        "pagingTypes": [
-          {
-            "text": "Page number buttons only",
-            "value": "numbers"
-          },
-          {
-            "text": "'Previous' and 'Next' buttons only",
-            "value": "simple"
-          },
-          {
-            "text": "'Previous' and 'Next' buttons, plus page numbers",
-            "value": "simple_numbers"
-          },
-          {
-            "text": "'First', 'Previous', 'Next' and 'Last' buttons",
-            "value": "full"
-          },
-          {
-            "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
-            "value": "full_numbers"
-          },
-          {
-            "text": "'First' and 'Last' buttons, plus page numbers",
-            "value": "first_last_numbers"
-          }
-        ],
-        "panelHeight": null,
-        "pluginVersion": "7.1.0",
-        "rowNumbersEnabled": false,
-        "rowsPerPage": 5,
-        "scroll": false,
-        "scrollHeight": "default",
-        "searchEnabled": true,
-        "searchHighlightingEnabled": false,
-        "showCellBorders": false,
-        "showHeader": true,
-        "showRowBorders": true,
-        "sort": {
-          "col": 0,
-          "desc": true
-        },
-        "sortByColumns": [
-          {
-            "columnData": 0,
-            "sortMethod": "desc"
-          }
-        ],
-        "sortByColumnsData": [
-          [
-            0,
-            "desc"
-          ]
-        ],
-        "stripedRowsEnabled": true,
-        "styles": [
-          {
-            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "pattern": "Time",
-            "type": "date"
-          },
-          {
-            "colorMode": null,
-            "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
-            ],
-            "decimals": 2,
-            "pattern": "/.*/",
-            "splitPattern": "/ /",
-            "thresholds": [],
-            "type": "number",
-            "unit": "gbytes"
-          }
-        ],
-        "targets": [
-          {
-            "expr": "powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"}",
-            "format": "table",
-            "hide": false,
-            "instant": true,
-            "interval": "",
-            "legendFormat": "",
-            "refId": "A"
-          },
-          {
-            "expr": "powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"}",
-            "format": "table",
-            "hide": false,
-            "instant": true,
-            "interval": "",
-            "legendFormat": "",
-            "refId": "B"
-          }
-        ],
-        "themeOptions": {
-          "dark": "./styles/dark.scss",
-          "light": "./styles/light.scss"
-        },
-        "themes": [
-          {
-            "disabled": false,
-            "text": "Basic",
-            "value": "basic_theme"
-          },
-          {
-            "disabled": true,
-            "text": "Bootstrap",
-            "value": "bootstrap_theme"
-          },
-          {
-            "disabled": true,
-            "text": "Foundation",
-            "value": "foundation_theme"
-          },
-          {
-            "disabled": true,
-            "text": "ThemeRoller",
-            "value": "themeroller_theme"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "Storage Capacities",
-        "transform": "table",
-        "transformations": [
-          {
-            "id": "filterFieldsByName",
-            "options": {
-              "include": {
-                "names": [
-                  "Driver",
-                  "StorageClass",
-                  "StoragePool",
-                  "StorageSystemName",
-                  "Value #A",
-                  "Value #C",
-                  "Value #B"
-                ]
-              }
-            }
-          },
-          {
-            "id": "merge",
-            "options": {}
-          }
-        ],
-        "type": "briangann-datatable-panel"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {},
-            "decimals": 0,
-            "mappings": [],
-            "max": 100,
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "dark-green",
-                  "value": null
-                },
-                {
-                  "color": "dark-yellow",
-                  "value": 65
-                },
-                {
-                  "color": "dark-orange",
-                  "value": 75
-                },
-                {
-                  "color": "dark-red",
-                  "value": 90
-                }
-              ]
-            },
-            "unit": "percent"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 12,
-          "w": 24,
-          "x": 0,
-          "y": 9
-        },
-        "hideTimeOverride": false,
-        "id": 142,
-        "interval": "1h",
-        "links": [],
-        "options": {
-          "displayMode": "lcd",
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "/.*/",
-            "values": false
-          },
-          "showUnfilled": true
-        },
-        "pluginVersion": "7.1.0",
-        "targets": [
-          {
-            "alias": "$tag_source",
-            "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"}*100 / powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
-            "format": "time_series",
-            "groupBy": [
-              {
-                "params": [
-                  "$__interval"
-                ],
-                "type": "time"
-              },
-              {
-                "params": [
-                  "null"
-                ],
-                "type": "fill"
-              }
-            ],
-            "instant": true,
-            "interval": "",
-            "intervalFactor": 1,
-            "legendFormat": "{{StoragePool}}",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "rawQuery": true,
-            "refId": "A",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "value"
-                  ],
-                  "type": "field"
-                },
-                {
-                  "params": [],
-                  "type": "mean"
-                }
-              ]
-            ],
-            "tags": []
-          }
-        ],
-        "timeFrom": "3h",
-        "timeShift": null,
-        "title": "Storage Class Usage",
-        "transformations": [
-          {
-            "id": "filterFieldsByName",
-            "options": {
-              "exclude": {
-                "names": [
-                  "Time"
-                ]
-              }
-            }
-          }
-        ],
-        "type": "bargauge"
-      },
-      {
-        "collapsed": false,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 21
-        },
-        "id": 146,
-        "panels": [],
-        "title": "Array Capacity",
-        "type": "row"
-      },
-      {
-        "alignNumbersToRightEnabled": true,
-        "columnAliases": [
-          {
-            "alias": "Provisioned",
-            "name": "Value #A"
-          },
-          {
-            "alias": "Used",
-            "name": "Value #B"
-          }
-        ],
-        "columnFiltersEnabled": false,
-        "columnWidthHints": [],
-        "columns": [],
-        "compactRowsEnabled": false,
-        "datasource": "Prometheus",
-        "datatablePagingType": "simple_numbers",
-        "datatableTheme": "basic_theme",
-        "emptyData": false,
-        "fieldConfig": {
-          "defaults": {
-            "custom": {
-              "align": null
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "fontSize": "100%",
-        "gridPos": {
-          "h": 8,
-          "w": 24,
-          "x": 0,
-          "y": 22
-        },
-        "hoverEnabled": true,
-        "id": 141,
-        "infoEnabled": true,
-        "lengthChangeEnabled": true,
-        "orderColumnEnabled": true,
-        "pagingTypes": [
-          {
-            "text": "Page number buttons only",
-            "value": "numbers"
-          },
-          {
-            "text": "'Previous' and 'Next' buttons only",
-            "value": "simple"
-          },
-          {
-            "text": "'Previous' and 'Next' buttons, plus page numbers",
-            "value": "simple_numbers"
-          },
-          {
-            "text": "'First', 'Previous', 'Next' and 'Last' buttons",
-            "value": "full"
-          },
-          {
-            "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
-            "value": "full_numbers"
-          },
-          {
-            "text": "'First' and 'Last' buttons, plus page numbers",
-            "value": "first_last_numbers"
-          }
-        ],
-        "panelHeight": null,
-        "pluginVersion": "7.1.0",
-        "rowNumbersEnabled": false,
-        "rowsPerPage": 5,
-        "scroll": false,
-        "scrollHeight": "default",
-        "searchEnabled": true,
-        "searchHighlightingEnabled": false,
-        "showCellBorders": false,
-        "showHeader": true,
-        "showRowBorders": true,
-        "sort": {
-          "col": 0,
-          "desc": true
-        },
-        "sortByColumns": [
-          {
-            "columnData": 0,
-            "sortMethod": "desc"
-          }
-        ],
-        "sortByColumnsData": [
-          [
-            1,
-            "desc"
-          ]
-        ],
-        "stripedRowsEnabled": true,
-        "styles": [
-          {
-            "dateFormat": "YYYY-MM-DD HH:mm:ss",
-            "pattern": "Time",
-            "type": "date"
-          },
-          {
-            "colorMode": null,
-            "colors": [
-              "rgba(245, 54, 54, 0.9)",
-              "rgba(237, 129, 40, 0.89)",
-              "rgba(50, 172, 45, 0.97)"
-            ],
-            "decimals": 2,
-            "pattern": "/.*/",
-            "splitPattern": "/ /",
-            "thresholds": [],
-            "type": "number",
-            "unit": "tbytes"
-          }
-        ],
-        "targets": [
-          {
-            "expr": "powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"}",
-            "format": "table",
-            "hide": false,
-            "instant": true,
-            "interval": "",
-            "legendFormat": "",
-            "refId": "A"
-          },
-          {
-            "expr": "powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"}",
-            "format": "table",
-            "hide": false,
-            "instant": true,
-            "interval": "",
-            "legendFormat": "",
-            "refId": "B"
-          }
-        ],
-        "themeOptions": {
-          "dark": "./styles/dark.scss",
-          "light": "./styles/light.scss"
-        },
-        "themes": [
-          {
-            "disabled": false,
-            "text": "Basic",
-            "value": "basic_theme"
-          },
-          {
-            "disabled": true,
-            "text": "Bootstrap",
-            "value": "bootstrap_theme"
-          },
-          {
-            "disabled": true,
-            "text": "Foundation",
-            "value": "foundation_theme"
-          },
-          {
-            "disabled": true,
-            "text": "ThemeRoller",
-            "value": "themeroller_theme"
-          }
-        ],
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "Array Capacities",
-        "transform": "table",
-        "transformations": [
-          {
-            "id": "filterFieldsByName",
-            "options": {
-              "include": {
-                "names": [
-                  "ArrayID",
-                  "Driver",
-                  "Value #A",
-                  "Value #B"
-                ]
-              }
-            }
-          },
-          {
-            "id": "merge",
-            "options": {}
-          }
-        ],
-        "type": "briangann-datatable-panel"
-      },
-      {
-        "datasource": "Prometheus",
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {},
-            "decimals": 0,
-            "mappings": [],
-            "max": 100,
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "dark-green",
-                  "value": null
-                },
-                {
-                  "color": "dark-yellow",
-                  "value": 65
-                },
-                {
-                  "color": "dark-orange",
-                  "value": 75
-                },
-                {
-                  "color": "dark-red",
-                  "value": 90
-                }
-              ]
-            },
-            "unit": "percent"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 12,
-          "w": 24,
-          "x": 0,
-          "y": 30
-        },
-        "hideTimeOverride": false,
-        "id": 123,
-        "interval": "1h",
-        "links": [],
-        "options": {
-          "displayMode": "lcd",
-          "orientation": "auto",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "/.*/",
-            "values": false
-          },
-          "showUnfilled": true
-        },
-        "pluginVersion": "7.1.0",
-        "repeat": null,
-        "targets": [
-          {
-            "alias": "$tag_source",
-            "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"}*100 / powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
-            "format": "time_series",
-            "groupBy": [
-              {
-                "params": [
-                  "$__interval"
-                ],
-                "type": "time"
-              },
-              {
-                "params": [
-                  "null"
-                ],
-                "type": "fill"
-              }
-            ],
-            "instant": true,
-            "interval": "",
-            "intervalFactor": 1,
-            "legendFormat": "{{StoragePool}}",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "rawQuery": true,
-            "refId": "A",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "value"
-                  ],
-                  "type": "field"
-                },
-                {
-                  "params": [],
-                  "type": "mean"
-                }
-              ]
-            ],
-            "tags": []
-          }
-        ],
-        "timeFrom": "3h",
-        "timeShift": null,
-        "title": "Array Usage",
-        "transformations": [
-          {
-            "id": "filterFieldsByName",
-            "options": {
-              "exclude": {
-                "names": [
-                  "Time"
-                ]
-              }
-            }
-          }
-        ],
-        "type": "bargauge"
-      },
-      {
-        "collapsed": true,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 42
-        },
-        "id": 148,
-        "panels": [
-          {
-            "cacheTimeout": null,
-            "datasource": "Prometheus",
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {},
-                "decimals": 2,
-                "mappings": [
-                  {
-                    "id": 0,
-                    "op": "=",
-                    "text": "N/A",
-                    "type": 1,
-                    "value": "null"
-                  }
-                ],
-                "min": 0,
-                "nullValueMode": "connected",
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "dark-blue",
-                      "value": null
-                    }
-                  ]
-                },
-                "unit": "decgbytes"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 8,
-              "w": 9,
-              "x": 0,
-              "y": 23
-            },
-            "hideTimeOverride": true,
-            "id": 48,
-            "interval": "1h",
-            "links": [],
-            "maxDataPoints": 100,
-            "options": {
-              "colorMode": "background",
-              "fieldOptions": {
-                "calcs": [
-                  "mean"
-                ]
-              },
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "textMode": "auto"
-            },
-            "pluginVersion": "7.1.0",
-            "repeat": null,
-            "scopedVars": {
-              "ArrayID": {
-                "selected": false,
-                "text": "N/A",
-                "value": "N/A"
-              }
-            },
-            "targets": [
-              {
-                "alias": "Total Capacity",
-                "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
-                "groupBy": [
-                  {
-                    "params": [
-                      "$__interval"
-                    ],
-                    "type": "time"
-                  },
-                  {
-                    "params": [
-                      "source"
-                    ],
-                    "type": "tag"
-                  },
-                  {
-                    "params": [
-                      "null"
-                    ],
-                    "type": "fill"
-                  }
-                ],
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned",
-                "orderByTime": "ASC",
-                "policy": "default",
-                "refId": "A",
-                "resultFormat": "time_series"
-              },
-              {
-                "alias": "Free Capacity",
-                "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
-                "groupBy": [
-                  {
-                    "params": [
-                      "$__interval"
-                    ],
-                    "type": "time"
-                  },
-                  {
-                    "params": [
-                      "source"
-                    ],
-                    "type": "tag"
-                  },
-                  {
-                    "params": [
-                      "null"
-                    ],
-                    "type": "fill"
-                  }
-                ],
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used",
-                "orderByTime": "ASC",
-                "policy": "default",
-                "rawQuery": true,
-                "refId": "B",
-                "resultFormat": "time_series"
-              }
-            ],
-            "timeFrom": "3h",
-            "title": "Array Capacity",
-            "type": "stat"
-          },
-          {
-            "aliasColors": {
-              "Free Capacity": "#5195ce",
-              "Used Capacity": "#ea6460"
-            },
-            "breakPoint": "50%",
-            "cacheTimeout": null,
-            "combine": {
-              "label": "Others",
-              "threshold": 0
-            },
-            "datasource": "Prometheus",
-            "decimals": 2,
-            "fieldConfig": {
-              "defaults": {
-                "custom": {}
-              },
-              "overrides": []
-            },
-            "fontSize": "80%",
-            "format": "decgbytes",
-            "gridPos": {
-              "h": 8,
-              "w": 15,
-              "x": 9,
-              "y": 23
-            },
-            "id": 51,
-            "interval": "1h",
-            "legend": {
-              "header": "",
-              "percentage": true,
-              "show": true,
-              "values": true
-            },
-            "legendType": "Right side",
-            "links": [],
-            "maxDataPoints": 3,
-            "nullPointMode": "connected",
-            "pieType": "donut",
-            "repeat": null,
-            "scopedVars": {
-              "ArrayID": {
-                "selected": false,
-                "text": "N/A",
-                "value": "N/A"
-              }
-            },
-            "strokeWidth": "2",
-            "targets": [
-              {
-                "alias": "Used Capacity",
-                "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
-                "groupBy": [
-                  {
-                    "params": [
-                      "$__interval"
-                    ],
-                    "type": "time"
-                  },
-                  {
-                    "params": [
-                      "source"
-                    ],
-                    "type": "tag"
-                  },
-                  {
-                    "params": [
-                      "null"
-                    ],
-                    "type": "fill"
-                  }
-                ],
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used Capacity",
-                "orderByTime": "ASC",
-                "policy": "default",
-                "refId": "A",
-                "resultFormat": "time_series",
-                "select": [
-                  [
-                    {
-                      "params": [
-                        "used_latest"
-                      ],
-                      "type": "field"
-                    },
-                    {
-                      "params": [],
-                      "type": "last"
-                    }
-                  ]
-                ]
-              },
-              {
-                "alias": "Free Capacity",
-                "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
-                "groupBy": [
-                  {
-                    "params": [
-                      "$__interval"
-                    ],
-                    "type": "time"
-                  },
-                  {
-                    "params": [
-                      "source"
-                    ],
-                    "type": "tag"
-                  },
-                  {
-                    "params": [
-                      "null"
-                    ],
-                    "type": "fill"
-                  }
-                ],
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned Capacity",
-                "orderByTime": "ASC",
-                "policy": "default",
-                "rawQuery": true,
-                "refId": "B",
-                "resultFormat": "time_series",
-                "select": [
-                  [
-                    {
-                      "params": [
-                        "capacity_latest"
-                      ],
-                      "type": "field"
-                    },
-                    {
-                      "params": [],
-                      "type": "mean"
-                    }
-                  ]
-                ]
-              }
-            ],
-            "timeFrom": "3h",
-            "title": "Capacity Summary",
-            "type": "grafana-piechart-panel",
-            "valueName": "current"
-          }
-        ],
-        "repeat": "ArrayID",
-        "scopedVars": {
-          "ArrayID": {
-            "selected": false,
-            "text": "N/A",
-            "value": "N/A"
-          }
-        },
-        "title": "$ArrayID",
-        "type": "row"
-      },
-      {
-        "collapsed": true,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 43
-        },
-        "id": 154,
-        "panels": [
-          {
-            "cacheTimeout": null,
-            "datasource": "Prometheus",
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {},
-                "decimals": 2,
-                "mappings": [
-                  {
-                    "id": 0,
-                    "op": "=",
-                    "text": "N/A",
-                    "type": 1,
-                    "value": "null"
-                  }
-                ],
-                "min": 0,
-                "nullValueMode": "connected",
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "dark-blue",
-                      "value": null
-                    }
-                  ]
-                },
-                "unit": "decgbytes"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 8,
-              "w": 9,
-              "x": 0,
-              "y": 23
-            },
-            "hideTimeOverride": true,
-            "id": 155,
-            "interval": "1h",
-            "links": [],
-            "maxDataPoints": 100,
-            "options": {
-              "colorMode": "background",
-              "fieldOptions": {
-                "calcs": [
-                  "mean"
-                ]
-              },
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "textMode": "auto"
-            },
-            "pluginVersion": "7.1.0",
-            "repeat": null,
-            "repeatIteration": 1626878165080,
-            "repeatPanelId": 48,
-            "repeatedByRow": true,
-            "scopedVars": {
-              "ArrayID": {
-                "selected": false,
-                "text": "PSf16fa81b20d5",
-                "value": "PSf16fa81b20d5"
-              }
-            },
-            "targets": [
-              {
-                "alias": "Total Capacity",
-                "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
-                "groupBy": [
-                  {
-                    "params": [
-                      "$__interval"
-                    ],
-                    "type": "time"
-                  },
-                  {
-                    "params": [
-                      "source"
-                    ],
-                    "type": "tag"
-                  },
-                  {
-                    "params": [
-                      "null"
-                    ],
-                    "type": "fill"
-                  }
-                ],
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned",
-                "orderByTime": "ASC",
-                "policy": "default",
-                "refId": "A",
-                "resultFormat": "time_series"
-              },
-              {
-                "alias": "Free Capacity",
-                "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
-                "groupBy": [
-                  {
-                    "params": [
-                      "$__interval"
-                    ],
-                    "type": "time"
-                  },
-                  {
-                    "params": [
-                      "source"
-                    ],
-                    "type": "tag"
-                  },
-                  {
-                    "params": [
-                      "null"
-                    ],
-                    "type": "fill"
-                  }
-                ],
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used",
-                "orderByTime": "ASC",
-                "policy": "default",
-                "rawQuery": true,
-                "refId": "B",
-                "resultFormat": "time_series"
-              }
-            ],
-            "timeFrom": "3h",
-            "title": "Array Capacity",
-            "type": "stat"
-          },
-          {
-            "aliasColors": {
-              "Free Capacity": "#5195ce",
-              "Used Capacity": "#ea6460"
-            },
-            "breakPoint": "50%",
-            "cacheTimeout": null,
-            "combine": {
-              "label": "Others",
-              "threshold": 0
-            },
-            "datasource": "Prometheus",
-            "decimals": 2,
-            "fieldConfig": {
-              "defaults": {
-                "custom": {}
-              },
-              "overrides": []
-            },
-            "fontSize": "80%",
-            "format": "decgbytes",
-            "gridPos": {
-              "h": 8,
-              "w": 15,
-              "x": 9,
-              "y": 23
-            },
-            "id": 156,
-            "interval": "1h",
-            "legend": {
-              "header": "",
-              "percentage": true,
-              "show": true,
-              "values": true
-            },
-            "legendType": "Right side",
-            "links": [],
-            "maxDataPoints": 3,
-            "nullPointMode": "connected",
-            "pieType": "donut",
-            "repeat": null,
-            "repeatIteration": 1626878165080,
-            "repeatPanelId": 51,
-            "repeatedByRow": true,
-            "scopedVars": {
-              "ArrayID": {
-                "selected": false,
-                "text": "PSf16fa81b20d5",
-                "value": "PSf16fa81b20d5"
-              }
-            },
-            "strokeWidth": "2",
-            "targets": [
-              {
-                "alias": "Used Capacity",
-                "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
-                "groupBy": [
-                  {
-                    "params": [
-                      "$__interval"
-                    ],
-                    "type": "time"
-                  },
-                  {
-                    "params": [
-                      "source"
-                    ],
-                    "type": "tag"
-                  },
-                  {
-                    "params": [
-                      "null"
-                    ],
-                    "type": "fill"
-                  }
-                ],
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used Capacity",
-                "orderByTime": "ASC",
-                "policy": "default",
-                "refId": "A",
-                "resultFormat": "time_series",
-                "select": [
-                  [
-                    {
-                      "params": [
-                        "used_latest"
-                      ],
-                      "type": "field"
-                    },
-                    {
-                      "params": [],
-                      "type": "last"
-                    }
-                  ]
-                ]
-              },
-              {
-                "alias": "Free Capacity",
-                "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
-                "groupBy": [
-                  {
-                    "params": [
-                      "$__interval"
-                    ],
-                    "type": "time"
-                  },
-                  {
-                    "params": [
-                      "source"
-                    ],
-                    "type": "tag"
-                  },
-                  {
-                    "params": [
-                      "null"
-                    ],
-                    "type": "fill"
-                  }
-                ],
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned Capacity",
-                "orderByTime": "ASC",
-                "policy": "default",
-                "rawQuery": true,
-                "refId": "B",
-                "resultFormat": "time_series",
-                "select": [
-                  [
-                    {
-                      "params": [
-                        "capacity_latest"
-                      ],
-                      "type": "field"
-                    },
-                    {
-                      "params": [],
-                      "type": "mean"
-                    }
-                  ]
-                ]
-              }
-            ],
-            "timeFrom": "3h",
-            "title": "Capacity Summary",
-            "type": "grafana-piechart-panel",
-            "valueName": "current"
-          }
-        ],
-        "repeat": null,
-        "repeatIteration": 1626878165080,
-        "repeatPanelId": 148,
-        "scopedVars": {
-          "ArrayID": {
-            "selected": false,
-            "text": "PSf16fa81b20d5",
-            "value": "PSf16fa81b20d5"
-          }
-        },
-        "title": "$ArrayID",
-        "type": "row"
-      },
-      {
-        "collapsed": true,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 44
-        },
-        "id": 153,
-        "panels": [
-          {
-            "datasource": "Prometheus",
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {},
-                "decimals": 2,
-                "mappings": [
-                  {
-                    "from": "",
-                    "id": 0,
-                    "text": "N/A",
-                    "to": "",
-                    "type": 1,
-                    "value": "null"
-                  }
-                ],
-                "min": 0,
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    }
-                  ]
-                },
-                "unit": "decgbytes"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 8,
-              "w": 9,
-              "x": 0,
-              "y": 5
-            },
-            "id": 136,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "textMode": "auto"
-            },
-            "pluginVersion": "7.1.0",
-            "scopedVars": {
-              "StorageClass": {
-                "selected": false,
-                "text": "N/A",
-                "value": "N/A"
-              }
-            },
-            "targets": [
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used",
-                "refId": "A"
-              },
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned ",
-                "refId": "B"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "Storage Class Capacity",
-            "type": "stat"
-          },
-          {
-            "aliasColors": {},
-            "breakPoint": "50%",
-            "cacheTimeout": null,
-            "combine": {
-              "label": "Others",
-              "threshold": 0
-            },
-            "datasource": "Prometheus",
-            "decimals": 2,
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {}
-              },
-              "overrides": []
-            },
-            "fontSize": "80%",
-            "format": "decgbytes",
-            "gridPos": {
-              "h": 8,
-              "w": 15,
-              "x": 9,
-              "y": 5
-            },
-            "id": 138,
-            "interval": null,
-            "legend": {
-              "percentage": true,
-              "show": true,
-              "values": true
-            },
-            "legendType": "Right side",
-            "links": [],
-            "nullPointMode": "connected",
-            "pieType": "donut",
-            "pluginVersion": "7.1.0",
-            "scopedVars": {
-              "StorageClass": {
-                "selected": false,
-                "text": "N/A",
-                "value": "N/A"
-              }
-            },
-            "strokeWidth": "2",
-            "targets": [
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used Capacity",
-                "refId": "A"
-              },
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned",
-                "refId": "B"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "Storage Class Summary",
-            "type": "grafana-piechart-panel",
-            "valueName": "current"
-          }
-        ],
-        "repeat": "StorageClass",
-        "scopedVars": {
-          "StorageClass": {
-            "selected": false,
-            "text": "N/A",
-            "value": "N/A"
-          }
-        },
-        "title": "$StorageClass",
-        "type": "row"
-      },
-      {
-        "collapsed": true,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 45
-        },
-        "id": 157,
-        "panels": [
-          {
-            "datasource": "Prometheus",
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {},
-                "decimals": 2,
-                "mappings": [
-                  {
-                    "from": "",
-                    "id": 0,
-                    "text": "N/A",
-                    "to": "",
-                    "type": 1,
-                    "value": "null"
-                  }
-                ],
-                "min": 0,
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    }
-                  ]
-                },
-                "unit": "decgbytes"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 8,
-              "w": 9,
-              "x": 0,
-              "y": 5
-            },
-            "id": 158,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "textMode": "auto"
-            },
-            "pluginVersion": "7.1.0",
-            "repeatIteration": 1626878165080,
-            "repeatPanelId": 136,
-            "repeatedByRow": true,
-            "scopedVars": {
-              "StorageClass": {
-                "selected": false,
-                "text": "powerstore",
-                "value": "powerstore"
-              }
-            },
-            "targets": [
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used",
-                "refId": "A"
-              },
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned ",
-                "refId": "B"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "Storage Class Capacity",
-            "type": "stat"
-          },
-          {
-            "aliasColors": {},
-            "breakPoint": "50%",
-            "cacheTimeout": null,
-            "combine": {
-              "label": "Others",
-              "threshold": 0
-            },
-            "datasource": "Prometheus",
-            "decimals": 2,
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {}
-              },
-              "overrides": []
-            },
-            "fontSize": "80%",
-            "format": "decgbytes",
-            "gridPos": {
-              "h": 8,
-              "w": 15,
-              "x": 9,
-              "y": 5
-            },
-            "id": 159,
-            "interval": null,
-            "legend": {
-              "percentage": true,
-              "show": true,
-              "values": true
-            },
-            "legendType": "Right side",
-            "links": [],
-            "nullPointMode": "connected",
-            "pieType": "donut",
-            "pluginVersion": "7.1.0",
-            "repeatIteration": 1626878165080,
-            "repeatPanelId": 138,
-            "repeatedByRow": true,
-            "scopedVars": {
-              "StorageClass": {
-                "selected": false,
-                "text": "powerstore",
-                "value": "powerstore"
-              }
-            },
-            "strokeWidth": "2",
-            "targets": [
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used Capacity",
-                "refId": "A"
-              },
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned",
-                "refId": "B"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "Storage Class Summary",
-            "type": "grafana-piechart-panel",
-            "valueName": "current"
-          }
-        ],
-        "repeat": null,
-        "repeatIteration": 1626878165080,
-        "repeatPanelId": 153,
-        "scopedVars": {
-          "StorageClass": {
-            "selected": false,
-            "text": "powerstore",
-            "value": "powerstore"
-          }
-        },
-        "title": "$StorageClass",
-        "type": "row"
-      },
-      {
-        "collapsed": true,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 46
-        },
-        "id": 160,
-        "panels": [
-          {
-            "datasource": "Prometheus",
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {},
-                "decimals": 2,
-                "mappings": [
-                  {
-                    "from": "",
-                    "id": 0,
-                    "text": "N/A",
-                    "to": "",
-                    "type": 1,
-                    "value": "null"
-                  }
-                ],
-                "min": 0,
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    }
-                  ]
-                },
-                "unit": "decgbytes"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 8,
-              "w": 9,
-              "x": 0,
-              "y": 5
-            },
-            "id": 161,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "textMode": "auto"
-            },
-            "pluginVersion": "7.1.0",
-            "repeatIteration": 1626878165080,
-            "repeatPanelId": 136,
-            "repeatedByRow": true,
-            "scopedVars": {
-              "StorageClass": {
-                "selected": false,
-                "text": "vxflexos",
-                "value": "vxflexos"
-              }
-            },
-            "targets": [
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used",
-                "refId": "A"
-              },
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned ",
-                "refId": "B"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "Storage Class Capacity",
-            "type": "stat"
-          },
-          {
-            "aliasColors": {},
-            "breakPoint": "50%",
-            "cacheTimeout": null,
-            "combine": {
-              "label": "Others",
-              "threshold": 0
-            },
-            "datasource": "Prometheus",
-            "decimals": 2,
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {}
-              },
-              "overrides": []
-            },
-            "fontSize": "80%",
-            "format": "decgbytes",
-            "gridPos": {
-              "h": 8,
-              "w": 15,
-              "x": 9,
-              "y": 5
-            },
-            "id": 162,
-            "interval": null,
-            "legend": {
-              "percentage": true,
-              "show": true,
-              "values": true
-            },
-            "legendType": "Right side",
-            "links": [],
-            "nullPointMode": "connected",
-            "pieType": "donut",
-            "pluginVersion": "7.1.0",
-            "repeatIteration": 1626878165080,
-            "repeatPanelId": 138,
-            "repeatedByRow": true,
-            "scopedVars": {
-              "StorageClass": {
-                "selected": false,
-                "text": "vxflexos",
-                "value": "vxflexos"
-              }
-            },
-            "strokeWidth": "2",
-            "targets": [
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used Capacity",
-                "refId": "A"
-              },
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned",
-                "refId": "B"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "Storage Class Summary",
-            "type": "grafana-piechart-panel",
-            "valueName": "current"
-          }
-        ],
-        "repeat": null,
-        "repeatIteration": 1626878165080,
-        "repeatPanelId": 153,
-        "scopedVars": {
-          "StorageClass": {
-            "selected": false,
-            "text": "vxflexos",
-            "value": "vxflexos"
-          }
-        },
-        "title": "$StorageClass",
-        "type": "row"
-      },
-      {
-        "collapsed": true,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 47
-        },
-        "id": 163,
-        "panels": [
-          {
-            "datasource": "Prometheus",
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {},
-                "decimals": 2,
-                "mappings": [
-                  {
-                    "from": "",
-                    "id": 0,
-                    "text": "N/A",
-                    "to": "",
-                    "type": 1,
-                    "value": "null"
-                  }
-                ],
-                "min": 0,
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    }
-                  ]
-                },
-                "unit": "decgbytes"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 8,
-              "w": 9,
-              "x": 0,
-              "y": 5
-            },
-            "id": 164,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "textMode": "auto"
-            },
-            "pluginVersion": "7.1.0",
-            "repeatIteration": 1626878165080,
-            "repeatPanelId": 136,
-            "repeatedByRow": true,
-            "scopedVars": {
-              "StorageClass": {
-                "selected": false,
-                "text": "vxflexos-177",
-                "value": "vxflexos-177"
-              }
-            },
-            "targets": [
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used",
-                "refId": "A"
-              },
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned ",
-                "refId": "B"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "Storage Class Capacity",
-            "type": "stat"
-          },
-          {
-            "aliasColors": {},
-            "breakPoint": "50%",
-            "cacheTimeout": null,
-            "combine": {
-              "label": "Others",
-              "threshold": 0
-            },
-            "datasource": "Prometheus",
-            "decimals": 2,
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {}
-              },
-              "overrides": []
-            },
-            "fontSize": "80%",
-            "format": "decgbytes",
-            "gridPos": {
-              "h": 8,
-              "w": 15,
-              "x": 9,
-              "y": 5
-            },
-            "id": 165,
-            "interval": null,
-            "legend": {
-              "percentage": true,
-              "show": true,
-              "values": true
-            },
-            "legendType": "Right side",
-            "links": [],
-            "nullPointMode": "connected",
-            "pieType": "donut",
-            "pluginVersion": "7.1.0",
-            "repeatIteration": 1626878165080,
-            "repeatPanelId": 138,
-            "repeatedByRow": true,
-            "scopedVars": {
-              "StorageClass": {
-                "selected": false,
-                "text": "vxflexos-177",
-                "value": "vxflexos-177"
-              }
-            },
-            "strokeWidth": "2",
-            "targets": [
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used Capacity",
-                "refId": "A"
-              },
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned",
-                "refId": "B"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "Storage Class Summary",
-            "type": "grafana-piechart-panel",
-            "valueName": "current"
-          }
-        ],
-        "repeat": null,
-        "repeatIteration": 1626878165080,
-        "repeatPanelId": 153,
-        "scopedVars": {
-          "StorageClass": {
-            "selected": false,
-            "text": "vxflexos-177",
-            "value": "vxflexos-177"
-          }
-        },
-        "title": "$StorageClass",
-        "type": "row"
-      },
-      {
-        "collapsed": true,
-        "datasource": null,
-        "gridPos": {
-          "h": 1,
-          "w": 24,
-          "x": 0,
-          "y": 48
-        },
-        "id": 166,
-        "panels": [
-          {
-            "datasource": "Prometheus",
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {},
-                "decimals": 2,
-                "mappings": [
-                  {
-                    "from": "",
-                    "id": 0,
-                    "text": "N/A",
-                    "to": "",
-                    "type": 1,
-                    "value": "null"
-                  }
-                ],
-                "min": 0,
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    }
-                  ]
-                },
-                "unit": "decgbytes"
-              },
-              "overrides": []
-            },
-            "gridPos": {
-              "h": 8,
-              "w": 9,
-              "x": 0,
-              "y": 5
-            },
-            "id": 167,
-            "options": {
-              "colorMode": "background",
-              "graphMode": "none",
-              "justifyMode": "center",
-              "orientation": "auto",
-              "reduceOptions": {
-                "calcs": [
-                  "lastNotNull"
-                ],
-                "fields": "",
-                "values": false
-              },
-              "textMode": "auto"
-            },
-            "pluginVersion": "7.1.0",
-            "repeatIteration": 1626878165080,
-            "repeatPanelId": 136,
-            "repeatedByRow": true,
-            "scopedVars": {
-              "StorageClass": {
-                "selected": false,
-                "text": "vxflexos-xfs",
-                "value": "vxflexos-xfs"
-              }
-            },
-            "targets": [
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used",
-                "refId": "A"
-              },
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned ",
-                "refId": "B"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "Storage Class Capacity",
-            "type": "stat"
-          },
-          {
-            "aliasColors": {},
-            "breakPoint": "50%",
-            "cacheTimeout": null,
-            "combine": {
-              "label": "Others",
-              "threshold": 0
-            },
-            "datasource": "Prometheus",
-            "decimals": 2,
-            "description": "",
-            "fieldConfig": {
-              "defaults": {
-                "custom": {}
-              },
-              "overrides": []
-            },
-            "fontSize": "80%",
-            "format": "decgbytes",
-            "gridPos": {
-              "h": 8,
-              "w": 15,
-              "x": 9,
-              "y": 5
-            },
-            "id": 168,
-            "interval": null,
-            "legend": {
-              "percentage": true,
-              "show": true,
-              "values": true
-            },
-            "legendType": "Right side",
-            "links": [],
-            "nullPointMode": "connected",
-            "pieType": "donut",
-            "pluginVersion": "7.1.0",
-            "repeatIteration": 1626878165080,
-            "repeatPanelId": 138,
-            "repeatedByRow": true,
-            "scopedVars": {
-              "StorageClass": {
-                "selected": false,
-                "text": "vxflexos-xfs",
-                "value": "vxflexos-xfs"
-              }
-            },
-            "strokeWidth": "2",
-            "targets": [
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Used Capacity",
-                "refId": "A"
-              },
-              {
-                "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
-                "instant": true,
-                "interval": "",
-                "legendFormat": "Provisioned",
-                "refId": "B"
-              }
-            ],
-            "timeFrom": null,
-            "timeShift": null,
-            "title": "Storage Class Summary",
-            "type": "grafana-piechart-panel",
-            "valueName": "current"
-          }
-        ],
-        "repeat": null,
-        "repeatIteration": 1626878165080,
-        "repeatPanelId": 153,
-        "scopedVars": {
-          "StorageClass": {
-            "selected": false,
-            "text": "vxflexos-xfs",
-            "value": "vxflexos-xfs"
-          }
-        },
-        "title": "$StorageClass",
-        "type": "row"
-      }
-    ],
-    "refresh": "30s",
-    "schemaVersion": 26,
-    "style": "dark",
-    "tags": [],
-    "templating": {
-      "list": [
+    {
+      "alignNumbersToRightEnabled": true,
+      "columnAliases": [
         {
-          "allValue": null,
-          "current": {
-            "selected": false,
-            "text": "All",
-            "value": "$__all"
-          },
-          "datasource": "Prometheus",
-          "definition": "label_values(StorageClass)",
-          "hide": 0,
-          "includeAll": true,
-          "label": "Storage Class",
-          "multi": true,
-          "name": "StorageClass",
-          "options": [],
-          "query": "label_values(StorageClass)",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "tagValuesQuery": "",
-          "tags": [],
-          "tagsQuery": "",
-          "type": "query",
-          "useTags": false
+          "alias": "Provisioned",
+          "name": "Value #A"
         },
         {
-          "allValue": null,
-          "current": {
-            "selected": true,
-            "text": "All",
-            "value": [
-              "$__all"
+          "alias": "Used",
+          "name": "Value #B"
+        }
+      ],
+      "columnFiltersEnabled": false,
+      "columnWidthHints": [],
+      "columns": [],
+      "compactRowsEnabled": false,
+      "datasource": "Prometheus",
+      "datatablePagingType": "simple_numbers",
+      "datatableTheme": "basic_theme",
+      "emptyData": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "hoverEnabled": true,
+      "id": 134,
+      "infoEnabled": true,
+      "lengthChangeEnabled": true,
+      "orderColumnEnabled": true,
+      "pagingTypes": [
+        {
+          "text": "Page number buttons only",
+          "value": "numbers"
+        },
+        {
+          "text": "'Previous' and 'Next' buttons only",
+          "value": "simple"
+        },
+        {
+          "text": "'Previous' and 'Next' buttons, plus page numbers",
+          "value": "simple_numbers"
+        },
+        {
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
+          "value": "full"
+        },
+        {
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
+          "value": "full_numbers"
+        },
+        {
+          "text": "'First' and 'Last' buttons, plus page numbers",
+          "value": "first_last_numbers"
+        }
+      ],
+      "panelHeight": null,
+      "pluginVersion": "7.1.0",
+      "rowNumbersEnabled": false,
+      "rowsPerPage": 5,
+      "scroll": false,
+      "scrollHeight": "default",
+      "searchEnabled": true,
+      "searchHighlightingEnabled": false,
+      "showCellBorders": false,
+      "showHeader": true,
+      "showRowBorders": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "sortByColumns": [
+        {
+          "columnData": 0,
+          "sortMethod": "desc"
+        }
+      ],
+      "sortByColumnsData": [
+        [
+          0,
+          "desc"
+        ]
+      ],
+      "stripedRowsEnabled": true,
+      "styles": [
+        {
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "splitPattern": "/ /",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decmbytes"
+        }
+      ],
+      "targets": [
+        {
+          "expr": "powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        },
+        {
+          "expr": "powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        }
+      ],
+      "themeOptions": {
+        "dark": "./styles/dark.scss",
+        "light": "./styles/light.scss"
+      },
+      "themes": [
+        {
+          "disabled": false,
+          "text": "Basic",
+          "value": "basic_theme"
+        },
+        {
+          "disabled": true,
+          "text": "Bootstrap",
+          "value": "bootstrap_theme"
+        },
+        {
+          "disabled": true,
+          "text": "Foundation",
+          "value": "foundation_theme"
+        },
+        {
+          "disabled": true,
+          "text": "ThemeRoller",
+          "value": "themeroller_theme"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Storage Capacities",
+      "transform": "table",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Driver",
+                "StorageClass",
+                "StoragePool",
+                "StorageSystemName",
+                "Value #A",
+                "Value #C",
+                "Value #B"
+              ]
+            }
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "type": "briangann-datatable-panel"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "decimals": 0,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "dark-yellow",
+                "value": 65
+              },
+              {
+                "color": "dark-orange",
+                "value": 75
+              },
+              {
+                "color": "dark-red",
+                "value": 90
+              }
             ]
           },
-          "datasource": "Prometheus",
-          "definition": "label_values(Driver)",
-          "hide": 0,
-          "includeAll": true,
-          "label": null,
-          "multi": true,
-          "name": "Driver",
-          "options": [],
-          "query": "label_values(Driver)",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "tagValuesQuery": "",
-          "tags": [],
-          "tagsQuery": "",
-          "type": "query",
-          "useTags": false
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "hideTimeOverride": false,
+      "id": 142,
+      "interval": "1h",
+      "links": [],
+      "options": {
+        "displayMode": "lcd",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "7.1.0",
+      "targets": [
+        {
+          "alias": "$tag_source",
+          "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"}*100 / powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+          "format": "time_series",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{StoragePool}}",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "3h",
+      "timeShift": null,
+      "title": "Storage Class Usage",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "exclude": {
+              "names": [
+                "Time"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 146,
+      "panels": [],
+      "title": "Array Capacity",
+      "type": "row"
+    },
+    {
+      "alignNumbersToRightEnabled": true,
+      "columnAliases": [
+        {
+          "alias": "Provisioned",
+          "name": "Value #A"
         },
         {
-          "allValue": null,
-          "current": {
-            "selected": false,
-            "text": "All",
-            "value": "$__all"
+          "alias": "Used",
+          "name": "Value #B"
+        }
+      ],
+      "columnFiltersEnabled": false,
+      "columnWidthHints": [],
+      "columns": [],
+      "compactRowsEnabled": false,
+      "datasource": "Prometheus",
+      "datatablePagingType": "simple_numbers",
+      "datatableTheme": "basic_theme",
+      "emptyData": false,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "hoverEnabled": true,
+      "id": 141,
+      "infoEnabled": true,
+      "lengthChangeEnabled": true,
+      "orderColumnEnabled": true,
+      "pagingTypes": [
+        {
+          "text": "Page number buttons only",
+          "value": "numbers"
+        },
+        {
+          "text": "'Previous' and 'Next' buttons only",
+          "value": "simple"
+        },
+        {
+          "text": "'Previous' and 'Next' buttons, plus page numbers",
+          "value": "simple_numbers"
+        },
+        {
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
+          "value": "full"
+        },
+        {
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
+          "value": "full_numbers"
+        },
+        {
+          "text": "'First' and 'Last' buttons, plus page numbers",
+          "value": "first_last_numbers"
+        }
+      ],
+      "panelHeight": null,
+      "pluginVersion": "7.1.0",
+      "rowNumbersEnabled": false,
+      "rowsPerPage": 5,
+      "scroll": false,
+      "scrollHeight": "default",
+      "searchEnabled": true,
+      "searchHighlightingEnabled": false,
+      "showCellBorders": false,
+      "showHeader": true,
+      "showRowBorders": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "sortByColumns": [
+        {
+          "columnData": 0,
+          "sortMethod": "desc"
+        }
+      ],
+      "sortByColumnsData": [
+        [
+          1,
+          "desc"
+        ]
+      ],
+      "stripedRowsEnabled": true,
+      "styles": [
+        {
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "splitPattern": "/ /",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decmbytes"
+        }
+      ],
+      "targets": [
+        {
+          "expr": "powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        },
+        {
+          "expr": "powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        }
+      ],
+      "themeOptions": {
+        "dark": "./styles/dark.scss",
+        "light": "./styles/light.scss"
+      },
+      "themes": [
+        {
+          "disabled": false,
+          "text": "Basic",
+          "value": "basic_theme"
+        },
+        {
+          "disabled": true,
+          "text": "Bootstrap",
+          "value": "bootstrap_theme"
+        },
+        {
+          "disabled": true,
+          "text": "Foundation",
+          "value": "foundation_theme"
+        },
+        {
+          "disabled": true,
+          "text": "ThemeRoller",
+          "value": "themeroller_theme"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Array Capacities",
+      "transform": "table",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "ArrayID",
+                "Driver",
+                "Value #A",
+                "Value #B"
+              ]
+            }
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "type": "briangann-datatable-panel"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {},
+          "decimals": 0,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "dark-yellow",
+                "value": 65
+              },
+              {
+                "color": "dark-orange",
+                "value": 75
+              },
+              {
+                "color": "dark-red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 30
+      },
+      "hideTimeOverride": false,
+      "id": 123,
+      "interval": "1h",
+      "links": [],
+      "options": {
+        "displayMode": "lcd",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "7.1.0",
+      "repeat": null,
+      "targets": [
+        {
+          "alias": "$tag_source",
+          "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"}*100 / powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+          "format": "time_series",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{StoragePool}}",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": "3h",
+      "timeShift": null,
+      "title": "Array Usage",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "exclude": {
+              "names": [
+                "Time"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 42
+      },
+      "id": 148,
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "Prometheus",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {},
+              "decimals": 2,
+              "mappings": [
+                {
+                  "id": 0,
+                  "op": "=",
+                  "text": "N/A",
+                  "type": 1,
+                  "value": "null"
+                }
+              ],
+              "min": 0,
+              "nullValueMode": "connected",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "dark-blue",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 9,
+            "x": 0,
+            "y": 23
+          },
+          "hideTimeOverride": true,
+          "id": 48,
+          "interval": "1h",
+          "links": [],
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "background",
+            "fieldOptions": {
+              "calcs": [
+                "mean"
+              ]
+            },
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "7.1.0",
+          "repeat": null,
+          "scopedVars": {
+            "ArrayID": {
+              "selected": false,
+              "text": "N/A",
+              "value": "N/A"
+            }
+          },
+          "targets": [
+            {
+              "alias": "Total Capacity",
+              "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "source"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "A",
+              "resultFormat": "time_series"
+            },
+            {
+              "alias": "Free Capacity",
+              "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "source"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series"
+            }
+          ],
+          "timeFrom": "3h",
+          "title": "Array Capacity",
+          "type": "stat"
+        },
+        {
+          "aliasColors": {
+            "Free Capacity": "#5195ce",
+            "Used Capacity": "#ea6460"
+          },
+          "breakPoint": "50%",
+          "cacheTimeout": null,
+          "combine": {
+            "label": "Others",
+            "threshold": 0
           },
           "datasource": "Prometheus",
-          "definition": "label_values(ArrayID)",
-          "hide": 0,
-          "includeAll": true,
-          "label": "Array ID",
-          "multi": true,
-          "name": "ArrayID",
-          "options": [],
-          "query": "label_values(ArrayID)",
-          "refresh": 2,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "tagValuesQuery": "",
-          "tags": [],
-          "tagsQuery": "",
-          "type": "query",
-          "useTags": false
+          "decimals": 2,
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fontSize": "80%",
+          "format": "decgbytes",
+          "gridPos": {
+            "h": 8,
+            "w": 15,
+            "x": 9,
+            "y": 23
+          },
+          "id": 51,
+          "interval": "1h",
+          "legend": {
+            "header": "",
+            "percentage": true,
+            "show": true,
+            "values": true
+          },
+          "legendType": "Right side",
+          "links": [],
+          "maxDataPoints": 3,
+          "nullPointMode": "connected",
+          "pieType": "donut",
+          "repeat": null,
+          "scopedVars": {
+            "ArrayID": {
+              "selected": false,
+              "text": "N/A",
+              "value": "N/A"
+            }
+          },
+          "strokeWidth": "2",
+          "targets": [
+            {
+              "alias": "Used Capacity",
+              "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "source"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used Capacity",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "used_latest"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ]
+            },
+            {
+              "alias": "Free Capacity",
+              "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "source"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned Capacity",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "capacity_latest"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ]
+            }
+          ],
+          "timeFrom": "3h",
+          "title": "Capacity Summary",
+          "type": "grafana-piechart-panel",
+          "valueName": "current"
         }
-      ]
-    },
-    "time": {
-      "from": "now-24h",
-      "to": "now"
-    },
-    "timepicker": {
-      "refresh_intervals": [
-        "10s",
-        "30s",
-        "1m",
-        "5m",
-        "15m",
-        "30m",
-        "1h",
-        "2h",
-        "1d"
       ],
-      "time_options": [
-        "5m",
-        "15m",
-        "1h",
-        "6h",
-        "12h",
-        "24h",
-        "2d",
-        "7d",
-        "30d"
-      ]
+      "repeat": "ArrayID",
+      "scopedVars": {
+        "ArrayID": {
+          "selected": false,
+          "text": "N/A",
+          "value": "N/A"
+        }
+      },
+      "title": "$ArrayID",
+      "type": "row"
     },
-    "timezone": "browser",
-    "title": "PowerStore Storage Class Capacity",
-    "uid": "Powerstore_scll",
-    "version": 3
-  }
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 43
+      },
+      "id": 154,
+      "panels": [],
+      "repeat": null,
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 148,
+      "scopedVars": {
+        "ArrayID": {
+          "selected": false,
+          "text": "PS4ef018459192",
+          "value": "PS4ef018459192"
+        }
+      },
+      "title": "$ArrayID",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "Prometheus",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "decimals": 2,
+          "mappings": [
+            {
+              "id": 0,
+              "op": "=",
+              "text": "N/A",
+              "type": 1,
+              "value": "null"
+            }
+          ],
+          "min": 0,
+          "nullValueMode": "connected",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 0,
+        "y": 44
+      },
+      "hideTimeOverride": true,
+      "id": 155,
+      "interval": "1h",
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.1.0",
+      "repeat": null,
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 48,
+      "repeatedByRow": true,
+      "scopedVars": {
+        "ArrayID": {
+          "selected": false,
+          "text": "PS4ef018459192",
+          "value": "PS4ef018459192"
+        }
+      },
+      "targets": [
+        {
+          "alias": "Total Capacity",
+          "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "source"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Provisioned",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series"
+        },
+        {
+          "alias": "Free Capacity",
+          "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "source"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Used",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series"
+        }
+      ],
+      "timeFrom": "3h",
+      "title": "Array Capacity",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {
+        "Free Capacity": "#5195ce",
+        "Used Capacity": "#ea6460"
+      },
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": "Prometheus",
+      "decimals": 2,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fontSize": "80%",
+      "format": "decgbytes",
+      "gridPos": {
+        "h": 8,
+        "w": 15,
+        "x": 9,
+        "y": 44
+      },
+      "id": 156,
+      "interval": "1h",
+      "legend": {
+        "header": "",
+        "percentage": true,
+        "show": true,
+        "values": true
+      },
+      "legendType": "Right side",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "donut",
+      "repeat": null,
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 51,
+      "repeatedByRow": true,
+      "scopedVars": {
+        "ArrayID": {
+          "selected": false,
+          "text": "PS4ef018459192",
+          "value": "PS4ef018459192"
+        }
+      },
+      "strokeWidth": "2",
+      "targets": [
+        {
+          "alias": "Used Capacity",
+          "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "source"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Used Capacity",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "used_latest"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ]
+        },
+        {
+          "alias": "Free Capacity",
+          "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "source"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Provisioned Capacity",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "capacity_latest"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ]
+        }
+      ],
+      "timeFrom": "3h",
+      "title": "Capacity Summary",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 52
+      },
+      "id": 157,
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "Prometheus",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {},
+              "decimals": 2,
+              "mappings": [
+                {
+                  "id": 0,
+                  "op": "=",
+                  "text": "N/A",
+                  "type": 1,
+                  "value": "null"
+                }
+              ],
+              "min": 0,
+              "nullValueMode": "connected",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "dark-blue",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 9,
+            "x": 0,
+            "y": 53
+          },
+          "hideTimeOverride": true,
+          "id": 158,
+          "interval": "1h",
+          "links": [],
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "background",
+            "fieldOptions": {
+              "calcs": [
+                "mean"
+              ]
+            },
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "7.1.0",
+          "repeat": null,
+          "repeatIteration": 1628012038386,
+          "repeatPanelId": 48,
+          "repeatedByRow": true,
+          "scopedVars": {
+            "ArrayID": {
+              "selected": false,
+              "text": "PSf16fa81b20d5",
+              "value": "PSf16fa81b20d5"
+            }
+          },
+          "targets": [
+            {
+              "alias": "Total Capacity",
+              "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "source"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "A",
+              "resultFormat": "time_series"
+            },
+            {
+              "alias": "Free Capacity",
+              "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "source"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series"
+            }
+          ],
+          "timeFrom": "3h",
+          "title": "Array Capacity",
+          "type": "stat"
+        },
+        {
+          "aliasColors": {
+            "Free Capacity": "#5195ce",
+            "Used Capacity": "#ea6460"
+          },
+          "breakPoint": "50%",
+          "cacheTimeout": null,
+          "combine": {
+            "label": "Others",
+            "threshold": 0
+          },
+          "datasource": "Prometheus",
+          "decimals": 2,
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fontSize": "80%",
+          "format": "decgbytes",
+          "gridPos": {
+            "h": 8,
+            "w": 15,
+            "x": 9,
+            "y": 53
+          },
+          "id": 159,
+          "interval": "1h",
+          "legend": {
+            "header": "",
+            "percentage": true,
+            "show": true,
+            "values": true
+          },
+          "legendType": "Right side",
+          "links": [],
+          "maxDataPoints": 3,
+          "nullPointMode": "connected",
+          "pieType": "donut",
+          "repeat": null,
+          "repeatIteration": 1628012038386,
+          "repeatPanelId": 51,
+          "repeatedByRow": true,
+          "scopedVars": {
+            "ArrayID": {
+              "selected": false,
+              "text": "PSf16fa81b20d5",
+              "value": "PSf16fa81b20d5"
+            }
+          },
+          "strokeWidth": "2",
+          "targets": [
+            {
+              "alias": "Used Capacity",
+              "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "source"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used Capacity",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "used_latest"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "last"
+                  }
+                ]
+              ]
+            },
+            {
+              "alias": "Free Capacity",
+              "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "source"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned Capacity",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "rawQuery": true,
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "capacity_latest"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ]
+            }
+          ],
+          "timeFrom": "3h",
+          "title": "Capacity Summary",
+          "type": "grafana-piechart-panel",
+          "valueName": "current"
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 148,
+      "scopedVars": {
+        "ArrayID": {
+          "selected": false,
+          "text": "PSf16fa81b20d5",
+          "value": "PSf16fa81b20d5"
+        }
+      },
+      "title": "$ArrayID",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 53
+      },
+      "id": 153,
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {},
+              "decimals": 2,
+              "mappings": [
+                {
+                  "from": "",
+                  "id": 0,
+                  "text": "N/A",
+                  "to": "",
+                  "type": 1,
+                  "value": "null"
+                }
+              ],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 9,
+            "x": 0,
+            "y": 5
+          },
+          "id": 136,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "7.1.0",
+          "scopedVars": {
+            "StorageClass": {
+              "selected": false,
+              "text": "N/A",
+              "value": "N/A"
+            }
+          },
+          "targets": [
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used",
+              "refId": "A"
+            },
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned ",
+              "refId": "B"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Storage Class Capacity",
+          "type": "stat"
+        },
+        {
+          "aliasColors": {},
+          "breakPoint": "50%",
+          "cacheTimeout": null,
+          "combine": {
+            "label": "Others",
+            "threshold": 0
+          },
+          "datasource": "Prometheus",
+          "decimals": 2,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fontSize": "80%",
+          "format": "decgbytes",
+          "gridPos": {
+            "h": 8,
+            "w": 15,
+            "x": 9,
+            "y": 5
+          },
+          "id": 138,
+          "interval": null,
+          "legend": {
+            "percentage": true,
+            "show": true,
+            "values": true
+          },
+          "legendType": "Right side",
+          "links": [],
+          "nullPointMode": "connected",
+          "pieType": "donut",
+          "pluginVersion": "7.1.0",
+          "scopedVars": {
+            "StorageClass": {
+              "selected": false,
+              "text": "N/A",
+              "value": "N/A"
+            }
+          },
+          "strokeWidth": "2",
+          "targets": [
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used Capacity",
+              "refId": "A"
+            },
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned",
+              "refId": "B"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Storage Class Summary",
+          "type": "grafana-piechart-panel",
+          "valueName": "current"
+        }
+      ],
+      "repeat": "StorageClass",
+      "scopedVars": {
+        "StorageClass": {
+          "selected": false,
+          "text": "N/A",
+          "value": "N/A"
+        }
+      },
+      "title": "$StorageClass",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 54
+      },
+      "id": 160,
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {},
+              "decimals": 2,
+              "mappings": [
+                {
+                  "from": "",
+                  "id": 0,
+                  "text": "N/A",
+                  "to": "",
+                  "type": 1,
+                  "value": "null"
+                }
+              ],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 9,
+            "x": 0,
+            "y": 5
+          },
+          "id": 161,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "7.1.0",
+          "repeatIteration": 1628012038386,
+          "repeatPanelId": 136,
+          "repeatedByRow": true,
+          "scopedVars": {
+            "StorageClass": {
+              "selected": false,
+              "text": "powerstore",
+              "value": "powerstore"
+            }
+          },
+          "targets": [
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used",
+              "refId": "A"
+            },
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned ",
+              "refId": "B"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Storage Class Capacity",
+          "type": "stat"
+        },
+        {
+          "aliasColors": {},
+          "breakPoint": "50%",
+          "cacheTimeout": null,
+          "combine": {
+            "label": "Others",
+            "threshold": 0
+          },
+          "datasource": "Prometheus",
+          "decimals": 2,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fontSize": "80%",
+          "format": "decgbytes",
+          "gridPos": {
+            "h": 8,
+            "w": 15,
+            "x": 9,
+            "y": 5
+          },
+          "id": 162,
+          "interval": null,
+          "legend": {
+            "percentage": true,
+            "show": true,
+            "values": true
+          },
+          "legendType": "Right side",
+          "links": [],
+          "nullPointMode": "connected",
+          "pieType": "donut",
+          "pluginVersion": "7.1.0",
+          "repeatIteration": 1628012038386,
+          "repeatPanelId": 138,
+          "repeatedByRow": true,
+          "scopedVars": {
+            "StorageClass": {
+              "selected": false,
+              "text": "powerstore",
+              "value": "powerstore"
+            }
+          },
+          "strokeWidth": "2",
+          "targets": [
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used Capacity",
+              "refId": "A"
+            },
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned",
+              "refId": "B"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Storage Class Summary",
+          "type": "grafana-piechart-panel",
+          "valueName": "current"
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 153,
+      "scopedVars": {
+        "StorageClass": {
+          "selected": false,
+          "text": "powerstore",
+          "value": "powerstore"
+        }
+      },
+      "title": "$StorageClass",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 55
+      },
+      "id": 163,
+      "panels": [],
+      "repeat": null,
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 153,
+      "scopedVars": {
+        "StorageClass": {
+          "selected": false,
+          "text": "powerstore-nfs",
+          "value": "powerstore-nfs"
+        }
+      },
+      "title": "$StorageClass",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "decimals": 2,
+          "mappings": [
+            {
+              "from": "",
+              "id": 0,
+              "text": "N/A",
+              "to": "",
+              "type": 1,
+              "value": "null"
+            }
+          ],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 9,
+        "x": 0,
+        "y": 56
+      },
+      "id": 164,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.1.0",
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 136,
+      "repeatedByRow": true,
+      "scopedVars": {
+        "StorageClass": {
+          "selected": false,
+          "text": "powerstore-nfs",
+          "value": "powerstore-nfs"
+        }
+      },
+      "targets": [
+        {
+          "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Used",
+          "refId": "A"
+        },
+        {
+          "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Provisioned ",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Storage Class Capacity",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "cacheTimeout": null,
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": "Prometheus",
+      "decimals": 2,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fontSize": "80%",
+      "format": "decgbytes",
+      "gridPos": {
+        "h": 8,
+        "w": 15,
+        "x": 9,
+        "y": 56
+      },
+      "id": 165,
+      "interval": null,
+      "legend": {
+        "percentage": true,
+        "show": true,
+        "values": true
+      },
+      "legendType": "Right side",
+      "links": [],
+      "nullPointMode": "connected",
+      "pieType": "donut",
+      "pluginVersion": "7.1.0",
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 138,
+      "repeatedByRow": true,
+      "scopedVars": {
+        "StorageClass": {
+          "selected": false,
+          "text": "powerstore-nfs",
+          "value": "powerstore-nfs"
+        }
+      },
+      "strokeWidth": "2",
+      "targets": [
+        {
+          "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Used Capacity",
+          "refId": "A"
+        },
+        {
+          "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Provisioned",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Storage Class Summary",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 64
+      },
+      "id": 166,
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {},
+              "decimals": 2,
+              "mappings": [
+                {
+                  "from": "",
+                  "id": 0,
+                  "text": "N/A",
+                  "to": "",
+                  "type": 1,
+                  "value": "null"
+                }
+              ],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 9,
+            "x": 0,
+            "y": 5
+          },
+          "id": 167,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "7.1.0",
+          "repeatIteration": 1628012038386,
+          "repeatPanelId": 136,
+          "repeatedByRow": true,
+          "scopedVars": {
+            "StorageClass": {
+              "selected": false,
+              "text": "vxflexos",
+              "value": "vxflexos"
+            }
+          },
+          "targets": [
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used",
+              "refId": "A"
+            },
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned ",
+              "refId": "B"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Storage Class Capacity",
+          "type": "stat"
+        },
+        {
+          "aliasColors": {},
+          "breakPoint": "50%",
+          "cacheTimeout": null,
+          "combine": {
+            "label": "Others",
+            "threshold": 0
+          },
+          "datasource": "Prometheus",
+          "decimals": 2,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fontSize": "80%",
+          "format": "decgbytes",
+          "gridPos": {
+            "h": 8,
+            "w": 15,
+            "x": 9,
+            "y": 5
+          },
+          "id": 168,
+          "interval": null,
+          "legend": {
+            "percentage": true,
+            "show": true,
+            "values": true
+          },
+          "legendType": "Right side",
+          "links": [],
+          "nullPointMode": "connected",
+          "pieType": "donut",
+          "pluginVersion": "7.1.0",
+          "repeatIteration": 1628012038386,
+          "repeatPanelId": 138,
+          "repeatedByRow": true,
+          "scopedVars": {
+            "StorageClass": {
+              "selected": false,
+              "text": "vxflexos",
+              "value": "vxflexos"
+            }
+          },
+          "strokeWidth": "2",
+          "targets": [
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used Capacity",
+              "refId": "A"
+            },
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned",
+              "refId": "B"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Storage Class Summary",
+          "type": "grafana-piechart-panel",
+          "valueName": "current"
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 153,
+      "scopedVars": {
+        "StorageClass": {
+          "selected": false,
+          "text": "vxflexos",
+          "value": "vxflexos"
+        }
+      },
+      "title": "$StorageClass",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 65
+      },
+      "id": 169,
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {},
+              "decimals": 2,
+              "mappings": [
+                {
+                  "from": "",
+                  "id": 0,
+                  "text": "N/A",
+                  "to": "",
+                  "type": 1,
+                  "value": "null"
+                }
+              ],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 9,
+            "x": 0,
+            "y": 5
+          },
+          "id": 170,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "7.1.0",
+          "repeatIteration": 1628012038386,
+          "repeatPanelId": 136,
+          "repeatedByRow": true,
+          "scopedVars": {
+            "StorageClass": {
+              "selected": false,
+              "text": "vxflexos-177",
+              "value": "vxflexos-177"
+            }
+          },
+          "targets": [
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used",
+              "refId": "A"
+            },
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned ",
+              "refId": "B"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Storage Class Capacity",
+          "type": "stat"
+        },
+        {
+          "aliasColors": {},
+          "breakPoint": "50%",
+          "cacheTimeout": null,
+          "combine": {
+            "label": "Others",
+            "threshold": 0
+          },
+          "datasource": "Prometheus",
+          "decimals": 2,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fontSize": "80%",
+          "format": "decgbytes",
+          "gridPos": {
+            "h": 8,
+            "w": 15,
+            "x": 9,
+            "y": 5
+          },
+          "id": 171,
+          "interval": null,
+          "legend": {
+            "percentage": true,
+            "show": true,
+            "values": true
+          },
+          "legendType": "Right side",
+          "links": [],
+          "nullPointMode": "connected",
+          "pieType": "donut",
+          "pluginVersion": "7.1.0",
+          "repeatIteration": 1628012038386,
+          "repeatPanelId": 138,
+          "repeatedByRow": true,
+          "scopedVars": {
+            "StorageClass": {
+              "selected": false,
+              "text": "vxflexos-177",
+              "value": "vxflexos-177"
+            }
+          },
+          "strokeWidth": "2",
+          "targets": [
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used Capacity",
+              "refId": "A"
+            },
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned",
+              "refId": "B"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Storage Class Summary",
+          "type": "grafana-piechart-panel",
+          "valueName": "current"
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 153,
+      "scopedVars": {
+        "StorageClass": {
+          "selected": false,
+          "text": "vxflexos-177",
+          "value": "vxflexos-177"
+        }
+      },
+      "title": "$StorageClass",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 66
+      },
+      "id": 172,
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {},
+              "decimals": 2,
+              "mappings": [
+                {
+                  "from": "",
+                  "id": 0,
+                  "text": "N/A",
+                  "to": "",
+                  "type": 1,
+                  "value": "null"
+                }
+              ],
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 9,
+            "x": 0,
+            "y": 5
+          },
+          "id": 173,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "7.1.0",
+          "repeatIteration": 1628012038386,
+          "repeatPanelId": 136,
+          "repeatedByRow": true,
+          "scopedVars": {
+            "StorageClass": {
+              "selected": false,
+              "text": "vxflexos-xfs",
+              "value": "vxflexos-xfs"
+            }
+          },
+          "targets": [
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used",
+              "refId": "A"
+            },
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned ",
+              "refId": "B"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Storage Class Capacity",
+          "type": "stat"
+        },
+        {
+          "aliasColors": {},
+          "breakPoint": "50%",
+          "cacheTimeout": null,
+          "combine": {
+            "label": "Others",
+            "threshold": 0
+          },
+          "datasource": "Prometheus",
+          "decimals": 2,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {}
+            },
+            "overrides": []
+          },
+          "fontSize": "80%",
+          "format": "decgbytes",
+          "gridPos": {
+            "h": 8,
+            "w": 15,
+            "x": 9,
+            "y": 5
+          },
+          "id": 174,
+          "interval": null,
+          "legend": {
+            "percentage": true,
+            "show": true,
+            "values": true
+          },
+          "legendType": "Right side",
+          "links": [],
+          "nullPointMode": "connected",
+          "pieType": "donut",
+          "pluginVersion": "7.1.0",
+          "repeatIteration": 1628012038386,
+          "repeatPanelId": 138,
+          "repeatedByRow": true,
+          "scopedVars": {
+            "StorageClass": {
+              "selected": false,
+              "text": "vxflexos-xfs",
+              "value": "vxflexos-xfs"
+            }
+          },
+          "strokeWidth": "2",
+          "targets": [
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Used Capacity",
+              "refId": "A"
+            },
+            {
+              "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "Provisioned",
+              "refId": "B"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Storage Class Summary",
+          "type": "grafana-piechart-panel",
+          "valueName": "current"
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1628012038386,
+      "repeatPanelId": 153,
+      "scopedVars": {
+        "StorageClass": {
+          "selected": false,
+          "text": "vxflexos-xfs",
+          "value": "vxflexos-xfs"
+        }
+      },
+      "title": "$StorageClass",
+      "type": "row"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 26,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Prometheus",
+        "definition": "label_values(StorageClass)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Storage Class",
+        "multi": true,
+        "name": "StorageClass",
+        "options": [],
+        "query": "label_values(StorageClass)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "Prometheus",
+        "definition": "label_values(Driver)",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": true,
+        "name": "Driver",
+        "options": [],
+        "query": "label_values(Driver)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Prometheus",
+        "definition": "label_values(ArrayID)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Array ID",
+        "multi": true,
+        "name": "ArrayID",
+        "options": [],
+        "query": "label_values(ArrayID)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "PowerStore Storage Class Capacity",
+  "uid": "Powerstore_scll",
+  "version": 6
+}
