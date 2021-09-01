@@ -8,38 +8,38 @@ You may obtain a copy of the License at
     http://www.apache.org/licenses/LICENSE-2.0
 -->
 
-# Karavi Observability
+# Dell EMC Container Storage Modules (CSM) for Observability
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](docs/CODE_OF_CONDUCT.md)
 [![License](https://img.shields.io/github/license/dell/karavi-observability)](LICENSE)
 [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/dell/karavi-observability?include_prereleases&label=latest&style=flat-square)](https://github.com/dell/karavi-observability/releases/latest)
 
-Karavi Observability is part of the [Karavi](https://github.com/dell/karavi) open source suite of Kubernetes storage enablers for Dell EMC products. It provides standardized approaches for storage observability. Karavi Observability consists of several services, each of which is contained in a separate repository. This repository will be the hub for all things concerning Karavi Observability. [Issues](https://github.com/dell/karavi-observability/issues) against any of the Karavi Observability services need to be created here.
+CSM for Observability is part of the [CSM (Container Storage Modules)](https://github.com/dell/csm) open-source suite of Kubernetes storage enablers for Dell EMC products.
 
-Several services compose Karavi Observability, each living in their own GitHub repository. Contributions can be made to this repository or any of the Karavi Observability repositories listed below. New releases of Karavi Observability are made available when any of these services are released. Each new release will contain notes detailing the changes and updates made to each service since the previous release.
+It is an OpenTelemetry agent that collects array-level metrics for Dell EMC storage so they can be scraped into a Prometheus database. With CSM for Observability, you will gain visibility not only on the capacity of the volumes/file shares you manage with Dell CSM CSI (Container Storage Interface) drivers but also their performance in terms of bandwidth, IOPS, and response time.
 
-| Name | Repository | Description |
-| ---- | ---------  | ----------- |
-| Performance Metrics for PowerFlex | [Karavi Metrics for PowerFlex](https://github.com/dell/karavi-metrics-powerflex) | Performance Metrics for PowerFlex captures telemetry data about Kubernetes storage usage and performance obtained through the CSI (Container Storage Interface) Driver for Dell EMC PowerFlex. The metrics service pushes it to the OpenTelemetry Collector, so it can be processed, and exported in a format consumable by Prometheus. Prometheus can then be configured to scrape the OpenTelemetry Collector exporter endpoint to provide metrics so they can be visualized in Grafana. Please visit the repository for more information. |
-| Performance Metrics for PowerStore | [Karavi Metrics for PowerStore](https://github.com/dell/csm-metrics-powerstore) | *As of Release 0.4.0:* Performance Metrics for PowerStore captures telemetry data about Kubernetes storage usage and performance obtained through the CSI (Container Storage Interface) Driver for Dell EMC PowerStore. The metrics service pushes it to the OpenTelemetry Collector, so it can be processed, and exported in a format consumable by Prometheus. Prometheus can then be configured to scrape the OpenTelemetry Collector exporter endpoint to provide metrics so they can be visualized in Grafana. Please visit the repository for more information. |
-| Volume Topology | [Karavi Topology](https://github.com/dell/karavi-topology) | Topology provides Kubernetes administrators with the topology data related to containerized storage that is provisioned by a CSI (Container Storage Interface) Driver for Dell EMC storage products. Please visit the repository for more information. |
-| Helm Chart | [Karavi Observability Helm Chart](https://github.com/dell/helm-charts/tree/main/charts/karavi-observability) | The Karavi Observability Helm chart facilitates the deploying of the observability solution. |
+Thanks to pre-packaged Grafana dashboards, you will be able to go through these metrics history and see the topology between a Kubernetes PV (Persistent Volume) and its translation as a LUN or file share in the backend array. This module also allows Kubernetes admins to collect array level metrics to check the overall capacity and performance directly from the Prometheus/Grafana tools rather than interfacing directly with the storage system itself.
 
-Please see [Getting Started Guide](./docs/GETTING_STARTED_GUIDE.md) for information on requirements, deployment, and usage.
+For documentation, please visit [Container Storage Modules documentation](https://dell.github.io/csm-docs/).
 
 ## Table of Contents
 
-- [Code of Conduct](./docs/CODE_OF_CONDUCT.md)
-- [Getting Started Guide](./docs/GETTING_STARTED_GUIDE.md)
-- [Branching Strategy](./docs/BRANCHING.md)
-- [Contributing Guide](./docs/CONTRIBUTING.md)
-- [Maintainers](./docs/MAINTAINERS.md)
+- [Code of Conduct](https://github.com/dell/csm/blob/main/docs/CODE_OF_CONDUCT.md)
+- [Maintainer Guide](https://github.com/dell/csm/blob/main/docs/MAINTAINER_GUIDE.md)
+- [Committer Guide](https://github.com/dell/csm/blob/main/docs/COMMITTER_GUIDE.md)
+- [Contributing Guide](https://github.com/dell/csm/blob/main/docs/CONTRIBUTING.md)
+- [Branching Strategy](https://github.com/dell/csm/blob/main/docs/BRANCHING.md)
+- [List of Adopters](https://github.com/dell/csm/blob/main/ADOPTERS.md)
+- [Maintainers](https://github.com/dell/csm/blob/main/docs/MAINTAINERS.md)
+- [Support](https://github.com/dell/csm/blob/main/docs/SUPPORT.md)
+- [Security](https://github.com/dell/csm/blob/main/docs/SECURITY.md)
 - [About](#about)
 
 ## Support
 
-Don’t hesitate to ask! Contact the team and community on our [support](./docs/SUPPORT.md) page.
-Open an issue if you found a bug on [Github Issues](https://github.com/dell/karavi-observability/issues).
+For all your support needs or to follow the latest ongoing discussions and updates, join our Slack group. Click [Here](http://del.ly/Slack_request) to request your invite.
+
+You can also interact with us on [GitHub](https://github.com/dell/csm) by creating a [GitHub Issue](https://github.com/dell/csm/issues).
 
 ## Versioning
 
@@ -47,6 +47,6 @@ This project is adhering to [Semantic Versioning](https://semver.org/).
 
 ## About
 
-Karavi Observability is 100% open source and community-driven. All components are available
+Dell EMC Container Storage Modules (CSM) is 100% open source and community-driven. All components are available
 under [Apache 2 License](https://www.apache.org/licenses/LICENSE-2.0.html) on
 GitHub.
