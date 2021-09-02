@@ -16,7 +16,7 @@ You may obtain a copy of the License at
 
 CSM for Observability is part of the [CSM (Container Storage Modules)](https://github.com/dell/csm) open-source suite of Kubernetes storage enablers for Dell EMC products.
 
-It is an OpenTelemetry agent that collects array-level metrics for Dell EMC storage so they can be scraped into a Prometheus database. With CSM for Observability, you will gain visibility not only on the capacity of the volumes/file shares you manage with Dell CSM CSI (Container Storage Interface) drivers but also their performance in terms of bandwidth, IOPS, and response time.
+It is an OpenTelemetry agent that collects array-level metrics for Dell EMC storage so they can be scraped into a Prometheus database. With CSM for Observability, you will gain visibility not only on the capacity of the volumes/file shares you manage with Dell EMC CSI (Container Storage Interface) drivers but also their performance in terms of bandwidth, IOPS, and response time.
 
 Thanks to pre-packaged Grafana dashboards, you will be able to go through these metrics history and see the topology between a Kubernetes PV (Persistent Volume) and its translation as a LUN or file share in the backend array. This module also allows Kubernetes admins to collect array level metrics to check the overall capacity and performance directly from the Prometheus/Grafana tools rather than interfacing directly with the storage system itself.
 
