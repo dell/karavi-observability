@@ -47,6 +47,8 @@ export HELMLOG="${SCRIPTDIR}/helm-install.log"
 
 HELMREPO="https://dell.github.io/helm-charts"
 
+CRD="kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml"
+
 # adds the Dell helm repository and refreshes it
 function helm_repo_add() {
   log step "Configure helm chart repository"
@@ -184,7 +186,7 @@ function install_certmanager_crds() {
     log info "Certmanager CRDs are already installed"
   else
     log step "Installing CertManager CRDs" "small"
-    run_command "kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml > ${DEBUGLOG} 2>&1"
+    run_command "${CRD} > ${DEBUGLOG} 2>&1"
     if [ $? -eq 1 ]; then
       log step_failure
       log error "Unable to create cert-manager CRDs to ${NAMESPACE}."
@@ -199,7 +201,7 @@ function upgrade_certmanager_crds() {
   NUM=$(run_command kubectl get crd | grep -e '^certificates.cert-manager.io\s' | wc -l)
   if [ "${NUM}" != "0" ]; then
     log step "Upgrading CertManager CRDs" "small"
-    run_command "kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml > ${DEBUGLOG} 2>&1"
+    run_command "${CRD} > ${DEBUGLOG} 2>&1"
     if [ $? -eq 1 ]; then
       log step_failure
       log error "Unable to upgrade cert-manager CRDs."
