@@ -194,18 +194,15 @@ function install_certmanager_crds() {
   fi
 }
 
-# remove CertManager CRDs before upgrade
-function remove_certmanager_crds() {
+# upgrades CertManager CRDs
+function upgrade_certmanager_crds() {
   NUM=$(run_command kubectl get crd | grep -e '^certificates.cert-manager.io\s' | wc -l)
   if [ "${NUM}" != "0" ]; then
-    log step "Certmanager CRDs are installed"
-    decho
-    log arrow
-    log smart_step "Removing old CertManager CRDs before upgrade" "small"
-    run_command "kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml > ${DEBUGLOG} 2>&1"
+    log step "Upgrading CertManager CRDs" "small"
+    run_command "kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml > ${DEBUGLOG} 2>&1"
     if [ $? -eq 1 ]; then
       log step_failure
-      log error "Unable to remove cert-manager CRDs from ${NAMESPACE}."
+      log error "Unable to upgrade cert-manager CRDs."
     else
       log step_success
     fi
@@ -738,8 +735,7 @@ case $MODE in
       log error "Karavi Observability is not installed" "small"
     fi
     verify_karavi_observability
-    remove_certmanager_crds
-    install_certmanager_crds
+    upgrade_certmanager_crds
     upgrade_karavi_observability
     wait_on_pods
     display_helm_log
