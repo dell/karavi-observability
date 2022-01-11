@@ -467,7 +467,7 @@ function usage() {
   decho "Mode:"
   decho "  install                                                     Installs Karavi Observability and enables Karavi Authorization if already installed"
   decho "  enable-authorization                                        Updates existing installation of Karavi Observability with Karavi Authorization"
-  decho "  upgrade                                                     Upgrades existing installation of Karavi Observability to a specified release version"
+  decho "  upgrade                                                     Upgrades existing installation of Karavi Observability to the latest release"
   decho "Options:"
   decho "  Required"
   decho "  --namespace[=]<namespace>                                   Namespace where Karavi Observability will be installed"
@@ -728,7 +728,7 @@ case $MODE in
     ;;
   "upgrade")
     validate_params
-    log section "Upgrading Karavi Observability in namespace ${NAMESPACE}"
+    log section "Upgrading Karavi Observability in namespace ${NAMESPACE} on ${kMajorVersion}.${kMinorVersion}"
     is_karavi_observability_installed
     if [[ $? == "0" ]]; then
       log step "Karavi Observability is installed. Upgrade can continue" "small"
