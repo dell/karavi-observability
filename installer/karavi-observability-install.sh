@@ -47,6 +47,8 @@ export HELMLOG="${SCRIPTDIR}/helm-install.log"
 
 HELMREPO="https://dell.github.io/helm-charts"
 
+CRD="kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml"
+
 # adds the Dell helm repository and refreshes it
 function helm_repo_add() {
   log step "Configure helm chart repository"
@@ -184,10 +186,25 @@ function install_certmanager_crds() {
     log info "Certmanager CRDs are already installed"
   else
     log step "Installing CertManager CRDs" "small"
-    run_command "kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml > ${DEBUGLOG} 2>&1"
+    run_command "${CRD} > ${DEBUGLOG} 2>&1"
     if [ $? -eq 1 ]; then
       log step_failure
       log error "Unable to create cert-manager CRDs to ${NAMESPACE}."
+    else
+      log step_success
+    fi
+  fi
+}
+
+# upgrades CertManager CRDs
+function upgrade_certmanager_crds() {
+  NUM=$(run_command kubectl get crd | grep -e '^certificates.cert-manager.io\s' | wc -l)
+  if [ "${NUM}" != "0" ]; then
+    log step "Upgrading CertManager CRDs" "small"
+    run_command "${CRD} > ${DEBUGLOG} 2>&1"
+    if [ $? -eq 1 ]; then
+      log step_failure
+      log error "Unable to upgrade cert-manager CRDs."
     else
       log step_success
     fi
@@ -256,6 +273,37 @@ function wait_on_pods() {
     log error "Timed out waiting for the operation to complete. This does not indicate a fatal error, pods may take a while to start. Progress can be checked by running \"kubectl get pods -n ${NAMESPACE}\""
   fi
   return 0
+}
+
+# upgrade the Karavi Observability helm chart
+function upgrade_karavi_observability() {
+  log step "Updating helm repositories" "small"
+  run_command "helm repo update > ${DEBUGLOG} 2>&1"
+  if [ $? -eq 1 ]; then
+    log step_failure
+    log error "Unable to update the helm repository. View logs at ${DEBUGLOG}"
+  fi
+  log step_success
+
+  OPT_VALUES_ARG=""
+  if [ -n "$VERSION" ]; then
+      OPT_VALUES_ARG+="--version ${VERSION} "
+  fi
+  if [ -n "$VALUES" ]; then
+      OPT_VALUES_ARG+="--values ${VALUES} "
+  fi
+
+  log step "Upgrading Karavi Observability helm chart"
+  run_command "helm upgrade \
+    ${OPT_VALUES_ARG} \
+    --namespace ${NAMESPACE} karavi-observability \
+    dell/karavi-observability > ${HELMLOG} 2>&1"
+
+  if [ $? -ne 0 ]; then
+    cat "${HELMLOG}"
+    log error "Unable to upgrade Karavi Observability. View logs at ${HELMLOG}."
+  fi
+  log step_success
 }
 
 # verify the k8s, openshift, and helm environment prior to installation
@@ -419,6 +467,7 @@ function usage() {
   decho "Mode:"
   decho "  install                                                     Installs Karavi Observability and enables Karavi Authorization if already installed"
   decho "  enable-authorization                                        Updates existing installation of Karavi Observability with Karavi Authorization"
+  decho "  upgrade                                                     Upgrades existing installation of Karavi Observability to the latest release"
   decho "Options:"
   decho "  Required"
   decho "  --namespace[=]<namespace>                                   Namespace where Karavi Observability will be installed"
@@ -676,6 +725,22 @@ case $MODE in
     else
       log error "Karavi Authorization is not available to be used"
     fi
+    ;;
+  "upgrade")
+    validate_params
+    log section "Upgrading Karavi Observability in namespace ${NAMESPACE} on ${kMajorVersion}.${kMinorVersion}"
+    is_karavi_observability_installed
+    if [[ $? == "0" ]]; then
+      log step "Karavi Observability is installed. Upgrade can continue" "small"
+      log step_success
+    else
+      log error "Karavi Observability is not installed" "small"
+    fi
+    verify_karavi_observability
+    upgrade_certmanager_crds
+    upgrade_karavi_observability
+    wait_on_pods
+    display_helm_log
     ;;
   *)
     echo "Unknown mode ${MODE}"
