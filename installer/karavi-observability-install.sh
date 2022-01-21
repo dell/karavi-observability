@@ -47,7 +47,7 @@ export HELMLOG="${SCRIPTDIR}/helm-install.log"
 
 HELMREPO="https://dell.github.io/helm-charts"
 
-CRD="kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml"
+CRD="kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.crds.yaml"
 
 # adds the Dell helm repository and refreshes it
 function helm_repo_add() {
@@ -312,8 +312,8 @@ function verify_karavi_observability() {
     log info "Skipping verification of the environment"
     return
   fi
-  verify_k8s_versions "1.20" "1.22"
-  verify_openshift_versions "4.7" "4.8"
+  verify_k8s_versions "1.20" "1.23"
+  verify_openshift_versions "4.7" "4.9"
   verify_helm_3
 }
 

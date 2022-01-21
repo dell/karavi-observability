@@ -72,7 +72,7 @@ create_bundle() {
     run_command "helm dependency update ${DISTDIR}/${HELMBACKUPDIR}/${CHART}"
 
     # add cert-manager crds file to bundle
-    run_command "curl -o ${DISTDIR}/${HELMBACKUPDIR}/cert-manager.crds.yaml -L https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.crds.yaml"
+    run_command "curl -o ${DISTDIR}/${HELMBACKUPDIR}/cert-manager.crds.yaml -L https://github.com/jetstack/cert-manager/releases/download/v1.6.1/cert-manager.crds.yaml"
 
     # copy this script into the distribution directory
     cp $0 ${DISTDIR}
