@@ -139,7 +139,8 @@ function copy_vxflexos_config_secret() {
 function copy_vxflexos_authorization_entities() {
   NUM=$(run_command kubectl get configmap --namespace "${NAMESPACE}" | grep -e '^vxflexos-config-params\s' | wc -l)
   if [ "${NUM}" == "0" ]; then
-    log step "Copying ConfigMap from ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}" "small"
+    log arrow
+    log smart_step "Copying ConfigMap from ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}" "small"
     run_command "kubectl get configmap vxflexos-config-params -n ${CSI_POWERFLEX_NAMESPACE} -o yaml | sed 's/namespace: ${CSI_POWERFLEX_NAMESPACE}/namespace: ${NAMESPACE}/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
     if [ $? -eq 1 ]; then
       log step_failure
@@ -151,7 +152,8 @@ function copy_vxflexos_authorization_entities() {
 
   NUM2=$(run_command kubectl get secret --namespace "${NAMESPACE}" | grep -e '^proxy-authz-tokens\s' -e '^karavi-authorization-config\s' -e '^proxy-server-root-certificate\s' | wc -l)
   if [ "${NUM2}" != "3" ]; then
-    log step "Copying Karavi Authorization Secrets from ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}" "small"
+    log arrow
+    log smart_step "Copying Karavi Authorization Secrets from ${CSI_POWERFLEX_NAMESPACE} to ${NAMESPACE}" "small"
     run_command "kubectl get secret proxy-authz-tokens karavi-authorization-config proxy-server-root-certificate -n ${CSI_POWERFLEX_NAMESPACE} -o yaml | sed 's/namespace: ${CSI_POWERFLEX_NAMESPACE}/namespace: ${NAMESPACE}/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
     if [ $? -eq 1 ]; then
       log step_failure
@@ -159,6 +161,15 @@ function copy_vxflexos_authorization_entities() {
     else
       log step_success
     fi
+  fi
+}
+
+# enable the authorization sidecar-proxy for observability
+function enable_auth_for_observability() {
+  run_command "kubectl get secrets,deployments -n ${NAMESPACE} -o yaml | kubectl apply -f - > /dev/null 2>&1"
+  if [ $? -eq 1 ]; then
+    log step_failure
+    log error "Unable to enable Karavi Authorization for Karavi Observability."
   fi
 }
 
@@ -573,30 +584,6 @@ function vxflexos_authorization_entities_exist() {
   fi
 }
 
-function get_authorization_proxy_host() {
-  PROXY_HOST=$(run_command kubectl describe deployment -n "${CSI_POWERFLEX_NAMESPACE}" vxflexos-controller | grep PROXY_HOST | awk '{print $2}')
-  if [ "${PROXY_HOST}" != "" ]; then
-    AUTH_PROXY_HOST=${PROXY_HOST}
-      if [ "${VERBOSE}" == "1" ]; then
-        log arrow
-        log smart_step "Using Karavi Authorization proxy host ${AUTH_PROXY_HOST}" "small"
-        log step_success
-      fi
-  fi
-}
-
-function get_authorization_proxy_sidecar() {
-  PROXY_SIDECAR=$(run_command kubectl describe deployment -n "${CSI_POWERFLEX_NAMESPACE}"  vxflexos-controller | grep Image | grep sidecar | awk '{print $2}')
-  if [ "${PROXY_SIDECAR}" != "" ]; then
-    AUTH_IMAGE_ADDR=${PROXY_SIDECAR}
-    if [ "${VERBOSE}" == "1" ]; then
-      log arrow
-      log smart_step "Using Karavi Authorization proxy sidecar ${AUTH_IMAGE_ADDR}" "small"
-      log step_success
-    fi
-  fi
-}
-
 function verify_authorization_environment() {
   karavictl_exists
   vxflexos_authorization_entities_exist
@@ -638,12 +625,6 @@ case $MODE in
       DISABLE_POWERFLEX_COMPONENTS=true
     fi
 
-    if [[ "${ENABLE_AUTHORIZATION_DURING_INSTALL}" == "1" ]]; then
-      copy_vxflexos_authorization_entities
-    else
-      log error "Unable to enable Karavi Authorization during installation."
-    fi
-
     is_csi_powerstore_installed
     if [[ $? == "0" ]]; then
       log step "CSI Driver for PowerStore is installed"
@@ -656,6 +637,14 @@ case $MODE in
     fi
 
     install_certmanager_crds
+
+    if [[ "${ENABLE_AUTHORIZATION_DURING_INSTALL}" == "1" ]]; then
+      log step "Enabling Karavi Authorization for Karavi Observability" "small"
+      decho
+      copy_vxflexos_authorization_entities
+      enable_auth_for_observability
+    fi
+
     install_karavi_observability
     wait_on_pods
     display_helm_log
@@ -674,10 +663,11 @@ case $MODE in
     verify_authorization_environment
     verify_karavi_observability
     if [[ "${ENABLE_AUTHORIZATION_DURING_INSTALL}" == "1" ]]; then
+      log step "Enabling Karavi Authorization for Karavi Observability" "small"
+      decho
       copy_vxflexos_authorization_entities
+      enable_auth_for_observability
       wait_on_pods
-    else
-      log error "Unable to enable Karavi Authorization for Karavi Observability."
     fi
     ;;
   "upgrade")
