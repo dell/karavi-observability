@@ -252,14 +252,14 @@ or
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl apply --validate=false -f cert-manager.crds.yaml
 ```
 
-3. The vxflexos-config Secret from the namespace where CSI Driver for Dell EMC PowerFlex is installed must be copied to the namespace where Karavi Observability is to be installed.
+3. The vxflexos-config Secret from the namespace where CSI Driver for Dell PowerFlex is installed must be copied to the namespace where Karavi Observability is to be installed.
 
 Example command to copy the Secret from the vxflexos namespace to the karavi namespace.
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
 ```
 
-4. The powerstore-config Secret from the namespace where CSI Driver for Dell EMC PowerStore is installed must be copied to the namespace where Karavi Observability is to be installed.
+4. The powerstore-config Secret from the namespace where CSI Driver for Dell PowerStore is installed must be copied to the namespace where Karavi Observability is to be installed.
 
 Example command to copy the Secret from the csi-powerstore namespace to the karavi namespace.
 ```
