@@ -158,7 +158,7 @@
             "splitPattern": "/ /",
             "thresholds": [],
             "type": "number",
-            "unit": "decmbytes"
+            "unit": "decgbytes"
           }
         ],
         "targets": [
@@ -406,7 +406,7 @@
                 }
               ]
             },
-            "unit": "decmbytes"
+            "unit": "decgbytes"
           },
           "overrides": []
         },
@@ -563,7 +563,7 @@
           "overrides": []
         },
         "fontSize": "80%",
-        "format": "decmbytes",
+        "format": "decgbytes",
         "gridPos": {
           "h": 8,
           "w": 15,
