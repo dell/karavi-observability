@@ -307,7 +307,7 @@ function verify_karavi_observability() {
     return
   fi
   verify_k8s_versions "1.22" "1.24"
-  verify_openshift_versions "4.8" "4.10"
+  verify_openshift_versions "4.8" "4.9" "4.10"
   verify_helm_3
 }
 
