@@ -69,7 +69,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "powerstore_filesystem_read_iops_per_second{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\", PersistentVolumeName=~\"$PVName\"} and topk($TopX, avg_over_time(powerstore_filesystem_read_iops_per_second{PlotWithMean=~ \"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\", PersistentVolumeName=~\"$PVName\"}[$TimeFrame]))",
+            "expr": "powerstore_filesystem_read_iops_per_second{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powerstore_filesystem_read_iops_per_second{PlotWithMean=~ \"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
             "interval": "",
             "legendFormat": "{{PersistentVolumeName}}",
             "refId": "A"
@@ -177,7 +177,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "powerstore_filesystem_write_iops_per_second{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"} and topk($TopX, avg_over_time(powerstore_filesystem_write_iops_per_second{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"}[$TimeFrame]))",
+            "expr": "powerstore_filesystem_write_iops_per_second{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powerstore_filesystem_write_iops_per_second{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
             "interval": "",
             "legendFormat": "{{PersistentVolumeName}}",
             "refId": "A"
@@ -280,7 +280,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "powerstore_filesystem_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"} and topk($TopX, avg_over_time(powerstore_filesystem_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"}[$TimeFrame]))",
+            "expr": "powerstore_filesystem_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powerstore_filesystem_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
             "interval": "",
             "legendFormat": "{{PersistentVolumeName}}",
             "refId": "A"
@@ -382,7 +382,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "powerstore_filesystem_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"} and topk($TopX, avg_over_time(powerstore_filesystem_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"}[$TimeFrame]))",
+            "expr": "powerstore_filesystem_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powerstore_filesystem_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
             "interval": "",
             "legendFormat": "{{PersistentVolumeName}}",
             "refId": "A"
@@ -484,7 +484,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "powerstore_filesystem_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\",FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"} and topk($TopX, avg_over_time(powerstore_filesystem_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\",FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"}[$TimeFrame]))",
+            "expr": "powerstore_filesystem_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\",FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powerstore_filesystem_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\",FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
             "interval": "",
             "legendFormat": "{{PersistentVolumeName}}",
             "refId": "A"
@@ -586,7 +586,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "powerstore_filesystem_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"} and topk($TopX, avg_over_time(powerstore_filesystem_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"}[$TimeFrame]))",
+            "expr": "powerstore_filesystem_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powerstore_filesystem_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", FileSystemID=~\"$FileSystemID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
             "interval": "",
             "legendFormat": "{{PersistentVolumeName}}",
             "refId": "A"
@@ -747,6 +747,58 @@
           "name": "PVName",
           "options": [],
           "query": "label_values(powerstore_filesystem_read_bw_megabytes_per_second,PersistentVolumeName)",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(powerstore_filesystem_read_bw_megabytes_per_second,PersistentVolumeClaimName)",
+          "hide": 0,
+          "includeAll": true,
+          "label": "PVC Name",
+          "multi": true,
+          "name": "PersistentVolumeClaimName",
+          "options": [],
+          "query": "label_values(powerstore_filesystem_read_bw_megabytes_per_second,PersistentVolumeClaimName)",
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(powerstore_filesystem_read_bw_megabytes_per_second,Namespace)",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Namespace",
+          "multi": true,
+          "name": "Namespace",
+          "options": [],
+          "query": "label_values(powerstore_filesystem_read_bw_megabytes_per_second,Namespace)",
           "refresh": 2,
           "regex": "",
           "skipUrlSync": false,
