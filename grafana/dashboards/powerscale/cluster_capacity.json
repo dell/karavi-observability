@@ -1,0 +1,775 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 15,
+  "iteration": 1658885758137,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 12,
+      "panels": [],
+      "title": "Cluster Capacity Usage",
+      "type": "row"
+    },
+    {
+      "alignNumbersToRightEnabled": true,
+      "columnAliases": [
+        {
+          "$$hashKey": "object:381",
+          "alias": "Total (TB)",
+          "name": "Value #Cluster Total Capacity"
+        },
+        {
+          "$$hashKey": "object:383",
+          "alias": "Used (TB)",
+          "name": "Value #Cluster Used Capacity"
+        },
+        {
+          "$$hashKey": "object:831",
+          "alias": "Quota Total (GB)",
+          "name": "Value #Cluster Quota Total Capacity"
+        },
+        {
+          "$$hashKey": "object:833",
+          "alias": "Quota Used (GB)",
+          "name": "Value #Cluster Quota Used Capacity"
+        }
+      ],
+      "columnFiltersEnabled": false,
+      "columnWidthHints": [],
+      "columns": [],
+      "compactRowsEnabled": false,
+      "datasource": "Prometheus",
+      "datatablePagingType": "simple_numbers",
+      "datatableTheme": "basic_theme",
+      "emptyData": false,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "hoverEnabled": true,
+      "id": 6,
+      "infoEnabled": true,
+      "lengthChangeEnabled": true,
+      "orderColumnEnabled": true,
+      "pagingTypes": [
+        {
+          "$$hashKey": "object:180",
+          "text": "Page number buttons only",
+          "value": "numbers"
+        },
+        {
+          "$$hashKey": "object:181",
+          "text": "'Previous' and 'Next' buttons only",
+          "value": "simple"
+        },
+        {
+          "$$hashKey": "object:182",
+          "text": "'Previous' and 'Next' buttons, plus page numbers",
+          "value": "simple_numbers"
+        },
+        {
+          "$$hashKey": "object:183",
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
+          "value": "full"
+        },
+        {
+          "$$hashKey": "object:184",
+          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
+          "value": "full_numbers"
+        },
+        {
+          "$$hashKey": "object:185",
+          "text": "'First' and 'Last' buttons, plus page numbers",
+          "value": "first_last_numbers"
+        }
+      ],
+      "panelHeight": 357,
+      "rowNumbersEnabled": false,
+      "rowsPerPage": 5,
+      "scroll": false,
+      "scrollHeight": "default",
+      "searchEnabled": true,
+      "searchHighlightingEnabled": false,
+      "showCellBorders": false,
+      "showHeader": true,
+      "showRowBorders": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "sortByColumns": [],
+      "sortByColumnsData": [
+        [
+          0,
+          "desc"
+        ]
+      ],
+      "stripedRowsEnabled": true,
+      "styles": [
+        {
+          "$$hashKey": "object:23",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "$$hashKey": "object:24",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "splitPattern": "/ /",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powerscale_cluster_total_capacity_terabytes{ClusterName=~\"$ClusterName\"} - powerscale_cluster_remaining_capacity_terabytes{ClusterName=~\"$ClusterName\"}",
+          "format": "table",
+          "instant": true,
+          "range": false,
+          "refId": "Cluster Used Capacity"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powerscale_cluster_total_capacity_terabytes{ClusterName=~\"$ClusterName\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "Cluster Total Capacity"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powerscale_directory_total_hard_quota_gigabytes{ClusterName=~\"$ClusterName\"} * powerscale_directory_total_hard_quota_percentage{ClusterName=~\"$ClusterName\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "Cluster Quota Used Capacity"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powerscale_directory_total_hard_quota_gigabytes{ClusterName=~\"$ClusterName\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "Cluster Quota Total Capacity"
+        }
+      ],
+      "themeOptions": {
+        "dark": "./styles/dark.scss",
+        "light": "./styles/light.scss"
+      },
+      "themes": [
+        {
+          "$$hashKey": "object:155",
+          "disabled": false,
+          "text": "Basic",
+          "value": "basic_theme"
+        },
+        {
+          "$$hashKey": "object:156",
+          "disabled": true,
+          "text": "Bootstrap",
+          "value": "bootstrap_theme"
+        },
+        {
+          "$$hashKey": "object:157",
+          "disabled": true,
+          "text": "Foundation",
+          "value": "foundation_theme"
+        },
+        {
+          "$$hashKey": "object:158",
+          "disabled": true,
+          "text": "ThemeRoller",
+          "value": "themeroller_theme"
+        }
+      ],
+      "title": "Cluster Capacities",
+      "transform": "table",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "ClusterName",
+                "Value #Cluster Used Capacity",
+                "Value #Cluster Total Capacity",
+                "Value #Cluster Quota Used Capacity",
+                "Value #Cluster Quota Total Capacity"
+              ]
+            }
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "type": "briangann-datatable-panel"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "dark-yellow",
+                "value": 65
+              },
+              {
+                "color": "dark-orange",
+                "value": 70
+              },
+              {
+                "color": "dark-red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 8,
+      "options": {
+        "displayMode": "lcd",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showUnfilled": true,
+        "text": {}
+      },
+      "pluginVersion": "8.5.0",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ClusterName) (powerscale_cluster_used_capacity_percentage{ClusterName=~\"$ClusterName\"})",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "{{ClusterName}}",
+          "range": false,
+          "refId": "Cluster Usage"
+        }
+      ],
+      "title": "Cluster Capacity Usage",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "pattern": "/^(?!Time)/"
+            }
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "dark-yellow",
+                "value": 65
+              },
+              {
+                "color": "dark-orange",
+                "value": 70
+              },
+              {
+                "color": "dark-red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "id": 34,
+      "options": {
+        "displayMode": "lcd",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/.*/",
+          "values": false
+        },
+        "showUnfilled": true,
+        "text": {}
+      },
+      "pluginVersion": "8.5.0",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ClusterName) (powerscale_directory_total_hard_quota_percentage{ClusterName=~\"$ClusterName\"})",
+          "format": "time_series",
+          "instant": true,
+          "legendFormat": "{{ClusterName}}",
+          "range": false,
+          "refId": "Cluster Usage"
+        }
+      ],
+      "title": "Cluster Quota Usage",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "pattern": "/^(?!Time)/"
+            }
+          }
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "id": 14,
+      "panels": [],
+      "repeat": "ClusterName",
+      "title": "$ClusterName",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "null": {
+                  "index": 0,
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dectbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 21
+      },
+      "id": 16,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.0",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ClusterName) (powerscale_cluster_total_capacity_terabytes{ClusterName=~\"$ClusterName\"} - powerscale_cluster_remaining_capacity_terabytes{ClusterName=~\"$ClusterName\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Cluster Used Capacity"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ClusterName) (powerscale_cluster_total_capacity_terabytes{ClusterName=~\"$ClusterName\"})",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Total",
+          "range": false,
+          "refId": "Cluster Total Capacity"
+        }
+      ],
+      "title": "Cluster Capacity",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": "Prometheus",
+      "decimals": 2,
+      "fontSize": "80%",
+      "format": "dectbytes",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 21
+      },
+      "id": 18,
+      "interval": "1h",
+      "legend": {
+        "percentage": true,
+        "show": true,
+        "values": true
+      },
+      "legendType": "Right side",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "donut",
+      "strokeWidth": "2",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ClusterName) (powerscale_cluster_total_capacity_terabytes{ClusterName=~\"$ClusterName\"} - powerscale_cluster_remaining_capacity_terabytes{ClusterName=~\"$ClusterName\"})",
+          "instant": true,
+          "legendFormat": "Used Capacity",
+          "range": false,
+          "refId": "Custer Used Capacity"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ClusterName) (powerscale_cluster_total_capacity_terabytes{ClusterName=~\"$ClusterName\"})",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Total Capacity",
+          "range": false,
+          "refId": "Custer Total Capacity"
+        }
+      ],
+      "timeFrom": "3h",
+      "title": "Cluster Capacity Summary",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "null": {
+                  "index": 0,
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 29
+      },
+      "id": 43,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.0",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ClusterName) (powerscale_directory_total_hard_quota_gigabytes{ClusterName=~\"$ClusterName\"} * powerscale_directory_total_hard_quota_percentage{ClusterName=~\"$ClusterName\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Cluster Used Quota Capacity"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ClusterName) (powerscale_directory_total_hard_quota_gigabytes{ClusterName=~\"$ClusterName\"})",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Total",
+          "range": false,
+          "refId": "Cluster Total Quota Capacity"
+        }
+      ],
+      "title": "Cluster Quota Capacity",
+      "type": "stat"
+    },
+    {
+      "aliasColors": {},
+      "breakPoint": "50%",
+      "combine": {
+        "label": "Others",
+        "threshold": 0
+      },
+      "datasource": "Prometheus",
+      "decimals": 2,
+      "fontSize": "80%",
+      "format": "decgbytes",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 29
+      },
+      "id": 48,
+      "interval": "1h",
+      "legend": {
+        "percentage": true,
+        "show": true,
+        "values": true
+      },
+      "legendType": "Right side",
+      "links": [],
+      "maxDataPoints": 3,
+      "nullPointMode": "connected",
+      "pieType": "donut",
+      "strokeWidth": "2",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ClusterName) (powerscale_directory_total_hard_quota_gigabytes{ClusterName=~\"$ClusterName\"} * powerscale_directory_total_hard_quota_percentage{ClusterName=~\"$ClusterName\"})",
+          "instant": true,
+          "legendFormat": "Used Capacity",
+          "range": false,
+          "refId": "Custer Quota Used Capacity"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ClusterName) (powerscale_directory_total_hard_quota_gigabytes{ClusterName=~\"$ClusterName\"})",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Total Capacity",
+          "range": false,
+          "refId": "Custer Quota Total Capacity"
+        }
+      ],
+      "timeFrom": "3h",
+      "title": "Cluster Quota Summary",
+      "type": "grafana-piechart-panel",
+      "valueName": "current"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "Prometheus",
+        "definition": "label_values(powerscale_cluster_total_capacity_terabytes, ClusterName)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Cluster Name",
+        "multi": true,
+        "name": "ClusterName",
+        "options": [],
+        "query": {
+          "query": "label_values(powerscale_cluster_total_capacity_terabytes, ClusterName)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "PowerScale Cluster Capacity",
+  "uid": "KIl-h6g4k",
+  "version": 1,
+  "weekStart": ""
+}
