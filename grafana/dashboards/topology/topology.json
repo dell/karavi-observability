@@ -161,7 +161,7 @@
           "hide": false,
           "rawQuery": false,
           "refId": "A",
-          "target": "{\n   \"Storage System\":\"$StorageSystem\",\n   \"Namespace\":\"$Namespace\",\n   \"Protocol\":\"$Protocol\",\n   \"CSI Driver\":\"$CSIDriver\",\n   \"Status\":\"$Status\",\n   \"Storage Pool\":\"$StoragePool\"\n}",
+          "target": "{\n   \"Storage System\":\"$StorageSystem\",\n   \"Namespace\":\"$Namespace\",\n   \"Protocol\":\"$Protocol\",\n   \"Storage Class\":\"$StorageClass\",\n   \"Status\":\"$Status\",\n   \"Storage Pool\":\"$StoragePool\"\n}",
           "type": "table"
         }
       ],
@@ -199,6 +199,31 @@
       "timeShift": null,
       "title": "CSI Driver Topologies",
       "transform": "table",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "CSI Driver": true
+            },
+            "indexByName": {
+              "CSI Driver": 11,
+              "Created": 6,
+              "Namespace": 0,
+              "Persistent Volume": 2,
+              "Persistent Volume Claim": 1,
+              "Protocol": 8,
+              "Provisioned Size": 4,
+              "Status": 5,
+              "Storage Class": 3,
+              "Storage Pool": 9,
+              "Storage System": 7,
+              "Storage System Volume Name": 10
+            },
+            "renameByName": {}
+          }
+        }
+      ],
       "type": "briangann-datatable-panel"
     }
   ],
@@ -216,32 +241,6 @@
           "value": [
             "$__all"
           ]
-        },
-        "datasource": "Karavi-Topology",
-        "definition": "Storage System",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Storage System",
-        "multi": true,
-        "name": "StorageSystem",
-        "options": [],
-        "query": "Storage System",
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
         },
         "datasource": "Karavi-Topology",
         "definition": "Namespace",
@@ -270,14 +269,14 @@
           "value": "$__all"
         },
         "datasource": "Karavi-Topology",
-        "definition": "Protocol",
+        "definition": "Storage Class",
         "hide": 0,
         "includeAll": true,
-        "label": "Protocol",
+        "label": "Storage Class",
         "multi": true,
-        "name": "Protocol",
+        "name": "StorageClass",
         "options": [],
-        "query": "Protocol",
+        "query": "Storage Class",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -322,14 +321,40 @@
           "value": "$__all"
         },
         "datasource": "Karavi-Topology",
-        "definition": "CSI Driver",
+        "definition": "Storage System",
         "hide": 0,
         "includeAll": true,
-        "label": "CSI Driver",
+        "label": "Storage System",
         "multi": true,
-        "name": "CSIDriver",
+        "name": "StorageSystem",
         "options": [],
-        "query": "CSI Driver",
+        "query": "Storage System",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": "Karavi-Topology",
+        "definition": "Protocol",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Protocol",
+        "multi": true,
+        "name": "Protocol",
+        "options": [],
+        "query": "Protocol",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
