@@ -368,7 +368,7 @@ function verify_karavi_observability() {
     return
   fi
   verify_k8s_versions "1.22" "1.24"
-  verify_openshift_versions "4.8" "4.9" "4.10"
+  verify_openshift_versions "4.8" "4.10"
   verify_helm_3
 }
 
@@ -387,9 +387,11 @@ function verify_k8s_versions() {
   log arrow
   log smart_step "Verifying minimum Kubernetes version" "small"
   error=0
-  if [[ ${V} < ${MIN} ]]; then
+
+  check_versions_lower ${V} ${MIN}
+  if [[ $? == "0" ]]; then
     error=1
-    step_error "Kubernetes version, ${V}, is too old. Minimum required version is: ${MIN}"
+    log step_warning "Kubernetes version, ${V}, is too old. Minimum required version is: ${MIN}"
   fi
   check_error error
 
@@ -397,9 +399,11 @@ function verify_k8s_versions() {
   log arrow
   log smart_step "Verifying maximum Kubernetes version" "small"
   error=0
-  if [[ ${V} > ${MAX} ]]; then
+
+  check_versions_greater ${V} ${MAX}
+  if [[ $? == "0" ]]; then
     error=1
-    step_warning "Kubernetes version, ${V}, is newer than has been tested. Latest tested version is: ${MAX}"
+    log step_warning "Kubernetes version, ${V}, is newer than has been tested. Latest tested version is: ${MAX}"
   fi
   check_error error
 
@@ -416,13 +420,16 @@ function verify_openshift_versions() {
   local MIN=${1}
   local MAX=${2}
   local V=$(OpenShiftVersion)
+
   # check minimum
   log arrow
   log smart_step "Verifying minimum OpenShift version" "small"
   error=0
-  if [[ ${V} < ${MIN} ]]; then
+
+  check_versions_lower ${V} ${MIN}
+  if [[ $? == "0" ]]; then
     error=1
-    step_error "OpenShift version, ${V}, is too old. Minimum required version is: ${MIN}"
+    log step_warning "OpenShift version, ${V}, is too old. Minimum required version is: ${MIN}"
   fi
   check_error error
 
@@ -430,9 +437,11 @@ function verify_openshift_versions() {
   log arrow
   log smart_step "Verifying maximum OpenShift version" "small"
   error=0
-  if [[ ${V} > ${MAX} ]]; then
+
+  check_versions_greater ${V} ${MAX}
+  if [[ $? == "0" ]]; then
     error=1
-    step_warning "OpenShift version, ${V}, is newer than has been tested. Latest tested version is: ${MAX}"
+    log step_warning "OpenShift version, ${V}, is newer than has been tested. Latest tested version is: ${MAX}"
   fi
   check_error error
 }
@@ -443,7 +452,7 @@ function verify_helm_3() {
   error=0
   # Check helm installer version
   helm --help >&/dev/null || {
-    step_error "helm is required for installation"
+    log step_warning "helm is required for installation"
     log step_failure
     return
   }
@@ -451,7 +460,7 @@ function verify_helm_3() {
   run_command helm version | grep "v3." --quiet
   if [ $? -ne 0 ]; then
     error=1
-    step_error "Driver installation is supported only using helm 3"
+    log step_warning "Driver installation is supported only using helm 3"
   fi
   check_error error
 }

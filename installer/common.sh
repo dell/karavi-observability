@@ -115,3 +115,29 @@ function run_command() {
   fi
   return $RC
 }
+
+function check_versions_lower(){
+  if [[ $1 == $2 ]]; then
+    return 1
+  else
+    low=$(echo -e "$1\n$2" | sort --version-sort | head --lines=1)
+    if [[ $low == $1 ]]; then
+      return 0
+    else
+      return 1
+    fi
+  fi
+}
+
+function check_versions_greater(){
+  if [[ $1 == $2 ]]; then
+    return 1
+  else
+    low=$(echo -e "$1\n$2" | sort --version-sort | head --lines=1)
+    if [[ $low == $2 ]]; then
+      return 0
+    else
+      return 1
+    fi
+  fi
+}
