@@ -106,7 +106,7 @@
       "panelHeight": null,
       "pluginVersion": "7.0.3",
       "rowNumbersEnabled": false,
-      "rowsPerPage": 5,
+      "rowsPerPage": 25,
       "scroll": false,
       "scrollHeight": "default",
       "searchEnabled": true,
