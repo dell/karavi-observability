@@ -1,0 +1,1856 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 12,
+  "iteration": 1676366434003,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "aliasColors": {
+        "Average IO Size": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "sort": "total",
+        "sortDesc": false,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Average IO Size",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Storage Group Average IO Size (MB/S)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:162",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:163",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Read Bandwidth": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Read Bandwidth",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Storage Group Read Bandwidth (MB/s)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Write Bandwidth": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 7,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Write Bandwidth",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Storage Group Write Bandwidth (MB/s)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Read Latency": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 6,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Read Latency",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Storage Group Read Latency (ms)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Write Latency": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Write Latency",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Storage Group Write Latency (ms)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Read IOPS": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 5,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Read IOPS",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Storage Group Read IOPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Write IOPS": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Write IOPS",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Storage Group Write IOPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Read Bandwidth": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 32
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Read Bandwidth",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Volume Read Bandwidth (MB/s)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Write Bandwidth": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 32
+      },
+      "hiddenSeries": false,
+      "id": 13,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Write Bandwidth",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Volume Write Bandwidth (MB/s)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Read Latency": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 40
+      },
+      "hiddenSeries": false,
+      "id": 12,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Read Latency",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Volume Read Latency (ms)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Write Latency": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 40
+      },
+      "hiddenSeries": false,
+      "id": 15,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Write Latency",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Volume Write Latency (ms)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Read IOPS": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 48
+      },
+      "hiddenSeries": false,
+      "id": 11,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Read IOPS",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Volume Read IOPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {
+        "Average Write IOPS": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 48
+      },
+      "hiddenSeries": false,
+      "id": 14,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Write IOPS",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Volume Write IOPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:58",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "No",
+          "value": "No"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Hide Details",
+        "multi": false,
+        "name": "ShowMean",
+        "options": [
+          {
+            "selected": false,
+            "text": "Yes",
+            "value": "Yes"
+          },
+          {
+            "selected": true,
+            "text": "No",
+            "value": "No"
+          }
+        ],
+        "query": "Yes, No",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "definition": "label_values(powermax_storage_group_average_io_size_megabytes_per_second,ArrayID)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Symmetrix ID",
+        "multi": true,
+        "name": "ArrayID",
+        "options": [],
+        "query": {
+          "query": "label_values(powermax_storage_group_average_io_size_megabytes_per_second,ArrayID)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "refresh_on_load": false,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 2,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": true,
+          "text": "10",
+          "value": "10"
+        },
+        "hide": 0,
+        "label": "Ranking",
+        "name": "TopX",
+        "options": [
+          {
+            "selected": false,
+            "text": "2",
+            "value": "2"
+          },
+          {
+            "selected": false,
+            "text": "5",
+            "value": "5"
+          },
+          {
+            "selected": true,
+            "text": "10",
+            "value": "10"
+          },
+          {
+            "selected": false,
+            "text": "15",
+            "value": "15"
+          },
+          {
+            "selected": false,
+            "text": "20",
+            "value": "20"
+          },
+          {
+            "selected": false,
+            "text": "100",
+            "value": "100"
+          }
+        ],
+        "query": "2,5,10,15,20,100",
+        "queryValue": "",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      },
+      {
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "selected": true,
+          "text": "1m",
+          "value": "1m"
+        },
+        "hide": 0,
+        "label": "Average over Time",
+        "name": "TimeFrame",
+        "options": [
+          {
+            "selected": true,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": false,
+            "text": "5m",
+            "value": "5m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
+          },
+          {
+            "selected": false,
+            "text": "30m",
+            "value": "30m"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "1h"
+          },
+          {
+            "selected": false,
+            "text": "6h",
+            "value": "6h"
+          },
+          {
+            "selected": false,
+            "text": "12h",
+            "value": "12h"
+          },
+          {
+            "selected": false,
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "selected": false,
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "selected": false,
+            "text": "14d",
+            "value": "14d"
+          },
+          {
+            "selected": false,
+            "text": "30d",
+            "value": "30d"
+          }
+        ],
+        "query": "1m,5m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+        "queryValue": "",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "definition": "label_values(powermax_volume_read_bw_megabytes_per_second,VolumeID)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Volume ID",
+        "multi": true,
+        "name": "VolumeID",
+        "options": [],
+        "query": {
+          "query": "label_values(powermax_volume_read_bw_megabytes_per_second,VolumeID)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "definition": "label_values(powermax_volume_read_bw_megabytes_per_second,StorageClass)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Storage Class",
+        "multi": true,
+        "name": "StorageClass",
+        "options": [],
+        "query": {
+          "query": "label_values(powermax_volume_read_bw_megabytes_per_second,StorageClass)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "definition": "label_values(powermax_volume_read_bw_megabytes_per_second,PersistentVolumeName)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "PV Name",
+        "multi": true,
+        "name": "PVName",
+        "options": [],
+        "query": {
+          "query": "label_values(powermax_volume_read_bw_megabytes_per_second,PersistentVolumeName)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "definition": "label_values(powermax_volume_read_bw_megabytes_per_second,PersistentVolumeClaimName)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "PVC Name",
+        "multi": true,
+        "name": "PersistentVolumeClaimName",
+        "options": [],
+        "query": {
+          "query": "label_values(powermax_volume_read_bw_megabytes_per_second,PersistentVolumeClaimName)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "definition": "label_values(powermax_volume_read_bw_megabytes_per_second,Namespace)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Namespace",
+        "multi": true,
+        "name": "Namespace",
+        "options": [],
+        "query": {
+          "query": "label_values(powermax_volume_read_bw_megabytes_per_second,Namespace)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "PowerMax Performance Metrics",
+  "uid": "PowerMaxPerformance_YoiSsD1Vk",
+  "version": 1,
+  "weekStart": ""
+}
