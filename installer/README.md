@@ -41,6 +41,7 @@ The installation script is located at https://github.com/dell/karavi-observabili
 - Copy the vxflexos-config Secret from the CSI PowerFlex namespace into the Karavi Observability namespace (if not already copied)
 - Copy the powerstore-config Secret from the CSI PowerStore namespace into the Karavi Observability namespace (if not already copied)
 - Copy the isilon-creds Secret from the CSI PowerScale namespace into the Karavi Observability namespace (if not already copied)
+- Copy the powermax-reverseproxy-config Configmap and corresponding Secret from the CSI PowerMax namespace into the Karavi Observability namespace (if not already copied)
 - Install the CertManager CRDs (if not already installed)
 - Install the Karavi Observability helm chart
 - Wait for the Karavi Observability pods to become ready
@@ -69,6 +70,7 @@ Options:
   --csi-powerflex-namespace[=]<csi powerflex namespace>       Namespace where CSI PowerFlex is installed, default is 'vxflexos'
   --csi-powerstore-namespace[=]<csi powerstore namespace>     Namespace where CSI PowerStore is installed, default is 'csi-powerstore'
   --csi-powerscale-namespace[=]<csi powerscale namespace>     Namespace where CSI PowerScale is installed, default is 'isilon'
+  --csi-powermax-namespace[=]<csi powermax namespace>         Namespace where CSI PowerMax is installed, default is 'powermax'
   --set-file                                                  Set values from files used during helm installation (can be specified multiple times)
   --skip-verify                                               Skip verification of the environment
   --values[=]<values.yaml>                                    Values file, which defines configuration values
@@ -206,10 +208,11 @@ or
 *
 * Downloading and saving Docker images
 
-   dellemc/csm-topology:v1.4.0
-   dellemc/csm-metrics-powerflex:v1.4.0
-   dellemc/csm-metrics-powerstore:v1.4.0
-   dellemc/csm-metrics-powerscale:v1.1.0
+   dellemc/csm-topology:v1.5.0
+   dellemc/csm-metrics-powerflex:v1.5.0
+   dellemc/csm-metrics-powerstore:v1.5.0
+   dellemc/csm-metrics-powerscale:v1.2.0
+   dellemc/csm-metrics-powermax:v1.0.0
    otel/opentelemetry-collector:0.42.0
    nginxinc/nginx-unprivileged:1.20
 
@@ -239,10 +242,11 @@ or
 *
 * Loading, tagging, and pushing Docker images to registry <my-registry>:5000/
 
-   dellemc/csm-topology:v1.4.0 -> <my-registry>:5000/csm-topology:v1.4.0
-   dellemc/csm-metrics-powerflex:v1.4.0 -> <my-registry>:5000/csm-metrics-powerflex:v1.4.0
-   dellemc/csm-metrics-powerstore:v1.4.0 -> <my-registry>:5000/csm-metrics-powerstore:v1.4.0
-   dellemc/csm-metrics-powerscale:v1.1.0 -> <my-registry>:5000/csm-metrics-powerscale:v1.1.0
+   dellemc/csm-topology:v1.5.0 -> <my-registry>:5000/csm-topology:v1.5.0
+   dellemc/csm-metrics-powerflex:v1.5.0 -> <my-registry>:5000/csm-metrics-powerflex:v1.5.0
+   dellemc/csm-metrics-powerstore:v1.5.0 -> <my-registry>:5000/csm-metrics-powerstore:v1.5.0
+   dellemc/csm-metrics-powerscale:v1.2.0 -> <my-registry>:5000/csm-metrics-powerscale:v1.2.0
+   dellemc/csm-metrics-powermax:v1.0.0 -> <my-registry>:5000/csm-metrics-powermax:v1.0.0
    otel/opentelemetry-collector:0.42.0 -> <my-registry>:5000/opentelemetry-collector:0.42.0
    nginxinc/nginx-unprivileged:1.20 -> <my-registry>:5000/nginx-unprivileged:1.20
 ```
@@ -280,10 +284,20 @@ Example command to copy the Secret from the isilon namespace to the karavi names
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret isilon-creds -n isilon -o yaml | sed 's/namespace: isilon/namespace: karavi/' | kubectl create -f -
 ```
 
-6. (Optional) The following steps can be performed to enable Karavi Observability for PowerFlex/PowerScale to use an existing instance of Karavi Authorization for accessing the REST API for the given storage systems.
+6. The powermax-reverseproxy-config Configmap and corresponding Secreta from the namespace where CSI Driver for Dell PowerMax is installed must be copied to the namespace where Karavi Observability is to be installed.
+```
+[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get configmap powermax-reverseproxy-config -n powermax -o yaml | sed 's/namespace: powermax/namespace: karavi/' | kubectl create -f -
+[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# for secret in\
+  $(kubectl get configmap powermax-reverseproxy-config -n powermax -o jsonpath="{.data.config\.yaml}" | grep arrayCredentialSecret | awk 'BEGIN{FS=":"}{print $2}' | uniq); do\
+  kubectl get secret $secret -n powermax -o yaml | sed "s/namespace: powermax/namespace: karavi/" \
+  | kubectl create -f -;done
+```
+
+# TODO
+7. (Optional) The following steps can be performed to enable Karavi Observability for PowerFlex/PowerScale/PowerMax to use an existing instance of Karavi Authorization for accessing the REST API for the given storage systems.
 You need to provide your own configurations. A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
 
-In your own configuration values.yaml, you need to enable PowerFlex/PowerScale Authorization, and provide the location of the sidecar-proxy Docker image and URL of the Karavi Authorization proxyHost address.
+In your own configuration values.yaml, you need to enable PowerFlex/PowerScale/PowerMax Authorization, and provide the location of the sidecar-proxy Docker image and URL of the Karavi Authorization proxyHost address.
 
 PowerFlex:
 Copy the vxflexos-config-params Configmap, and Copy karavi-authorization-config, proxy-server-root-certificate and proxy-authz-tokens Secrets into the Karavi Observability namespace:
@@ -300,8 +314,16 @@ Copy the isilon-config-params Configmap, and Copy karavi-authorization-config, p
 
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret karavi-authorization-config proxy-server-root-certificate proxy-authz-tokens -n isilon -o yaml | sed 's/namespace: isilon/namespace: karavi/' | sed 's/name: karavi-authorization-config/name: isilon-karavi-authorization-config/' | sed 's/name: proxy-server-root-certificate/name: isilon-proxy-server-root-certificate/' | sed 's/name: proxy-authz-tokens/name: isilon-proxy-authz-tokens/' | kubectl create -f -
 ```
+PowerMax:
+Copy the powermax-config-params Configmap, and Copy karavi-authorization-config, proxy-server-root-certificate and proxy-authz-tokens Secrets into the Karavi Observability namespace:
 
-7. Now that the required images have been made available and the Helm chart's configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm chart's repository.
+```
+[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get configmap powermax-config-params -n powermax -o yaml | sed 's/namespace: powermax/namespace: karavi/' | kubectl create -f -
+
+[user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret karavi-authorization-config proxy-server-root-certificate proxy-authz-tokens -n powermax -o yaml | sed 's/namespace: powermax/namespace: karavi/' | sed 's/name: karavi-authorization-config/name: powermax-karavi-authorization-config/' | sed 's/name: proxy-server-root-certificate/name: powermax-proxy-server-root-certificate/' | sed 's/name: proxy-authz-tokens/name: powermax-proxy-authz-tokens/' | kubectl create -f -
+```
+
+8. Now that the required images have been made available and the Helm chart's configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm chart's repository.
 
 **Note**: Optionally, you could provide your own configurations. A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
 
@@ -351,13 +373,13 @@ Follow [Offline Karavi Observability Helm Chart Installer](#unpack-the-offline-b
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl apply --validate=false -f cert-manager.crds.yaml
 ```
 
-3. (Optional) The following steps can be performed to enable Karavi Observability for PowerFlex/PowerScale to use an existing instance of Karavi Authorization for accessing the REST API for the given storage systems.
+3. (Optional) The following steps can be performed to enable Karavi Observability for PowerFlex/PowerScale/PowerMax to use an existing instance of Karavi Authorization for accessing the REST API for the given storage systems.
 
 **Note**: Assuming that If the Karavi Observability's Authorization has been enabled in the phase of [Offline Karavi Observability Helm Chart Installer](#offline-karavi-observability-helm-chart-installer), the Authorization Secrets/Configmap have been copied to the Karavi Observability namespace.
 
 You need to provide your own configurations. A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
 
-In your own configuration values.yaml, you need to enable PowerFlex/PowerScale Authorization, and provide the location of the sidecar-proxy Docker image and URL of the Karavi Authorization proxyHost address.
+In your own configuration values.yaml, you need to enable PowerFlex/PowerScale/PowerMax Authorization, and provide the location of the sidecar-proxy Docker image and URL of the Karavi Authorization proxyHost address.
 
 4. Now that the required images have been made available and the Helm chart's configuration updated with references to the internal registry location, installation can proceed by following the instructions that are documented within the Helm chart's repository.
 
