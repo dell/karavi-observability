@@ -20,15 +20,18 @@ NC='\033[0m' # No Color
 DEFAULT_CSI_POWERFLEX_NAMESPACE="vxflexos"
 DEFAULT_CSI_POWERSTORE_NAMESPACE="csi-powerstore"
 DEFAULT_CSI_POWERSCALE_NAMESPACE="isilon"
+DEFAULT_CSI_POWERMAX_NAMESPACE="powermax"
 CSI_POWERFLEX_NAMESPACE=""
 CSI_POWERSTORE_NAMESPACE=""
 CSI_POWERSCALE_NAMESPACE=""
+CSI_POWERMAX_NAMESPACE=""
 NAMESPACE=""
 VALUES=""
 
 DISABLE_POWERFLEX_COMPONENTS=false
 DISABLE_POWERSTORE_COMPONENTS=false
 DISABLE_POWERSCALE_COMPONENTS=false
+DISABLE_POWERMAX_COMPONENTS=false
 
 VERBOSE=0
 
@@ -38,8 +41,10 @@ RELEASE="karavi-observability"
 FAIL_IF_AUTHORIZATION_NOT_AVAILABLE=0
 ENABLE_AUTHORIZATION_DURING_INSTALL=0
 KARAVICTL_INSTALLED=0
+# TODO
 KARAVI_POWERFLEX_AUTHORIZATION_ENTITIES_EXIST=0
 KARAVI_POWERSCALE_AUTHORIZATION_ENTITIES_EXIST=0
+KARAVI_POWERMAX_AUTHORIZATION_ENTITIES_EXIST=0
 
 HELM_SET_FILES=()
 
@@ -87,6 +92,44 @@ function create_namespace() {
         log step_success
       fi
   fi  
+}
+
+# is_csi_powermax_installed returns 0 if CSI Driver for PowerMax is installed
+function is_csi_powermax_installed() {
+  NUM=$(run_command kubectl get configmap -n ${CSI_POWERMAX_NAMESPACE} 2> /dev/null | grep -e '^powermax-reverseproxy-config\s' | wc -l)
+  if [ "${NUM}" != "0" ]; then 
+    return 0
+  else
+    return 1
+  fi
+}
+
+# copy the powermax-reverseproxy-config ConfigMap and corresponding Secret from the CSI PowerScale namespace into the namespace for Karavi Observability
+function copy_powermax_config_secret() {
+  NUM=$(run_command kubectl get configmap -n ${NAMESPACE} 2> /dev/null | grep -e '^powermax-reverseproxy-config\s' | wc -l)
+  if [ "${NUM}" == "0" ]; then
+    log step "Copying ConfigMap from ${CSI_POWERMAX_NAMESPACE} to ${NAMESPACE}" "small"
+    run_command "kubectl get configmap powermax-reverseproxy-config -n ${CSI_POWERMAX_NAMESPACE} -o yaml | sed 's/namespace: ${CSI_POWERMAX_NAMESPACE}/namespace: ${NAMESPACE}/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
+
+    if [ $? -eq 1 ]; then
+      log step_failure
+      log error "Unable to copy ConfigMap from namespace ${CSI_POWERMAX_NAMESPACE} to ${NAMESPACE}."
+    else
+      log step_success
+    fi
+
+    log step "Copying Secret from ${CSI_POWERMAX_NAMESPACE} to ${NAMESPACE}" "small"
+    for secret in $(kubectl get configmap powermax-reverseproxy-config -n ${CSI_POWERMAX_NAMESPACE} -o jsonpath="{.data.config\.yaml}" | grep arrayCredentialSecret | awk 'BEGIN{FS=":"}{print $2}' | uniq)
+    do
+      run_command "kubectl get secret $secret -n ${CSI_POWERMAX_NAMESPACE} -o yaml | sed 's/namespace: ${CSI_POWERMAX_NAMESPACE}/namespace: ${NAMESPACE}/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
+      if [ $? -eq 1 ]; then
+        log step_failure
+        log error "Unable to copy Secret from namespace ${CSI_POWERMAX_NAMESPACE} to ${NAMESPACE}."
+      else
+        log step_success
+    fi
+    done
+  fi
 }
 
 # is_csi_powerscale_installed returns 0 if CSI Driver for PowerScale is installed
@@ -222,6 +265,35 @@ function copy_powerscale_authorization_entities() {
   fi
 }
 
+# copy the proxy-authz-tokens, karavi-authorization-config, and proxy-server-root-certificate Secrets and powermax-config-params ConfigMap from the CSI PowerMax namespace into the namespace for Karavi Observability for Karavi Authorization 
+function copy_powermax_authorization_entities() {
+  NUM=$(run_command kubectl get configmap --namespace "${NAMESPACE}" | grep -e '^powermax-config-params\s' | wc -l)
+  if [ "${NUM}" == "0" ]; then
+    log arrow
+    log smart_step "Copying ConfigMap from ${CSI_POWERMAX_NAMESPACE} to ${NAMESPACE}" "small"
+    run_command "kubectl get configmap powermax-config-params -n ${CSI_POWERMAX_NAMESPACE} -o yaml | sed 's/namespace: ${CSI_POWERMAX_NAMESPACE}/namespace: ${NAMESPACE}/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
+    if [ $? -eq 1 ]; then
+      log step_failure
+      log error "Unable to copy ConfigMap from namespace ${CSI_POWERMAX_NAMESPACE} to ${NAMESPACE}."
+    else
+      log step_success
+    fi
+  fi
+
+  NUM2=$(run_command kubectl get secret --namespace "${NAMESPACE}" | grep -e '^powermax-proxy-authz-tokens\s' -e '^powermax-karavi-authorization-config\s' -e '^powermax-proxy-server-root-certificate\s' | wc -l)
+  if [ "${NUM2}" != "3" ]; then
+    log arrow
+    log smart_step "Copying Karavi Authorization Secrets from ${CSI_POWERMAX_NAMESPACE} to ${NAMESPACE}" "small"
+    run_command "kubectl get secret proxy-authz-tokens karavi-authorization-config proxy-server-root-certificate -n ${CSI_POWERMAX_NAMESPACE} -o yaml | sed 's/namespace: ${CSI_POWERMAX_NAMESPACE}/namespace: ${NAMESPACE}/' | sed 's/name: karavi-authorization-config/name: powermax-karavi-authorization-config/' | sed 's/name: proxy-server-root-certificate/name: powermax-proxy-server-root-certificate/' | sed 's/name: proxy-authz-tokens/name: powermax-proxy-authz-tokens/' | kubectl create -f - > ${DEBUGLOG} 2>&1"
+    if [ $? -eq 1 ]; then
+      log step_failure
+      log error "Unable to copy Karavi Authorization Secrets from namespace ${CSI_POWERMAX_NAMESPACE} to ${NAMESPACE}."
+    else
+      log step_success
+    fi
+  fi
+}
+
 # enable the authorization sidecar-proxy for observability
 function enable_auth_for_observability() {
   run_command "kubectl get secrets,deployments -n ${NAMESPACE} -o yaml | kubectl apply -f - > /dev/null 2>&1"
@@ -293,6 +365,9 @@ function install_karavi_observability() {
   fi
   if [ "$DISABLE_POWERSCALE_COMPONENTS" == "true" ]; then
     OPT_VALUES_ARG+="--set karaviMetricsPowerscale.enabled=false "
+  fi
+  if [ "$DISABLE_POWERMAX_COMPONENTS" == "true" ]; then
+    OPT_VALUES_ARG+="--set karaviMetricsPowermax.enabled=false "
   fi
 
   log step "Installing Karavi Observability helm chart"
@@ -367,7 +442,7 @@ function verify_karavi_observability() {
     log info "Skipping verification of the environment"
     return
   fi
-  verify_k8s_versions "1.22" "1.25"
+  verify_k8s_versions "1.22" "1.26"
   verify_openshift_versions "4.8" "4.11"
   verify_helm_3
 }
@@ -485,6 +560,10 @@ function validate_params() {
   if [ -z "${CSI_POWERSCALE_NAMESPACE}" ]; then
     CSI_POWERSCALE_NAMESPACE="${DEFAULT_CSI_POWERSCALE_NAMESPACE}"
   fi
+  # if not overriding csi powermax namespace, use the default
+  if [ -z "${CSI_POWERMAX_NAMESPACE}" ]; then
+    CSI_POWERMAX_NAMESPACE="${DEFAULT_CSI_POWERMAX_NAMESPACE}"
+  fi
 }
 
 # determines the version of OpenShift 
@@ -544,6 +623,7 @@ function usage() {
   decho "  --csi-powerflex-namespace[=]<csi powerflex namespace>       Namespace where CSI PowerFlex is installed, default is 'vxflexos'"
   decho "  --csi-powerstore-namespace[=]<csi powerstore namespace>     Namespace where CSI PowerStore is installed, default is 'csi-powerstore'"
   decho "  --csi-powerscale-namespace[=]<csi powerscale namespace>     Namespace where CSI PowerScale is installed, default is 'isilon'"
+  decho "  --csi-powermax-namespace[=]<csi powermax namespace>         Namespace where CSI PoPowerMax is installed, default is 'powermax'"
   decho "  --set-file                                                  Set values from files used during helm installation (can be specified multiple times)"
   decho "  --skip-verify                                               Skip verification of the environment"
   decho "  --values[=]<values.yaml>                                    Values file, which defines configuration values"
@@ -601,6 +681,13 @@ while getopts ":h-:" optchar; do
       ;;
     csi-powerscale-namespace=*)
       CSI_POWERSCALE_NAMESPACE=${OPTARG#*=}
+      ;;
+    csi-powermax-namespace)
+      CSI_POWERMAX_NAMESPACE="${!OPTIND}"
+      OPTIND=$((OPTIND + 1))
+      ;;
+    csi-powermax-namespace=*)
+      CSI_POWERMAX_NAMESPACE=${OPTARG#*=}
       ;;
     set-file)
       HELM_SET_FILES+=(${!OPTIND})
@@ -679,6 +766,19 @@ function powerscale_authorization_entities_exist() {
   fi
 }
 
+function powermax_authorization_entities_exist() {
+  NUM=$(run_command kubectl get secret --namespace "${CSI_POWERMAX_NAMESPACE}" 2> /dev/null | grep -e '^proxy-authz-tokens\s' -e '^karavi-authorization-config\s' -e '^proxy-server-root-certificate\s' | wc -l)
+  NUM2=$(run_command kubectl get configmap --namespace "${CSI_POWERMAX_NAMESPACE}" 2> /dev/null | grep -e '^isilon-config-params\s' | wc -l)
+  if [[ "${NUM}" == "3" && "${NUM2}" == "1" ]]; then
+    KARAVI_POWERMAX_AUTHORIZATION_ENTITIES_EXIST=1
+  else
+    KARAVI_POWERMAX_AUTHORIZATION_ENTITIES_EXIST=0
+    if [[ "${FAIL_IF_AUTHORIZATION_NOT_AVAILABLE}" == "1" ]]; then
+      log error "Unable to use Karavi Authorization for PowerMax because the entities do not exist in namespace ${CSI_POWERMAX_NAMESPACE}"
+    fi
+  fi
+}
+
 function verify_authorization_environment() {
   karavictl_exists
   vxflexos_authorization_entities_exist
@@ -742,6 +842,17 @@ case $MODE in
       log step_success
       DISABLE_POWERSCALE_COMPONENTS=true
     fi
+    
+    is_csi_powermax_installed
+    if [[ $? == "0" ]]; then
+      log step "CSI Driver for PowerMax is installed"
+      log step_success
+      copy_powermax_config_secret
+    else
+      log step "CSI Driver for PowerMax is not installed" "small"
+      log step_success
+      DISABLE_POWERMAX_COMPONENTS=true
+    fi
 
     install_certmanager_crds
 
@@ -753,6 +864,9 @@ case $MODE in
       fi
       if [[ "${KARAVI_POWERSCALE_AUTHORIZATION_ENTITIES_EXIST}" == "1" ]]; then
         copy_powerscale_authorization_entities
+      fi
+      if [[ "${KARAVI_POWERMAX_AUTHORIZATION_ENTITIES_EXIST}" == "1" ]]; then
+        copy_powermax_authorization_entities
       fi
       enable_auth_for_observability
     fi
@@ -782,6 +896,9 @@ case $MODE in
       fi
       if [[ "${KARAVI_POWERSCALE_AUTHORIZATION_ENTITIES_EXIST}" == "1" ]]; then
         copy_powerscale_authorization_entities
+      fi
+      if [[ "${KARAVI_POWERMAX_AUTHORIZATION_ENTITIES_EXIST}" == "1" ]]; then
+        copy_powermax_authorization_entities
       fi
       enable_auth_for_observability
       wait_on_pods
