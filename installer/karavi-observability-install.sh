@@ -91,13 +91,13 @@ function create_namespace() {
       else
         log step_success
       fi
-  fi  
+  fi
 }
 
 # is_csi_powermax_installed returns 0 if CSI Driver for PowerMax is installed
 function is_csi_powermax_installed() {
   NUM=$(run_command kubectl get configmap -n ${CSI_POWERMAX_NAMESPACE} 2> /dev/null | grep -e '^powermax-reverseproxy-config\s' | wc -l)
-  if [ "${NUM}" != "0" ]; then 
+  if [ "${NUM}" != "0" ]; then
     return 0
   else
     return 1
@@ -207,7 +207,7 @@ function copy_vxflexos_config_secret() {
   fi
 }
 
-# copy the proxy-authz-tokens, karavi-authorization-config, and proxy-server-root-certificate Secrets and vxflexos-config-params ConfigMap from the CSI PowerFlex namespace into the namespace for Karavi Observability for Karavi Authorization 
+# copy the proxy-authz-tokens, karavi-authorization-config, and proxy-server-root-certificate Secrets and vxflexos-config-params ConfigMap from the CSI PowerFlex namespace into the namespace for Karavi Observability for Karavi Authorization
 function copy_vxflexos_authorization_entities() {
   NUM=$(run_command kubectl get configmap --namespace "${NAMESPACE}" | grep -e '^vxflexos-config-params\s' | wc -l)
   if [ "${NUM}" == "0" ]; then
@@ -236,7 +236,7 @@ function copy_vxflexos_authorization_entities() {
   fi
 }
 
-# copy the proxy-authz-tokens, karavi-authorization-config, and proxy-server-root-certificate Secrets and isilon-config-params ConfigMap from the CSI PowerScale namespace into the namespace for Karavi Observability for Karavi Authorization 
+# copy the proxy-authz-tokens, karavi-authorization-config, and proxy-server-root-certificate Secrets and isilon-config-params ConfigMap from the CSI PowerScale namespace into the namespace for Karavi Observability for Karavi Authorization
 function copy_powerscale_authorization_entities() {
   NUM=$(run_command kubectl get configmap --namespace "${NAMESPACE}" | grep -e '^isilon-config-params\s' | wc -l)
   if [ "${NUM}" == "0" ]; then
@@ -265,7 +265,7 @@ function copy_powerscale_authorization_entities() {
   fi
 }
 
-# copy the proxy-authz-tokens, karavi-authorization-config, and proxy-server-root-certificate Secrets and powermax-config-params ConfigMap from the CSI PowerMax namespace into the namespace for Karavi Observability for Karavi Authorization 
+# copy the proxy-authz-tokens, karavi-authorization-config, and proxy-server-root-certificate Secrets and powermax-config-params ConfigMap from the CSI PowerMax namespace into the namespace for Karavi Observability for Karavi Authorization
 function copy_powermax_authorization_entities() {
   NUM=$(run_command kubectl get configmap --namespace "${NAMESPACE}" | grep -e '^powermax-config-params\s' | wc -l)
   if [ "${NUM}" == "0" ]; then
@@ -442,8 +442,8 @@ function verify_karavi_observability() {
     log info "Skipping verification of the environment"
     return
   fi
-  verify_k8s_versions "1.25" "1.27"
-  verify_openshift_versions "4.9" "4.12"
+  verify_k8s_versions "1.26" "1.28"
+  verify_openshift_versions "4.10" "4.13"
   verify_helm_3
 }
 
@@ -566,7 +566,7 @@ function validate_params() {
   fi
 }
 
-# determines the version of OpenShift 
+# determines the version of OpenShift
 # echos version, or empty string if not OpenShift
 function OpenShiftVersion() {
   # check if this is OpenShift
@@ -602,8 +602,8 @@ kubectl --help >&/dev/null || {
 }
 
 # Get the kubernetes major and minor version numbers.
-kMajorVersion=$(run_command kubectl version | grep 'Server Version' | sed -e 's/^.*Major:"//' -e 's/[^0-9].*//g')
-kMinorVersion=$(run_command kubectl version | grep 'Server Version' | sed -e 's/^.*Minor:"//' -e 's/[^0-9].*//g')
+kMajorVersion=$(run_command kubectl version | grep 'Server Version' | sed -E 's/.*v([0-9]+)\.[0-9]+\.[0-9]+.*/\1/')
+kMinorVersion=$(run_command kubectl version | grep 'Server Version' | sed -E 's/.*v[0-9]+\.([0-9]+)\.[0-9]+.*/\1/')
 
 
 function usage() {
@@ -808,7 +808,7 @@ case $MODE in
     verify_authorization_environment
     verify_karavi_observability
     helm_repo_add
-    create_namespace 
+    create_namespace
 
     is_csi_powerflex_installed
     if [[ $? == "0" ]]; then
@@ -842,7 +842,7 @@ case $MODE in
       log step_success
       DISABLE_POWERSCALE_COMPONENTS=true
     fi
-    
+
     is_csi_powermax_installed
     if [[ $? == "0" ]]; then
       log step "CSI Driver for PowerMax is installed"
