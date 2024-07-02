@@ -30,7 +30,8 @@ A Linux based system, with internet access, will be used to execute the script t
 | `jq`     | `jq` will be used to parse the Karavi Authorization configuration file during installation|
 
 ## Installation script
-The installation script is located at https://github.com/dell/karavi-observability/blob/main/installer/karavi-observability-install.sh. The script performs the current steps during installation of Karavi Observability:
+
+The installation script is located at <https://github.com/dell/karavi-observability/blob/main/installer/karavi-observability-install.sh>. The script performs the current steps during installation of Karavi Observability:
 
 - Verify that Karavi Observability is not yet installed
 - Verify the Kubernetes/Openshift versions are supported
@@ -47,12 +48,14 @@ The installation script is located at https://github.com/dell/karavi-observabili
 - Wait for the Karavi Observability pods to become ready
 
 If Karavi Authorization is enabled for the CSI drivers installed in the same Kubernetes cluster, the installation script will perform the current steps to enable Karavi Observability to use the same Karavi Authorization instance:
+
 - Verify the `karavictl` binary is available.
 - Verify the appropriate Secret exists in the CSI driver namespace.
 - Query the CSI driver environment to get references to the Karavi Authorization sidecar-proxy Docker image and URL of the proxy server.
 - Updates the Karavi Observability deployment to use the existing Karavi Authorization instance.
 
-### Usage of the script is as follows:
+### Usage of the script is as follows
+
 ```
 [user@system /home/user/karavi-observability/installer]# ./karavi-observability-install.sh --help
 
@@ -89,6 +92,7 @@ To perform an online installation of Karavi Observability, the following steps s
 ### Clone the GitHub repository
 
 1. Clone the GitHub repository:
+
 ```
 [user@system /home/user]# git clone https://github.com/dell/karavi-observability.git
 ```
@@ -96,6 +100,7 @@ To perform an online installation of Karavi Observability, the following steps s
 ### Execute the installation script
 
 1. Change to the installer directory:
+
 ```
 [user@system /home/user]# cd karavi-observability/installer
 ```
@@ -104,6 +109,7 @@ To perform an online installation of Karavi Observability, the following steps s
 The following example will install Karavi Observability into the `karavi` namespace.
 
 **Note**: A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
+
 ```
 [user@system /home/user/karavi-observability/installer]# ./karavi-observability-install.sh install --namespace karavi --values myvalues.yaml
 ---------------------------------------------------------------------------------
@@ -153,8 +159,8 @@ The following instructions can be followed when a Helm chart will be installed i
 
 Multiple Linux based systems may be required to create and process an offline bundle for use.
 
-* One Linux based system, with internet access, will be used to create the bundle. This involves the user invoking a script that utilizes `docker` to pull and save container images to file.
-* One Linux based system, with access to an image registry, to invoke a script that uses `docker` to restore container images from file and push them to a registry
+- One Linux based system, with internet access, will be used to create the bundle. This involves the user invoking a script that utilizes `docker` to pull and save container images to file.
+- One Linux based system, with access to an image registry, to invoke a script that uses `docker` to restore container images from file and push them to a registry
 
 If one Linux system has both internet access and access to an internal registry, that system can be used for both steps.
 
@@ -254,11 +260,13 @@ or
 ### Perform Helm installation
 
 1. Change directory to `helm` which contains the updated Helm chart directory:
+
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle]# cd helm
 ```
 
 2. Install necessary cert-manager CustomResourceDefinitions provided:
+
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl apply --validate=false -f cert-manager.crds.yaml
 ```
@@ -266,6 +274,7 @@ or
 3. The vxflexos-config Secret from the namespace where CSI Driver for Dell PowerFlex is installed must be copied to the namespace where Karavi Observability is to be installed.
 
 Example command to copy the Secret from the vxflexos namespace to the karavi namespace.
+
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret vxflexos-config -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
 ```
@@ -273,6 +282,7 @@ Example command to copy the Secret from the vxflexos namespace to the karavi nam
 4. The powerstore-config Secret from the namespace where CSI Driver for Dell PowerStore is installed must be copied to the namespace where Karavi Observability is to be installed.
 
 Example command to copy the Secret from the csi-powerstore namespace to the karavi namespace.
+
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret powerstore-config -n csi-powerstore -o yaml | sed 's/namespace: csi-powerstore/namespace: karavi/' | kubectl create -f -
 ```
@@ -280,11 +290,13 @@ Example command to copy the Secret from the csi-powerstore namespace to the kara
 5. The isilon-creds Secret from the namespace where CSI Driver for Dell PowerScale is installed must be copied to the namespace where Karavi Observability is to be installed.
 
 Example command to copy the Secret from the isilon namespace to the karavi namespace.
+
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret isilon-creds -n isilon -o yaml | sed 's/namespace: isilon/namespace: karavi/' | kubectl create -f -
 ```
 
 6. The powermax-reverseproxy-config Configmap and corresponding Secreta from the namespace where CSI Driver for Dell PowerMax is installed must be copied to the namespace where Karavi Observability is to be installed.
+
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get configmap powermax-reverseproxy-config -n powermax -o yaml | sed 's/namespace: powermax/namespace: karavi/' | kubectl create -f -
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# for secret in\
@@ -294,6 +306,7 @@ Example command to copy the Secret from the isilon namespace to the karavi names
 ```
 
 # TODO
+
 7. (Optional) The following steps can be performed to enable Karavi Observability for PowerFlex/PowerScale/PowerMax to use an existing instance of Karavi Authorization for accessing the REST API for the given storage systems.
 You need to provide your own configurations. A sample values.yaml file is located [here](https://github.com/dell/helm-charts/blob/main/charts/karavi-observability/values.yaml).
 
@@ -301,6 +314,7 @@ In your own configuration values.yaml, you need to enable PowerFlex/PowerScale/P
 
 PowerFlex:
 Copy the vxflexos-config-params Configmap, and Copy karavi-authorization-config, proxy-server-root-certificate and proxy-authz-tokens Secrets into the Karavi Observability namespace:
+
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get configmap vxflexos-config-params -n vxflexos -o yaml | sed 's/namespace: vxflexos/namespace: karavi/' | kubectl create -f -
 
@@ -309,11 +323,13 @@ Copy the vxflexos-config-params Configmap, and Copy karavi-authorization-config,
 
 PowerScale:
 Copy the isilon-config-params Configmap, and Copy karavi-authorization-config, proxy-server-root-certificate and proxy-authz-tokens Secrets into the Karavi Observability namespace:
+
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get configmap isilon-config-params -n isilon -o yaml | sed 's/namespace: isilon/namespace: karavi/' | kubectl create -f -
 
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl get secret karavi-authorization-config proxy-server-root-certificate proxy-authz-tokens -n isilon -o yaml | sed 's/namespace: isilon/namespace: karavi/' | sed 's/name: karavi-authorization-config/name: isilon-karavi-authorization-config/' | sed 's/name: proxy-server-root-certificate/name: isilon-proxy-server-root-certificate/' | sed 's/name: proxy-authz-tokens/name: isilon-proxy-authz-tokens/' | kubectl create -f -
 ```
+
 PowerMax:
 Copy the powermax-config-params Configmap, and Copy karavi-authorization-config, proxy-server-root-certificate and proxy-authz-tokens Secrets into the Karavi Observability namespace:
 
@@ -356,19 +372,23 @@ To perform an offline installation of a helm chart, the following steps should b
 3. Perform a Helm upgrade.
 
 ### Build the Offline Bundle
+
 Follow [Offline Karavi Observability Helm Chart Installer](#build-the-offline-bundle), Build the latest bundle.
 
 ### Unpack the Offline Bundle
+
 Follow [Offline Karavi Observability Helm Chart Installer](#unpack-the-offline-bundle), Copy and Unpack the Offline Bundle to another Linux system, and Push Docker images to the internal Docker registry.
 
 ### Perform Helm upgrade
 
 1. Change directory to `helm` which contains the updated Helm chart directory:
+
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle]# cd helm
 ```
 
 2. Install necessary cert-manager CustomResourceDefinitions provided.
+
 ```
 [user@anothersystem /home/user/offline-karavi-observability-bundle/helm]# kubectl apply --validate=false -f cert-manager.crds.yaml
 ```
