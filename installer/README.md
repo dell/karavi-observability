@@ -168,7 +168,7 @@ Preparing an offline bundle requires the following utilities:
 
 | Dependency            | Usage |
 | --------------------- | ----- |
-| `docker`   | `docker` will be used to pull images from public image registries, tag them, and push them to a private registry.<br>Required on both the system building the offline bundle as well as the system preparing for installation. <br>Tested version is `docker` 18.09+
+| `docker`   | `docker` will be used to pull images from public image registries, tag them, and push them to a private registry.<br>Required on both the system building the offline bundle as well as the system preparing for installation. <br>Tested version is `docker` 18.09+ |
 
 ## Workflow
 
