@@ -660,7 +660,7 @@
         "y": 16
       },
       "hiddenSeries": false,
-      "id": 10,
+      "id": 11,
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -762,7 +762,7 @@
         "y": 16
       },
       "hiddenSeries": false,
-      "id": 10,
+      "id": 12,
       "legend": {
         "alignAsTable": true,
         "avg": true,
