@@ -635,6 +635,210 @@
         "align": false,
         "alignLevel": null
       }
+    },
+    {
+      "aliasColors": {
+        "Average MirrorBW": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "percentage": false,
+      "pluginVersion": "7.1.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "powerstore_volume_mirror_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\",VolumeID=~\"$VolumeID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powerstore_volume_mirror_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\",VolumeID=~\"$VolumeID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{PersistentVolumeName}}",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(powerstore_volume_mirror_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\", VolumeID=~\"$VolumeID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"}) / count(powerstore_volume_mirror_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\",VolumeID=~\"$VolumeID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"})",
+          "interval": "",
+          "legendFormat": "Average MirrorBW",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Volume Mirror Bandwidth (MB/s)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {
+        "Average DataRemaining": "dark-red"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {},
+          "links": []
+        },
+        "overrides": []
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": true,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "percentage": false,
+      "pluginVersion": "7.1.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "powerstore_volume_data_remaining_megabytes{PlotWithMean=~\"($ShowMean)\",VolumeID=~\"$VolumeID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powerstore_volume_data_remaining_megabytes{PlotWithMean=~\"($ShowMean)\",VolumeID=~\"$VolumeID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{PersistentVolumeName}}",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(powerstore_volume_data_remaining_megabytes{PlotWithMean=~\"($ShowMean)|No\", VolumeID=~\"$VolumeID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"}) / count(powerstore_volume_data_remaining_megabytes{PlotWithMean=~\"($ShowMean)|No\",VolumeID=~\"$VolumeID\", ArrayID=~\"$ArrayID\",PersistentVolumeName=~\"$PVName\"})",
+          "interval": "",
+          "legendFormat": "Average DataRemaining",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Volume Replication Data Remaining(MB)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
   "refresh": "5s",
