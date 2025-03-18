@@ -24,9 +24,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1658817574448,
+  "id": 1,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
@@ -42,115 +41,58 @@
       "type": "row"
     },
     {
-      "alignNumbersToRightEnabled": true,
-      "columnAliases": [
-        {
-          "$$hashKey": "object:639",
-          "alias": "Quota Subscribed",
-          "name": "Value #PowerScale Volume Quota Subscribed"
-        },
-        {
-          "$$hashKey": "object:641",
-          "alias": "Hard Quota Remaining",
-          "name": "Value #PowerScale Volume Hard Quota Remaining"
-        }
-      ],
-      "columnFiltersEnabled": false,
-      "columnWidthHints": [],
-      "columns": [],
-      "compactRowsEnabled": false,
       "datasource": "Prometheus",
-      "datatablePagingType": "simple_numbers",
-      "datatableTheme": "basic_theme",
-      "emptyData": false,
-      "fontSize": "100%",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 24,
         "x": 0,
         "y": 1
       },
-      "hoverEnabled": true,
       "id": 6,
-      "infoEnabled": true,
-      "lengthChangeEnabled": true,
-      "orderColumnEnabled": true,
-      "pagingTypes": [
-        {
-          "$$hashKey": "object:180",
-          "text": "Page number buttons only",
-          "value": "numbers"
-        },
-        {
-          "$$hashKey": "object:181",
-          "text": "'Previous' and 'Next' buttons only",
-          "value": "simple"
-        },
-        {
-          "$$hashKey": "object:182",
-          "text": "'Previous' and 'Next' buttons, plus page numbers",
-          "value": "simple_numbers"
-        },
-        {
-          "$$hashKey": "object:183",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
-          "value": "full"
-        },
-        {
-          "$$hashKey": "object:184",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
-          "value": "full_numbers"
-        },
-        {
-          "$$hashKey": "object:185",
-          "text": "'First' and 'Last' buttons, plus page numbers",
-          "value": "first_last_numbers"
-        }
-      ],
-      "panelHeight": 246,
-      "rowNumbersEnabled": false,
-      "rowsPerPage": 5,
-      "scroll": false,
-      "scrollHeight": "default",
-      "searchEnabled": true,
-      "searchHighlightingEnabled": false,
-      "showCellBorders": false,
-      "showHeader": true,
-      "showRowBorders": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "sortByColumns": [],
-      "sortByColumnsData": [
-        [
-          0,
-          "desc"
-        ]
-      ],
-      "stripedRowsEnabled": true,
-      "styles": [
-        {
-          "$$hashKey": "object:23",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "$$hashKey": "object:24",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
           ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "splitPattern": "/ /",
-          "thresholds": [],
-          "type": "number",
-          "unit": "decgbytes"
-        }
-      ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": "Prometheus",
@@ -174,38 +116,7 @@
           "refId": "PowerScale Volume Quota Subscribed"
         }
       ],
-      "themeOptions": {
-        "dark": "./styles/dark.scss",
-        "light": "./styles/light.scss"
-      },
-      "themes": [
-        {
-          "$$hashKey": "object:155",
-          "disabled": false,
-          "text": "Basic",
-          "value": "basic_theme"
-        },
-        {
-          "$$hashKey": "object:156",
-          "disabled": true,
-          "text": "Bootstrap",
-          "value": "bootstrap_theme"
-        },
-        {
-          "$$hashKey": "object:157",
-          "disabled": true,
-          "text": "Foundation",
-          "value": "foundation_theme"
-        },
-        {
-          "$$hashKey": "object:158",
-          "disabled": true,
-          "text": "ThemeRoller",
-          "value": "themeroller_theme"
-        }
-      ],
       "title": "Volume Quota",
-      "transform": "table",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -252,7 +163,7 @@
           }
         }
       ],
-      "type": "briangann-datatable-panel"
+      "type": "table"
     },
     {
       "datasource": "Prometheus",
@@ -298,8 +209,16 @@
       "id": 8,
       "options": {
         "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
+        "namePlacement": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -309,9 +228,11 @@
           "values": false
         },
         "showUnfilled": true,
-        "text": {}
+        "sizing": "auto",
+        "text": {},
+        "valueMode": "color"
       },
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": "Prometheus",
@@ -371,8 +292,8 @@
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "dark-blue",
-                    "value": null
+                  "color": "dark-blue",
+                  "value": null
                   }
                 ]
               },
@@ -384,7 +305,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 17
+          "y": 17
           },
           "id": 16,
           "maxDataPoints": 100,
@@ -430,33 +351,33 @@
           "type": "stat"
         },
         {
-          "aliasColors": {},
-          "breakPoint": "50%",
-          "combine": {
-            "label": "Others",
-            "threshold": 0
-          },
+        "aliasColors": {},
+        "breakPoint": "50%",
+        "combine": {
+          "label": "Others",
+          "threshold": 0
+        },
           "datasource": "Prometheus",
-          "decimals": 2,
-          "fontSize": "80%",
-          "format": "decgbytes",
+        "decimals": 2,
+        "fontSize": "80%",
+        "format": "decgbytes",
           "gridPos": {
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 17
+          "y": 17
           },
           "id": 18,
-          "legend": {
-            "percentage": true,
-            "show": true,
-            "values": true
-          },
-          "legendType": "Right side",
-          "links": [],
-          "nullPointMode": "connected",
-          "pieType": "donut",
-          "strokeWidth": "2",
+        "legend": {
+          "percentage": true,
+          "show": true,
+          "values": true
+        },
+        "legendType": "Right side",
+        "links": [],
+        "nullPointMode": "connected",
+        "pieType": "donut",
+        "strokeWidth": "2",
           "targets": [
             {
               "datasource": "Prometheus",
@@ -481,8 +402,8 @@
             }
           ],
           "title": "Volume Quota Summary",
-          "type": "grafana-piechart-panel",
-          "valueName": "current"
+        "type": "grafana-piechart-panel",
+        "valueName": "current"
         }
       ],
       "repeat": "VolumeID",
@@ -490,25 +411,26 @@
       "type": "row"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 36,
-  "style": "dark",
+"schemaVersion": 36,
+"style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+        "selected": true,
+        "text": [
+          "All"
+        ],
           "value": [
             "$__all"
           ]
         },
-        "datasource": "Prometheus",
+      "datasource": "Prometheus",
         "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,PersistentVolumeName)",
-        "hide": 0,
+      "hide": 0,
         "includeAll": true,
         "label": "PV Name",
         "multi": true,
@@ -520,23 +442,23 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
+      "skipUrlSync": false,
+      "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+        "selected": true,
+        "text": [
+          "All"
+        ],
           "value": [
             "$__all"
           ]
         },
-        "datasource": "Prometheus",
+      "datasource": "Prometheus",
         "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,PersistentVolumeClaim)",
-        "hide": 0,
+      "hide": 0,
         "includeAll": true,
         "label": "PVC Name",
         "multi": true,
@@ -548,23 +470,23 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
+      "skipUrlSync": false,
+      "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+        "selected": true,
+        "text": [
+          "All"
+        ],
           "value": [
             "$__all"
           ]
         },
-        "datasource": "Prometheus",
+      "datasource": "Prometheus",
         "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,Namespace)",
-        "hide": 0,
+      "hide": 0,
         "includeAll": true,
         "label": "Namespace",
         "multi": true,
@@ -576,23 +498,23 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
+      "skipUrlSync": false,
+      "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+        "selected": true,
+        "text": [
+          "All"
+        ],
           "value": [
             "$__all"
           ]
         },
-        "datasource": "Prometheus",
+      "datasource": "Prometheus",
         "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,VolumeID)",
-        "hide": 0,
+      "hide": 0,
         "includeAll": true,
         "label": "Volume ID",
         "multi": true,
@@ -604,23 +526,23 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
+      "skipUrlSync": false,
+      "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+        "selected": true,
+        "text": [
+          "All"
+        ],
           "value": [
             "$__all"
           ]
         },
-        "datasource": "Prometheus",
+      "datasource": "Prometheus",
         "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,ClusterName)",
-        "hide": 0,
+      "hide": 0,
         "includeAll": true,
         "label": "Cluster Name",
         "multi": true,
@@ -632,8 +554,8 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
+      "skipUrlSync": false,
+      "sort": 0,
         "type": "query"
       }
     ]
