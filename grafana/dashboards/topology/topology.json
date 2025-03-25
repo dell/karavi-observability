@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -13,27 +16,28 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "iteration": 1622642836227,
+  "id": 1,
   "links": [],
   "panels": [
     {
-      "alignNumbersToRightEnabled": true,
-      "columnAliases": [],
-      "columnFiltersEnabled": true,
-      "columnWidthHints": [],
-      "columns": [],
-      "compactRowsEnabled": false,
-      "datasource": "Karavi-Topology",
-      "datatablePagingType": "simple_numbers",
-      "datatableTheme": "basic_theme",
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource"
+      },
       "description": "[Topology](https://github.com/dell/karavi-topology) provides Kubernetes administrators with the topology data related to containerized storage that is provisioned by a CSI (Container Storage Interface) Driver for Dell EMC storage products. Please visit the repository for more information",
-      "emptyData": true,
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "custom": {
-            "align": null
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -52,366 +56,114 @@
         },
         "overrides": []
       },
-      "fontSize": "100%",
       "gridPos": {
-        "h": 12,
-        "w": 24,
+        "h": 8,
+        "w": 12,
         "x": 0,
         "y": 0
       },
-      "hoverEnabled": true,
-      "id": 2,
-      "infoEnabled": true,
-      "lengthChangeEnabled": true,
+      "id": 1,
       "links": [
         {
           "targetBlank": true,
           "title": "CSM Topology",
-          "url": "https://github.com/dell/karavi-topology"
+          "url": "\r\n\r\n\r\nhttps://github.com/dell/karavi-topology"
         }
       ],
-      "orderColumnEnabled": true,
-      "pagingTypes": [
-        {
-          "$$hashKey": "object:121",
-          "text": "Page number buttons only",
-          "value": "numbers"
-        },
-        {
-          "$$hashKey": "object:122",
-          "text": "'Previous' and 'Next' buttons only",
-          "value": "simple"
-        },
-        {
-          "$$hashKey": "object:123",
-          "text": "'Previous' and 'Next' buttons, plus page numbers",
-          "value": "simple_numbers"
-        },
-        {
-          "$$hashKey": "object:124",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
-          "value": "full"
-        },
-        {
-          "$$hashKey": "object:125",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
-          "value": "full_numbers"
-        },
-        {
-          "$$hashKey": "object:126",
-          "text": "'First' and 'Last' buttons, plus page numbers",
-          "value": "first_last_numbers"
-        }
-      ],
-      "panelHeight": null,
-      "pluginVersion": "7.0.3",
-      "rowNumbersEnabled": false,
-      "rowsPerPage": 25,
-      "scroll": false,
-      "scrollHeight": "default",
-      "searchEnabled": true,
-      "searchHighlightingEnabled": false,
-      "showCellBorders": false,
-      "showHeader": true,
-      "showRowBorders": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "sortByColumns": [
-        {
-          "$$hashKey": "object:44",
-          "columnData": 0,
-          "sortMethod": "desc"
-        }
-      ],
-      "sortByColumnsData": [
-        [
-          0,
-          "desc"
-        ]
-      ],
-      "stripedRowsEnabled": true,
-      "styles": [
-        {
-          "$$hashKey": "object:46",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "$$hashKey": "object:47",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
           ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "splitPattern": "/ /",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        }
-      ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.5.2",
       "targets": [
         {
-          "data": "",
-          "hide": false,
-          "rawQuery": false,
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "pagination_max_pages": 1,
+          "pagination_mode": "page",
+          "parser": "backend",
           "refId": "A",
-          "target": "{\n   \"Storage System\":\"$StorageSystem\",\n   \"Namespace\":\"$Namespace\",\n   \"Protocol\":\"$Protocol\",\n   \"Storage Class\":\"$StorageClass\",\n   \"Status\":\"$Status\",\n   \"Storage Pool\":\"$StoragePool\"\n}",
-          "type": "table"
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
         }
       ],
-      "themeOptions": {
-        "dark": "./styles/dark.scss",
-        "light": "./styles/light.scss"
-      },
-      "themes": [
-        {
-          "$$hashKey": "object:96",
-          "disabled": false,
-          "text": "Basic",
-          "value": "basic_theme"
-        },
-        {
-          "$$hashKey": "object:97",
-          "disabled": true,
-          "text": "Bootstrap",
-          "value": "bootstrap_theme"
-        },
-        {
-          "$$hashKey": "object:98",
-          "disabled": true,
-          "text": "Foundation",
-          "value": "foundation_theme"
-        },
-        {
-          "$$hashKey": "object:99",
-          "disabled": true,
-          "text": "ThemeRoller",
-          "value": "themeroller_theme"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "CSI Driver Topologies",
-      "transform": "table",
       "transformations": [
         {
           "id": "organize",
           "options": {
-            "excludeByName": {
-              "CSI Driver": true
-            },
+            "excludeByName": {},
+            "includeByName": {},
             "indexByName": {
-              "CSI Driver": 11,
-              "Created": 6,
-              "Namespace": 0,
-              "Persistent Volume": 2,
-              "Persistent Volume Claim": 1,
-              "Protocol": 8,
-              "Provisioned Size": 4,
-              "Status": 5,
-              "Storage Class": 3,
-              "Storage Pool": 9,
-              "Storage System": 7,
-              "Storage System Volume Name": 10
+              "created": 6,
+              "csi_driver": 11,
+              "namespace": 0,
+              "persistent_volume": 2,
+              "persistent_volume_claim": 1,
+              "protocol": 8,
+              "provisioned_size": 4,
+              "status": 5,
+              "storage_class": 3,
+              "storage_pool": 9,
+              "storage_system": 7,
+              "storage_system_volume_name": 10
             },
-            "renameByName": {}
+            "renameByName": {
+              "created": "Created",
+              "csi_driver": "CSI Driver",
+              "namespace": "Namespace",
+              "persistent_volume": "Persistent Volume",
+              "persistent_volume_claim": "Persistent Volume Claim",
+              "protocol": "Protocol",
+              "provisioned_size": "Provisioned Size",
+              "status": "Status",
+              "storage_class": "Storage Class",
+              "storage_pool": "Storage Pool",
+              "storage_system": "Storage System",
+              "storage_system_volume_name": "Storage System Volume Name"
+            }
           }
         }
       ],
-      "type": "briangann-datatable-panel"
+      "type": "table"
     }
   ],
-  "refresh": "10s",
-  "schemaVersion": 26,
-  "style": "dark",
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
-    "list": [
-      {
-        "allValue": null,
-        "current": {
-          "selected": true,
-          "text": "All",
-          "value": [
-            "$__all"
-          ]
-        },
-        "datasource": "Karavi-Topology",
-        "definition": "Namespace",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Namespace",
-        "multi": true,
-        "name": "Namespace",
-        "options": [],
-        "query": "Namespace",
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": "Karavi-Topology",
-        "definition": "Storage Class",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Storage Class",
-        "multi": true,
-        "name": "StorageClass",
-        "options": [],
-        "query": "Storage Class",
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": "Karavi-Topology",
-        "definition": "Status",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Status",
-        "multi": true,
-        "name": "Status",
-        "options": [],
-        "query": "Status",
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": "Karavi-Topology",
-        "definition": "Storage System",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Storage System",
-        "multi": true,
-        "name": "StorageSystem",
-        "options": [],
-        "query": "Storage System",
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": "Karavi-Topology",
-        "definition": "Protocol",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Protocol",
-        "multi": true,
-        "name": "Protocol",
-        "options": [],
-        "query": "Protocol",
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": "Karavi-Topology",
-        "definition": "Storage Pool",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Storage Pool",
-        "multi": true,
-        "name": "StoragePool",
-        "options": [],
-        "query": "Storage Pool",
-        "refresh": 2,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      }
-    ]
+    "list": []
   },
   "time": {
     "from": "now-6h",
     "to": "now"
   },
-  "timepicker": {
-    "refresh_intervals": [
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ]
-  },
-  "timezone": "",
+  "timepicker": {},
+  "timezone": "browser",
   "title": "Kubernetes Admin Dashboard",
-  "uid": "OeAoEnIGk",
-  "version": 3
+  "uid": "fegi7zl1jbdhcc",
+  "version": 7,
+  "weekStart": ""
 }
