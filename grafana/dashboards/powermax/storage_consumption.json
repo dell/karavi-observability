@@ -25,8 +25,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 6,
-  "iteration": 1675907350400,
+  "id": 3,
   "links": [
     {
       "asDropdown": true,
@@ -38,7 +37,6 @@
       "type": "dashboards"
     }
   ],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
@@ -48,9 +46,10 @@
         "x": 0,
         "y": 0
       },
-      "id": 117,
+      "id": 23,
       "panels": [],
-      "title": "Alerts",
+      "repeat": "StorageGroup",
+      "title": "$StorageGroup",
       "type": "row"
     },
     {
@@ -60,45 +59,49 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 0,
-          "mappings": [],
-          "noValue": "--",
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "null": {
+                  "index": 0,
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "light-green",
+                "color": "dark-blue",
                 "value": null
-              },
-              {
-                "color": "light-green",
-                "value": -0.0001
-              },
-              {
-                "color": "semi-dark-orange",
-                "value": 0.0001
               }
             ]
           },
-          "unit": "none"
+          "unit": "decgbytes"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 8,
+        "h": 8,
+        "w": 12,
         "x": 0,
         "y": 1
       },
-      "id": 125,
+      "id": 99,
+      "maxDataPoints": 100,
       "options": {
         "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
+        "graphMode": "none",
+        "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
-            "mean"
+            "lastNotNull"
           ],
           "fields": "",
           "values": false
@@ -111,20 +114,27 @@
       "targets": [
         {
           "datasource": "Prometheus",
-          "expr": "  count (predict_linear(powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 2 * 24 * 60 * 60) - predict_linear(powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 2 * 24 * 60 * 60) <= 0)\nor\nvector(0)",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (StorageGroupID) (powermax_storage_group_used_capacity_gigabytes{ArrayID=~\"$Array\", StorageGroupID=~\"$StorageGroup\"})",
           "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "PVs Full in 2 days - Based on Daily Usage",
-      "transformations": [
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Used"
+        },
         {
-          "id": "organize",
-          "options": {}
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (StorageGroupID) (powermax_storage_group_total_capacity_gigabytes{ArrayID=~\"$Array\", StorageGroupID=~\"$StorageGroup\"})",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Provisioned",
+          "range": false,
+          "refId": "Total"
         }
       ],
+      "title": "Storage Group Capacity",
       "type": "stat"
     },
     {
@@ -132,363 +142,79 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
-          "decimals": 0,
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 2,
           "mappings": [],
-          "noValue": "--",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "light-green",
-                "value": null
-              },
-              {
-                "color": "light-green",
-                "value": -0.0001
-              },
-              {
-                "color": "semi-dark-orange",
-                "value": 0.0001
-              }
-            ]
-          },
-          "unit": "none"
+          "unit": "decgbytes"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 8,
+        "h": 8,
+        "w": 12,
+        "x": 12,
         "y": 1
       },
-      "id": 133,
+      "id": 101,
       "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
         "reduceOptions": {
           "calcs": [
-            "mean"
+            "lastNotNull"
           ],
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
       },
       "pluginVersion": "11.5.2",
       "targets": [
         {
           "datasource": "Prometheus",
-          "expr": "  count (predict_linear(powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 5 * 24 * 60 * 60) - predict_linear(powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 5 * 24 * 60 * 60) <= 0)\nor\nvector(0)",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powermax_storage_group_total_capacity_gigabytes{ArrayID=~\"$Array\", StorageGroupID=~\"$StorageGroup\"}",
           "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "PVs Full in 5 days - Based on Daily Usage",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {}
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "noValue": "--",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "light-green",
-                "value": null
-              },
-              {
-                "color": "light-green",
-                "value": -0.0001
-              },
-              {
-                "color": "semi-dark-orange",
-                "value": 0.0001
-              }
-            ]
-          },
-          "unit": "none"
+          "legendFormat": "Provisioned",
+          "range": false,
+          "refId": "Total"
         },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 1
-      },
-      "id": 141,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
         {
           "datasource": "Prometheus",
-          "expr": "  count (predict_linear(powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 7 * 24 * 60 * 60) - predict_linear(powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 7 * 24 * 60 * 60) <= 0)\nor\nvector(0)",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powermax_storage_group_used_capacity_gigabytes{ArrayID=~\"$Array\", StorageGroupID=~\"$StorageGroup\"}",
+          "hide": false,
           "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Used"
         }
       ],
-      "title": "PVs Full in 1 Week - Based on Daily Usage",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {}
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "noValue": "--",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "semi-dark-red",
-                "value": null
-              },
-              {
-                "color": "light-green",
-                "value": -0.0001
-              },
-              {
-                "color": "semi-dark-red",
-                "value": 0.0001
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 0,
-        "y": 5
-      },
-      "id": 149,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
-        {
-          "datasource": "Prometheus",
-          "expr": "count (powermax_volume_used_capacity_percentage{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"} >= ${warning_threshold}) or vector (0)",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "PVs Above Warning Threshold",
-      "type": "stat"
-    },
-    {
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "noValue": "--",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "semi-dark-red",
-                "value": null
-              },
-              {
-                "color": "light-green",
-                "value": -0.0001
-              },
-              {
-                "color": "semi-dark-red",
-                "value": 0.0001
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 8,
-        "y": 5
-      },
-      "id": 157,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
-        {
-          "datasource": "Prometheus",
-          "expr": "count(powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\", PersistentVolumeStatus=\"Pending\"}) or vector(0)",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "PVs in Pending Status",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {}
-        }
-      ],
-      "type": "stat"
-    },
-    {
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "noValue": "--",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "semi-dark-red",
-                "value": null
-              },
-              {
-                "color": "light-green",
-                "value": -0.0001
-              },
-              {
-                "color": "semi-dark-red",
-                "value": 0.0001
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 8,
-        "x": 16,
-        "y": 5
-      },
-      "id": 165,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
-        {
-          "datasource": "Prometheus",
-          "expr": "count(powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\", PersistentVolumeStatus=\"Failed\"}) or vector(0)",
-          "instant": true,
-          "interval": "",
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "title": "PVs in Failed Status",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {}
-        }
-      ],
-      "type": "stat"
+      "title": "Storage Group Summary",
+      "type": "piechart"
     },
     {
       "collapsed": false,
@@ -498,780 +224,1231 @@
         "x": 0,
         "y": 9
       },
-      "id": 109,
+      "id": 14,
       "panels": [],
+      "repeat": "Volume",
+      "title": "$Volume",
+      "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "null": {
+                  "index": 0,
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 10
+      },
+      "id": 16,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (VolumeID) (powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$Volume\", Namespace=~\"$Namespace\"})",
+          "instant": true,
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Used"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (VolumeID) (powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$Volume\", Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Total",
+          "range": false,
+          "refId": "Total"
+        }
+      ],
+      "title": "Volume Capacity",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 10
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$Volume\", Namespace=~\"$Namespace\"}",
+          "instant": true,
+          "legendFormat": "Total",
+          "range": false,
+          "refId": "Total"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$Volume\", Namespace=~\"$Namespace\"}",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Used"
+        }
+      ],
+      "title": "Volume Summary",
+      "type": "piechart"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 117,
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [],
+              "noValue": "--",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "light-green",
+                    "value": null
+                  },
+                  {
+                    "color": "light-green",
+                    "value": -0.0001
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 0.0001
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 0,
+            "y": 19
+          },
+          "id": 125,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "expr": "  count (predict_linear(powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 2 * 24 * 60 * 60) - predict_linear(powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 2 * 24 * 60 * 60) <= 0)\nor\nvector(0)",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "PVs Full in 2 days - Based on Daily Usage",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {}
+            }
+          ],
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [],
+              "noValue": "--",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "light-green",
+                    "value": null
+                  },
+                  {
+                    "color": "light-green",
+                    "value": -0.0001
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 0.0001
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 8,
+            "y": 19
+          },
+          "id": 133,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "expr": "  count (predict_linear(powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 5 * 24 * 60 * 60) - predict_linear(powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 5 * 24 * 60 * 60) <= 0)\nor\nvector(0)",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "PVs Full in 5 days - Based on Daily Usage",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {}
+            }
+          ],
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [],
+              "noValue": "--",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "light-green",
+                    "value": null
+                  },
+                  {
+                    "color": "light-green",
+                    "value": -0.0001
+                  },
+                  {
+                    "color": "semi-dark-orange",
+                    "value": 0.0001
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 16,
+            "y": 19
+          },
+          "id": 141,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "expr": "  count (predict_linear(powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 7 * 24 * 60 * 60) - predict_linear(powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}[1d], 7 * 24 * 60 * 60) <= 0)\nor\nvector(0)",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "PVs Full in 1 Week - Based on Daily Usage",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {}
+            }
+          ],
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "noValue": "--",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "semi-dark-red",
+                    "value": null
+                  },
+                  {
+                    "color": "light-green",
+                    "value": -0.0001
+                  },
+                  {
+                    "color": "semi-dark-red",
+                    "value": 0.0001
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 0,
+            "y": 23
+          },
+          "id": 149,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "expr": "count (powermax_volume_used_capacity_percentage{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"} >= ${warning_threshold}) or vector (0)",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "PVs Above Warning Threshold",
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [],
+              "noValue": "--",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "semi-dark-red",
+                    "value": null
+                  },
+                  {
+                    "color": "light-green",
+                    "value": -0.0001
+                  },
+                  {
+                    "color": "semi-dark-red",
+                    "value": 0.0001
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 8,
+            "y": 23
+          },
+          "id": 157,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "expr": "count(powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\", PersistentVolumeStatus=\"Pending\"}) or vector(0)",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "PVs in Pending Status",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {}
+            }
+          ],
+          "type": "stat"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "decimals": 0,
+              "mappings": [],
+              "noValue": "--",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "semi-dark-red",
+                    "value": null
+                  },
+                  {
+                    "color": "light-green",
+                    "value": -0.0001
+                  },
+                  {
+                    "color": "semi-dark-red",
+                    "value": 0.0001
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 8,
+            "x": 16,
+            "y": 23
+          },
+          "id": 165,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "mean"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "auto",
+            "wideLayout": true
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "expr": "count(powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\", PersistentVolumeStatus=\"Failed\"}) or vector(0)",
+              "instant": true,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "PVs in Failed Status",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {}
+            }
+          ],
+          "type": "stat"
+        }
+      ],
+      "title": "Alerts",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      },
+      "id": 109,
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "ArrayID"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Array"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #Used"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "decgbytes"
+                  },
+                  {
+                    "id": "displayName",
+                    "value": "Used"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #Total"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "decgbytes"
+                  },
+                  {
+                    "id": "displayName",
+                    "value": "Provisioned"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 28
+          },
+          "id": 55,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "enablePagination": true,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "powermax_storage_class_used_capacity_gigabytes{StorageClass=~\"$StorageClass\"}",
+              "format": "table",
+              "instant": true,
+              "range": false,
+              "refId": "Used"
+            },
+            {
+              "datasource": "Prometheus",
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "powermax_storage_class_total_capacity_gigabytes{StorageClass=~\"$StorageClass\"}",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "range": false,
+              "refId": "Total"
+            }
+          ],
+          "title": "Storage Class Capacities",
+          "transformations": [
+            {
+              "id": "filterFieldsByName",
+              "options": {
+                "include": {
+                  "names": [
+                    "ArrayID",
+                    "StorageClass",
+                    "Value #Used",
+                    "Value #Total",
+                    "Driver"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {
+                  "ArrayID": 2,
+                  "Driver": 1,
+                  "StorageClass": 0,
+                  "Value #Total": 4,
+                  "Value #Used": 3
+                },
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "dark-yellow",
+                    "value": 65
+                  },
+                  {
+                    "color": "dark-orange",
+                    "value": 70
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 34
+          },
+          "id": 57,
+          "options": {
+            "displayMode": "lcd",
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "maxVizHeight": 300,
+            "minVizHeight": 10,
+            "minVizWidth": 0,
+            "namePlacement": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/.*/",
+              "values": false
+            },
+            "showUnfilled": true,
+            "sizing": "auto",
+            "text": {},
+            "valueMode": "color"
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "avg by (StorageClass) (powermax_storage_class_used_capacity_percentage{StorageClass=~\"$StorageClass\"})",
+              "format": "table",
+              "instant": true,
+              "range": false,
+              "refId": "A"
+            }
+          ],
+          "title": "Storage Class Usage",
+          "transformations": [
+            {
+              "id": "filterFieldsByName",
+              "options": {
+                "include": {
+                  "names": [
+                    "Value"
+                  ],
+                  "pattern": "Value"
+                }
+              }
+            }
+          ],
+          "type": "bargauge"
+        }
+      ],
       "title": "Storage Class Capacity",
       "type": "row"
     },
     {
-      "alignNumbersToRightEnabled": true,
-      "columnAliases": [
-        {
-          "$$hashKey": "object:639",
-          "alias": "Used",
-          "name": "Value #Used"
-        },
-        {
-          "$$hashKey": "object:641",
-          "alias": "Provisioned",
-          "name": "Value #Total"
-        },
-        {
-          "$$hashKey": "object:618",
-          "alias": "Array",
-          "name": "ArrayID"
-        }
-      ],
-      "columnFiltersEnabled": false,
-      "columnWidthHints": [],
-      "columns": [],
-      "compactRowsEnabled": false,
-      "datasource": "Prometheus",
-      "datatablePagingType": "simple_numbers",
-      "datatableTheme": "basic_theme",
-      "emptyData": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "ArrayID"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Array"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Value #Used"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "decgbytes"
-              },
-              {
-                "id": "displayName",
-                "value": "Used"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Value #Total"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "decgbytes"
-              },
-              {
-                "id": "displayName",
-                "value": "Provisioned"
-              }
-            ]
-          }
-        ]
-      },
-      "fontSize": "100%",
-      "gridPos": {
-        "h": 6,
-        "w": 24,
-        "x": 0,
-        "y": 10
-      },
-      "hoverEnabled": true,
-      "id": 55,
-      "infoEnabled": true,
-      "lengthChangeEnabled": true,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "enablePagination": true,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true
-      },
-      "orderColumnEnabled": true,
-      "pagingTypes": [
-        {
-          "$$hashKey": "object:180",
-          "text": "Page number buttons only",
-          "value": "numbers"
-        },
-        {
-          "$$hashKey": "object:181",
-          "text": "'Previous' and 'Next' buttons only",
-          "value": "simple"
-        },
-        {
-          "$$hashKey": "object:182",
-          "text": "'Previous' and 'Next' buttons, plus page numbers",
-          "value": "simple_numbers"
-        },
-        {
-          "$$hashKey": "object:183",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
-          "value": "full"
-        },
-        {
-          "$$hashKey": "object:184",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
-          "value": "full_numbers"
-        },
-        {
-          "$$hashKey": "object:185",
-          "text": "'First' and 'Last' buttons, plus page numbers",
-          "value": "first_last_numbers"
-        }
-      ],
-      "panelHeight": 238,
-      "pluginVersion": "11.5.2",
-      "rowNumbersEnabled": false,
-      "rowsPerPage": 5,
-      "scroll": false,
-      "scrollHeight": "default",
-      "searchEnabled": true,
-      "searchHighlightingEnabled": false,
-      "showCellBorders": false,
-      "showHeader": true,
-      "showRowBorders": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "sortByColumns": [],
-      "sortByColumnsData": [
-        [
-          0,
-          "desc"
-        ]
-      ],
-      "stripedRowsEnabled": true,
-      "styles": [
-        {
-          "$$hashKey": "object:23",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "$$hashKey": "object:24",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "splitPattern": "/ /",
-          "thresholds": [],
-          "type": "number",
-          "unit": "decgbytes"
-        }
-      ],
-      "targets": [
-        {
-          "datasource": "Prometheus",
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "powermax_storage_class_used_capacity_gigabytes{StorageClass=~\"$StorageClass\"}",
-          "format": "table",
-          "instant": true,
-          "range": false,
-          "refId": "Used"
-        },
-        {
-          "datasource": "Prometheus",
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "powermax_storage_class_total_capacity_gigabytes{StorageClass=~\"$StorageClass\"}",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "range": false,
-          "refId": "Total"
-        }
-      ],
-      "themeOptions": {
-        "dark": "./styles/dark.scss",
-        "light": "./styles/light.scss"
-      },
-      "themes": [
-        {
-          "$$hashKey": "object:155",
-          "disabled": false,
-          "text": "Basic",
-          "value": "basic_theme"
-        },
-        {
-          "$$hashKey": "object:156",
-          "disabled": true,
-          "text": "Bootstrap",
-          "value": "bootstrap_theme"
-        },
-        {
-          "$$hashKey": "object:157",
-          "disabled": true,
-          "text": "Foundation",
-          "value": "foundation_theme"
-        },
-        {
-          "$$hashKey": "object:158",
-          "disabled": true,
-          "text": "ThemeRoller",
-          "value": "themeroller_theme"
-        }
-      ],
-      "title": "Storage Class Capacities",
-      "transform": "table",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "ArrayID",
-                "StorageClass",
-                "Value #Used",
-                "Value #Total",
-                "Driver"
-              ]
-            }
-          }
-        },
-        {
-          "id": "merge",
-          "options": {}
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "indexByName": {
-              "ArrayID": 2,
-              "Driver": 1,
-              "StorageClass": 0,
-              "Value #Total": 4,
-              "Value #Used": 3
-            },
-            "renameByName": {}
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
-      "datasource": "Prometheus",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "dark-yellow",
-                "value": 65
-              },
-              {
-                "color": "dark-orange",
-                "value": 70
-              },
-              {
-                "color": "dark-red",
-                "value": 90
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 16
-      },
-      "id": 57,
-      "options": {
-        "displayMode": "lcd",
-        "maxVizHeight": 300,
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "namePlacement": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/.*/",
-          "values": false
-        },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "text": {},
-        "valueMode": "color"
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
-        {
-          "datasource": "Prometheus",
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "avg by (StorageClass) (powermax_storage_class_used_capacity_percentage{StorageClass=~\"$StorageClass\"})",
-          "format": "table",
-          "instant": true,
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "Storage Class Usage",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "Value"
-              ],
-              "pattern": "Value"
-            }
-          }
-        }
-      ],
-      "type": "bargauge"
-    },
-    {
-      "collapsed": false,
+      "collapsed": true,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 20
       },
       "id": 82,
-      "panels": [],
+      "panels": [
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "PersistentVolumeName"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "PersistentVolume"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "VolumeID"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "PhysicalVolume"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "StorageGroupID"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "StorageGroup"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "SrpID"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Srp"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "ArrayID"
+                },
+                "properties": [
+                  {
+                    "id": "displayName",
+                    "value": "Array"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #Used"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "decgbytes"
+                  },
+                  {
+                    "id": "displayName",
+                    "value": "Used"
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Value #Total"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "decgbytes"
+                  },
+                  {
+                    "id": "displayName",
+                    "value": "Total"
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 42
+          },
+          "id": 6,
+          "options": {
+            "cellHeight": "sm",
+            "footer": {
+              "countRows": false,
+              "enablePagination": true,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}",
+              "format": "table",
+              "instant": true,
+              "range": false,
+              "refId": "Used"
+            },
+            {
+              "datasource": "Prometheus",
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\",Namespace=~\"$Namespace\"}",
+              "format": "table",
+              "hide": false,
+              "instant": true,
+              "range": false,
+              "refId": "Total"
+            }
+          ],
+          "title": "Volume Capacities",
+          "transformations": [
+            {
+              "id": "filterFieldsByName",
+              "options": {
+                "include": {
+                  "names": [
+                    "ArrayID",
+                    "Namespace",
+                    "PersistentVolumeClaimName",
+                    "PersistentVolumeName",
+                    "SrpID",
+                    "StorageClass",
+                    "StorageGroupID",
+                    "VolumeID",
+                    "Value #Used",
+                    "Value #Total",
+                    "PersistentVolumeStatus"
+                  ]
+                }
+              }
+            },
+            {
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {},
+                "indexByName": {
+                  "ArrayID": 7,
+                  "Namespace": 3,
+                  "PersistentVolumeClaimName": 1,
+                  "PersistentVolumeName": 0,
+                  "PersistentVolumeStatus": 10,
+                  "SrpID": 6,
+                  "StorageClass": 2,
+                  "StorageGroupID": 5,
+                  "Value #Total": 9,
+                  "Value #Used": 8,
+                  "VolumeID": 4
+                },
+                "renameByName": {}
+              }
+            }
+          ],
+          "type": "table"
+        },
+        {
+          "datasource": "Prometheus",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "dark-yellow",
+                    "value": 65
+                  },
+                  {
+                    "color": "dark-orange",
+                    "value": 70
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 59
+          },
+          "id": 8,
+          "options": {
+            "displayMode": "lcd",
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "maxVizHeight": 300,
+            "minVizHeight": 10,
+            "minVizWidth": 0,
+            "namePlacement": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/.*/",
+              "values": false
+            },
+            "showUnfilled": true,
+            "sizing": "auto",
+            "text": {},
+            "valueMode": "color"
+          },
+          "pluginVersion": "11.5.2",
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "editorMode": "code",
+              "exemplar": false,
+              "expr": "avg by (PersistentVolumeName) (powermax_volume_used_capacity_percentage{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"})",
+              "format": "table",
+              "instant": true,
+              "range": false,
+              "refId": "A"
+            }
+          ],
+          "title": "Volume Usage",
+          "transformations": [
+            {
+              "id": "filterFieldsByName",
+              "options": {
+                "include": {
+                  "pattern": "Value"
+                }
+              }
+            }
+          ],
+          "type": "bargauge"
+        }
+      ],
       "title": "Persistent Volume Capacity",
       "type": "row"
     },
     {
-      "alignNumbersToRightEnabled": true,
-      "columnAliases": [
-        {
-          "$$hashKey": "object:639",
-          "alias": "Used",
-          "name": "Value #Used"
-        },
-        {
-          "$$hashKey": "object:641",
-          "alias": "Total",
-          "name": "Value #Total"
-        },
-        {
-          "$$hashKey": "object:519",
-          "alias": "PersistentVolumeClaim",
-          "name": "PersistentVolumeClaimName"
-        },
-        {
-          "$$hashKey": "object:521",
-          "alias": "PersistentVolume",
-          "name": "PersistentVolumeName"
-        },
-        {
-          "$$hashKey": "object:549",
-          "alias": "PhysicalVolume",
-          "name": "VolumeID"
-        },
-        {
-          "$$hashKey": "object:551",
-          "alias": "StorageGroup",
-          "name": "StorageGroupID"
-        },
-        {
-          "$$hashKey": "object:553",
-          "alias": "Srp",
-          "name": "SrpID"
-        },
-        {
-          "$$hashKey": "object:555",
-          "alias": "Array",
-          "name": "ArrayID"
-        }
-      ],
-      "columnFiltersEnabled": false,
-      "columnWidthHints": [],
-      "columns": [],
-      "compactRowsEnabled": false,
-      "datasource": "Prometheus",
-      "datatablePagingType": "simple_numbers",
-      "datatableTheme": "basic_theme",
-      "emptyData": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "PersistentVolumeName"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "PersistentVolume"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "VolumeID"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "PhysicalVolume"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "StorageGroupID"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "StorageGroup"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "SrpID"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Srp"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "ArrayID"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Array"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Value #Used"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "decgbytes"
-              },
-              {
-                "id": "displayName",
-                "value": "Used"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Value #Total"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "decgbytes"
-              },
-              {
-                "id": "displayName",
-                "value": "Total"
-              }
-            ]
-          }
-        ]
-      },
-      "fontSize": "100%",
+      "collapsed": false,
       "gridPos": {
-        "h": 8,
+        "h": 1,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 21
       },
-      "hoverEnabled": true,
-      "id": 6,
-      "infoEnabled": true,
-      "lengthChangeEnabled": true,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "enablePagination": true,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true
-      },
-      "orderColumnEnabled": true,
-      "pagingTypes": [
-        {
-          "$$hashKey": "object:180",
-          "text": "Page number buttons only",
-          "value": "numbers"
-        },
-        {
-          "$$hashKey": "object:181",
-          "text": "'Previous' and 'Next' buttons only",
-          "value": "simple"
-        },
-        {
-          "$$hashKey": "object:182",
-          "text": "'Previous' and 'Next' buttons, plus page numbers",
-          "value": "simple_numbers"
-        },
-        {
-          "$$hashKey": "object:183",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
-          "value": "full"
-        },
-        {
-          "$$hashKey": "object:184",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
-          "value": "full_numbers"
-        },
-        {
-          "$$hashKey": "object:185",
-          "text": "'First' and 'Last' buttons, plus page numbers",
-          "value": "first_last_numbers"
-        }
-      ],
-      "panelHeight": 238,
-      "pluginVersion": "11.5.2",
-      "rowNumbersEnabled": false,
-      "rowsPerPage": 5,
-      "scroll": false,
-      "scrollHeight": "default",
-      "searchEnabled": true,
-      "searchHighlightingEnabled": false,
-      "showCellBorders": false,
-      "showHeader": true,
-      "showRowBorders": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "sortByColumns": [],
-      "sortByColumnsData": [
-        [
-          0,
-          "desc"
-        ]
-      ],
-      "stripedRowsEnabled": true,
-      "styles": [
-        {
-          "$$hashKey": "object:23",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "$$hashKey": "object:24",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "splitPattern": "/ /",
-          "thresholds": [],
-          "type": "number",
-          "unit": "decgbytes"
-        }
-      ],
-      "targets": [
-        {
-          "datasource": "Prometheus",
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"}",
-          "format": "table",
-          "instant": true,
-          "range": false,
-          "refId": "Used"
-        },
-        {
-          "datasource": "Prometheus",
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\",Namespace=~\"$Namespace\"}",
-          "format": "table",
-          "hide": false,
-          "instant": true,
-          "range": false,
-          "refId": "Total"
-        }
-      ],
-      "themeOptions": {
-        "dark": "./styles/dark.scss",
-        "light": "./styles/light.scss"
-      },
-      "themes": [
-        {
-          "$$hashKey": "object:155",
-          "disabled": false,
-          "text": "Basic",
-          "value": "basic_theme"
-        },
-        {
-          "$$hashKey": "object:156",
-          "disabled": true,
-          "text": "Bootstrap",
-          "value": "bootstrap_theme"
-        },
-        {
-          "$$hashKey": "object:157",
-          "disabled": true,
-          "text": "Foundation",
-          "value": "foundation_theme"
-        },
-        {
-          "$$hashKey": "object:158",
-          "disabled": true,
-          "text": "ThemeRoller",
-          "value": "themeroller_theme"
-        }
-      ],
-      "title": "Volume Capacities",
-      "transform": "table",
-      "transformations": [
-        {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "names": [
-                "ArrayID",
-                "Namespace",
-                "PersistentVolumeClaimName",
-                "PersistentVolumeName",
-                "SrpID",
-                "StorageClass",
-                "StorageGroupID",
-                "VolumeID",
-                "Value #Used",
-                "Value #Total",
-                "PersistentVolumeStatus"
-              ]
-            }
-          }
-        },
-        {
-          "id": "merge",
-          "options": {}
-        },
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "indexByName": {
-              "ArrayID": 7,
-              "Namespace": 3,
-              "PersistentVolumeClaimName": 1,
-              "PersistentVolumeName": 0,
-              "PersistentVolumeStatus": 10,
-              "SrpID": 6,
-              "StorageClass": 2,
-              "StorageGroupID": 5,
-              "Value #Total": 9,
-              "Value #Used": 8,
-              "VolumeID": 4
-            },
-            "renameByName": {}
-          }
-        }
-      ],
-      "type": "table"
+      "id": 32,
+      "panels": [],
+      "repeat": "Srp",
+      "title": "$Srp",
+      "type": "row"
     },
     {
       "datasource": "Prometheus",
@@ -1280,59 +1457,56 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
-          "max": 100,
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "null": {
+                  "index": 0,
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "dark-blue",
                 "value": null
-              },
-              {
-                "color": "dark-yellow",
-                "value": 65
-              },
-              {
-                "color": "dark-orange",
-                "value": 70
-              },
-              {
-                "color": "dark-red",
-                "value": 90
               }
             ]
           },
-          "unit": "percent"
+          "unit": "decgbytes"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
-        "w": 24,
+        "h": 8,
+        "w": 12,
         "x": 0,
-        "y": 32
+        "y": 22
       },
-      "id": 8,
+      "id": 95,
+      "maxDataPoints": 100,
       "options": {
-        "displayMode": "lcd",
-        "maxVizHeight": 300,
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "namePlacement": "auto",
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/.*/",
+          "fields": "",
           "values": false
         },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "text": {},
-        "valueMode": "color"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "11.5.2",
       "targets": [
@@ -1340,25 +1514,105 @@
           "datasource": "Prometheus",
           "editorMode": "code",
           "exemplar": false,
-          "expr": "avg by (PersistentVolumeName) (powermax_volume_used_capacity_percentage{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", Namespace=~\"$Namespace\"})",
-          "format": "table",
+          "expr": "avg by (SrpID) (powermax_srp_used_capacity_gigabytes{ArrayID=~\"$Array\", SrpID=~\"$Srp\"})",
           "instant": true,
+          "legendFormat": "Used",
           "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "Volume Usage",
-      "transformations": [
+          "refId": "Used"
+        },
         {
-          "id": "filterFieldsByName",
-          "options": {
-            "include": {
-              "pattern": "Value"
-            }
-          }
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (SrpID) (powermax_srp_total_capacity_gigabytes{ArrayID=~\"$Array\", SrpID=~\"$Srp\"})",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Provisioned",
+          "range": false,
+          "refId": "Total"
         }
       ],
-      "type": "bargauge"
+      "title": "Srp Capacity",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 22
+      },
+      "id": 97,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powermax_srp_total_capacity_gigabytes{ArrayID=~\"$Array\", SrpID=~\"$Srp\"}",
+          "instant": true,
+          "legendFormat": "Provisioned",
+          "range": false,
+          "refId": "Total"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powermax_srp_used_capacity_gigabytes{ArrayID=~\"$Array\", SrpID=~\"$Srp\"}",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Used"
+        }
+      ],
+      "title": "Srp Summary",
+      "type": "piechart"
     },
     {
       "collapsed": false,
@@ -1366,7 +1620,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 30
       },
       "id": 77,
       "panels": [],
@@ -1374,27 +1628,7 @@
       "type": "row"
     },
     {
-      "alignNumbersToRightEnabled": true,
-      "columnAliases": [
-        {
-          "$$hashKey": "object:639",
-          "alias": "Used",
-          "name": "Value #Used"
-        },
-        {
-          "$$hashKey": "object:641",
-          "alias": "Provisioned",
-          "name": "Value #Total"
-        }
-      ],
-      "columnFiltersEnabled": false,
-      "columnWidthHints": [],
-      "columns": [],
-      "compactRowsEnabled": false,
       "datasource": "Prometheus",
-      "datatablePagingType": "simple_numbers",
-      "datatableTheme": "basic_theme",
-      "emptyData": false,
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -1454,17 +1688,13 @@
           }
         ]
       },
-      "fontSize": "100%",
       "gridPos": {
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 31
       },
-      "hoverEnabled": true,
       "id": 46,
-      "infoEnabled": true,
-      "lengthChangeEnabled": true,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -1478,84 +1708,7 @@
         },
         "showHeader": true
       },
-      "orderColumnEnabled": true,
-      "pagingTypes": [
-        {
-          "$$hashKey": "object:180",
-          "text": "Page number buttons only",
-          "value": "numbers"
-        },
-        {
-          "$$hashKey": "object:181",
-          "text": "'Previous' and 'Next' buttons only",
-          "value": "simple"
-        },
-        {
-          "$$hashKey": "object:182",
-          "text": "'Previous' and 'Next' buttons, plus page numbers",
-          "value": "simple_numbers"
-        },
-        {
-          "$$hashKey": "object:183",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
-          "value": "full"
-        },
-        {
-          "$$hashKey": "object:184",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
-          "value": "full_numbers"
-        },
-        {
-          "$$hashKey": "object:185",
-          "text": "'First' and 'Last' buttons, plus page numbers",
-          "value": "first_last_numbers"
-        }
-      ],
-      "panelHeight": 170,
       "pluginVersion": "11.5.2",
-      "rowNumbersEnabled": false,
-      "rowsPerPage": 5,
-      "scroll": false,
-      "scrollHeight": "default",
-      "searchEnabled": true,
-      "searchHighlightingEnabled": false,
-      "showCellBorders": false,
-      "showHeader": true,
-      "showRowBorders": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "sortByColumns": [],
-      "sortByColumnsData": [
-        [
-          0,
-          "desc"
-        ]
-      ],
-      "stripedRowsEnabled": true,
-      "styles": [
-        {
-          "$$hashKey": "object:23",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "$$hashKey": "object:24",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "splitPattern": "/ /",
-          "thresholds": [],
-          "type": "number",
-          "unit": "decgbytes"
-        }
-      ],
       "targets": [
         {
           "datasource": "Prometheus",
@@ -1579,38 +1732,7 @@
           "refId": "Total"
         }
       ],
-      "themeOptions": {
-        "dark": "./styles/dark.scss",
-        "light": "./styles/light.scss"
-      },
-      "themes": [
-        {
-          "$$hashKey": "object:155",
-          "disabled": false,
-          "text": "Basic",
-          "value": "basic_theme"
-        },
-        {
-          "$$hashKey": "object:156",
-          "disabled": true,
-          "text": "Bootstrap",
-          "value": "bootstrap_theme"
-        },
-        {
-          "$$hashKey": "object:157",
-          "disabled": true,
-          "text": "Foundation",
-          "value": "foundation_theme"
-        },
-        {
-          "$$hashKey": "object:158",
-          "disabled": true,
-          "text": "ThemeRoller",
-          "value": "themeroller_theme"
-        }
-      ],
       "title": "Array Capacities",
-      "transform": "table",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -1684,11 +1806,17 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 46
+        "y": 37
       },
       "id": 48,
       "options": {
         "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
         "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
@@ -1738,7 +1866,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 53
+        "y": 44
       },
       "id": 72,
       "panels": [],
@@ -1746,32 +1874,7 @@
       "type": "row"
     },
     {
-      "alignNumbersToRightEnabled": true,
-      "columnAliases": [
-        {
-          "$$hashKey": "object:639",
-          "alias": "Used",
-          "name": "Value #Used"
-        },
-        {
-          "$$hashKey": "object:641",
-          "alias": "Provisioned",
-          "name": "Value #Total"
-        },
-        {
-          "$$hashKey": "object:644",
-          "alias": "Array",
-          "name": "ArrayID"
-        }
-      ],
-      "columnFiltersEnabled": false,
-      "columnWidthHints": [],
-      "columns": [],
-      "compactRowsEnabled": false,
       "datasource": "Prometheus",
-      "datatablePagingType": "simple_numbers",
-      "datatableTheme": "basic_theme",
-      "emptyData": false,
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -1843,17 +1946,13 @@
           }
         ]
       },
-      "fontSize": "100%",
       "gridPos": {
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 54
+        "y": 45
       },
-      "hoverEnabled": true,
       "id": 37,
-      "infoEnabled": true,
-      "lengthChangeEnabled": true,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -1867,84 +1966,7 @@
         },
         "showHeader": true
       },
-      "orderColumnEnabled": true,
-      "pagingTypes": [
-        {
-          "$$hashKey": "object:180",
-          "text": "Page number buttons only",
-          "value": "numbers"
-        },
-        {
-          "$$hashKey": "object:181",
-          "text": "'Previous' and 'Next' buttons only",
-          "value": "simple"
-        },
-        {
-          "$$hashKey": "object:182",
-          "text": "'Previous' and 'Next' buttons, plus page numbers",
-          "value": "simple_numbers"
-        },
-        {
-          "$$hashKey": "object:183",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
-          "value": "full"
-        },
-        {
-          "$$hashKey": "object:184",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
-          "value": "full_numbers"
-        },
-        {
-          "$$hashKey": "object:185",
-          "text": "'First' and 'Last' buttons, plus page numbers",
-          "value": "first_last_numbers"
-        }
-      ],
-      "panelHeight": 238,
       "pluginVersion": "11.5.2",
-      "rowNumbersEnabled": false,
-      "rowsPerPage": 5,
-      "scroll": false,
-      "scrollHeight": "default",
-      "searchEnabled": true,
-      "searchHighlightingEnabled": false,
-      "showCellBorders": false,
-      "showHeader": true,
-      "showRowBorders": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "sortByColumns": [],
-      "sortByColumnsData": [
-        [
-          0,
-          "desc"
-        ]
-      ],
-      "stripedRowsEnabled": true,
-      "styles": [
-        {
-          "$$hashKey": "object:23",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "$$hashKey": "object:24",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "splitPattern": "/ /",
-          "thresholds": [],
-          "type": "number",
-          "unit": "decgbytes"
-        }
-      ],
       "targets": [
         {
           "datasource": "Prometheus",
@@ -1968,38 +1990,7 @@
           "refId": "Total"
         }
       ],
-      "themeOptions": {
-        "dark": "./styles/dark.scss",
-        "light": "./styles/light.scss"
-      },
-      "themes": [
-        {
-          "$$hashKey": "object:155",
-          "disabled": false,
-          "text": "Basic",
-          "value": "basic_theme"
-        },
-        {
-          "$$hashKey": "object:156",
-          "disabled": true,
-          "text": "Bootstrap",
-          "value": "bootstrap_theme"
-        },
-        {
-          "$$hashKey": "object:157",
-          "disabled": true,
-          "text": "Foundation",
-          "value": "foundation_theme"
-        },
-        {
-          "$$hashKey": "object:158",
-          "disabled": true,
-          "text": "ThemeRoller",
-          "value": "themeroller_theme"
-        }
-      ],
       "title": "Srp Capacities",
-      "transform": "table",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -2075,11 +2066,17 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 60
+        "y": 51
       },
       "id": 39,
       "options": {
         "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
         "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
@@ -2129,7 +2126,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 67
+        "y": 58
       },
       "id": 67,
       "panels": [],
@@ -2137,37 +2134,7 @@
       "type": "row"
     },
     {
-      "alignNumbersToRightEnabled": true,
-      "columnAliases": [
-        {
-          "$$hashKey": "object:639",
-          "alias": "Used",
-          "name": "Value #Used"
-        },
-        {
-          "$$hashKey": "object:641",
-          "alias": "Provisioned",
-          "name": "Value #Total"
-        },
-        {
-          "$$hashKey": "object:694",
-          "alias": "Array",
-          "name": "ArrayID"
-        },
-        {
-          "$$hashKey": "object:696",
-          "alias": "Srp",
-          "name": "SrpID"
-        }
-      ],
-      "columnFiltersEnabled": false,
-      "columnWidthHints": [],
-      "columns": [],
-      "compactRowsEnabled": false,
       "datasource": "Prometheus",
-      "datatablePagingType": "simple_numbers",
-      "datatableTheme": "basic_theme",
-      "emptyData": false,
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -2251,17 +2218,13 @@
           }
         ]
       },
-      "fontSize": "100%",
       "gridPos": {
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 68
+        "y": 59
       },
-      "hoverEnabled": true,
       "id": 28,
-      "infoEnabled": true,
-      "lengthChangeEnabled": true,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -2275,84 +2238,7 @@
         },
         "showHeader": true
       },
-      "orderColumnEnabled": true,
-      "pagingTypes": [
-        {
-          "$$hashKey": "object:180",
-          "text": "Page number buttons only",
-          "value": "numbers"
-        },
-        {
-          "$$hashKey": "object:181",
-          "text": "'Previous' and 'Next' buttons only",
-          "value": "simple"
-        },
-        {
-          "$$hashKey": "object:182",
-          "text": "'Previous' and 'Next' buttons, plus page numbers",
-          "value": "simple_numbers"
-        },
-        {
-          "$$hashKey": "object:183",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
-          "value": "full"
-        },
-        {
-          "$$hashKey": "object:184",
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
-          "value": "full_numbers"
-        },
-        {
-          "$$hashKey": "object:185",
-          "text": "'First' and 'Last' buttons, plus page numbers",
-          "value": "first_last_numbers"
-        }
-      ],
-      "panelHeight": 238,
       "pluginVersion": "11.5.2",
-      "rowNumbersEnabled": false,
-      "rowsPerPage": 5,
-      "scroll": false,
-      "scrollHeight": "default",
-      "searchEnabled": true,
-      "searchHighlightingEnabled": false,
-      "showCellBorders": false,
-      "showHeader": true,
-      "showRowBorders": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "sortByColumns": [],
-      "sortByColumnsData": [
-        [
-          0,
-          "desc"
-        ]
-      ],
-      "stripedRowsEnabled": true,
-      "styles": [
-        {
-          "$$hashKey": "object:23",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "$$hashKey": "object:24",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "splitPattern": "/ /",
-          "thresholds": [],
-          "type": "number",
-          "unit": "decgbytes"
-        }
-      ],
       "targets": [
         {
           "datasource": "Prometheus",
@@ -2376,38 +2262,7 @@
           "refId": "Total"
         }
       ],
-      "themeOptions": {
-        "dark": "./styles/dark.scss",
-        "light": "./styles/light.scss"
-      },
-      "themes": [
-        {
-          "$$hashKey": "object:155",
-          "disabled": false,
-          "text": "Basic",
-          "value": "basic_theme"
-        },
-        {
-          "$$hashKey": "object:156",
-          "disabled": true,
-          "text": "Bootstrap",
-          "value": "bootstrap_theme"
-        },
-        {
-          "$$hashKey": "object:157",
-          "disabled": true,
-          "text": "Foundation",
-          "value": "foundation_theme"
-        },
-        {
-          "$$hashKey": "object:158",
-          "disabled": true,
-          "text": "ThemeRoller",
-          "value": "themeroller_theme"
-        }
-      ],
       "title": "Storage Group Capacities",
-      "transform": "table",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -2485,11 +2340,17 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 74
+        "y": 65
       },
       "id": 30,
       "options": {
         "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
         "maxVizHeight": 300,
         "minVizHeight": 10,
         "minVizWidth": 0,
@@ -2539,7 +2400,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 81
+        "y": 72
       },
       "id": 50,
       "panels": [
@@ -2580,7 +2441,7 @@
             "h": 8,
             "w": 12,
             "x": 0,
-            "y": 82
+            "y": 109
           },
           "id": 87,
           "maxDataPoints": 100,
@@ -2589,6 +2450,7 @@
             "graphMode": "none",
             "justifyMode": "center",
             "orientation": "auto",
+            "percentChangeColorMode": "standard",
             "reduceOptions": {
               "calcs": [
                 "lastNotNull"
@@ -2628,32 +2490,58 @@
           "type": "stat"
         },
         {
-          "aliasColors": {},
-          "breakPoint": "50%",
-          "combine": {
-            "label": "Others",
-            "threshold": 0
-          },
           "datasource": "Prometheus",
-          "decimals": 2,
-          "fontSize": "80%",
-          "format": "decgbytes",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                }
+              },
+              "decimals": 2,
+              "mappings": [],
+              "unit": "decgbytes"
+            },
+            "overrides": []
+          },
           "gridPos": {
             "h": 8,
             "w": 12,
             "x": 12,
-            "y": 82
+            "y": 109
           },
           "id": 89,
-          "legend": {
-            "percentage": true,
-            "show": true,
-            "values": true
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true,
+              "values": [
+                "value",
+                "percent"
+              ]
+            },
+            "pieType": "donut",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "single",
+              "sort": "none"
+            }
           },
-          "legendType": "Right side",
-          "nullPointMode": "connected",
-          "pieType": "donut",
-          "strokeWidth": "2",
+          "pluginVersion": "11.5.2",
           "targets": [
             {
               "datasource": "Prometheus",
@@ -2678,8 +2566,7 @@
             }
           ],
           "title": "Storage Class Summary",
-          "type": "grafana-piechart-panel",
-          "valueName": "current"
+          "type": "piechart"
         }
       ],
       "repeat": "StorageClass",
@@ -2687,628 +2574,199 @@
       "type": "row"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 82
+        "y": 73
       },
       "id": 41,
-      "panels": [
-        {
-          "datasource": "Prometheus",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 2,
-              "mappings": [
-                {
-                  "options": {
-                    "null": {
-                      "index": 0,
-                      "text": "N/A"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "dark-blue"
-                  }
-                ]
-              },
-              "unit": "decgbytes"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 8
-          },
-          "id": 91,
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "background",
-            "graphMode": "none",
-            "justifyMode": "center",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "8.5.0",
-          "targets": [
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg by (ArrayID) (powermax_array_used_capacity_gigabytes{ArrayID=~\"$Array\"})",
-              "instant": true,
-              "legendFormat": "Used",
-              "range": false,
-              "refId": "Used"
-            },
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg by (ArrayID) (powermax_array_total_capacity_gigabytes{ArrayID=~\"$Array\"})",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "Provisioned",
-              "range": false,
-              "refId": "Total"
-            }
-          ],
-          "title": "Array Capacity",
-          "type": "stat"
-        },
-        {
-          "aliasColors": {},
-          "breakPoint": "50%",
-          "combine": {
-            "label": "Others",
-            "threshold": 0
-          },
-          "datasource": "Prometheus",
-          "decimals": 2,
-          "fontSize": "80%",
-          "format": "decgbytes",
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 8
-          },
-          "id": 93,
-          "legend": {
-            "percentage": true,
-            "show": true,
-            "values": true
-          },
-          "legendType": "Right side",
-          "links": [],
-          "nullPointMode": "connected",
-          "pieType": "donut",
-          "strokeWidth": "2",
-          "targets": [
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "powermax_array_total_capacity_gigabytes{ArrayID=~\"$Array\"}",
-              "instant": true,
-              "legendFormat": "Provisioned",
-              "range": false,
-              "refId": "Total"
-            },
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "powermax_array_used_capacity_gigabytes{ArrayID=~\"$Array\"}",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "Used",
-              "range": false,
-              "refId": "Used"
-            }
-          ],
-          "title": "Array Summary",
-          "type": "grafana-piechart-panel",
-          "valueName": "current"
-        }
-      ],
+      "panels": [],
       "repeat": "Array",
       "title": "$Array",
       "type": "row"
     },
     {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 83
-      },
-      "id": 32,
-      "panels": [
-        {
-          "datasource": "Prometheus",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 2,
-              "mappings": [
-                {
-                  "options": {
-                    "null": {
-                      "index": 0,
-                      "text": "N/A"
-                    }
-                  },
-                  "type": "value"
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "null": {
+                  "index": 0,
+                  "text": "N/A"
                 }
-              ],
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "dark-blue"
-                  }
-                ]
               },
-              "unit": "decgbytes"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 9
-          },
-          "id": 95,
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "background",
-            "graphMode": "none",
-            "justifyMode": "center",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "8.5.0",
-          "targets": [
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg by (SrpID) (powermax_srp_used_capacity_gigabytes{ArrayID=~\"$Array\", SrpID=~\"$Srp\"})",
-              "instant": true,
-              "legendFormat": "Used",
-              "range": false,
-              "refId": "Used"
-            },
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg by (SrpID) (powermax_srp_total_capacity_gigabytes{ArrayID=~\"$Array\", SrpID=~\"$Srp\"})",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "Provisioned",
-              "range": false,
-              "refId": "Total"
+              "type": "value"
             }
           ],
-          "title": "Srp Capacity",
-          "type": "stat"
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 74
+      },
+      "id": 91,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ArrayID) (powermax_array_used_capacity_gigabytes{ArrayID=~\"$Array\"})",
+          "instant": true,
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Used"
         },
         {
-          "aliasColors": {},
-          "breakPoint": "50%",
-          "combine": {
-            "label": "Others",
-            "threshold": 0
-          },
           "datasource": "Prometheus",
-          "decimals": 2,
-          "fontSize": "80%",
-          "format": "decgbytes",
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 9
-          },
-          "id": 97,
-          "legend": {
-            "percentage": true,
-            "show": true,
-            "values": true
-          },
-          "legendType": "Right side",
-          "links": [],
-          "nullPointMode": "connected",
-          "pieType": "donut",
-          "strokeWidth": "2",
-          "targets": [
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "powermax_srp_total_capacity_gigabytes{ArrayID=~\"$Array\", SrpID=~\"$Srp\"}",
-              "instant": true,
-              "legendFormat": "Provisioned",
-              "range": false,
-              "refId": "Total"
-            },
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "powermax_srp_used_capacity_gigabytes{ArrayID=~\"$Array\", SrpID=~\"$Srp\"}",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "Used",
-              "range": false,
-              "refId": "Used"
-            }
-          ],
-          "title": "Srp Summary",
-          "type": "grafana-piechart-panel",
-          "valueName": "current"
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (ArrayID) (powermax_array_total_capacity_gigabytes{ArrayID=~\"$Array\"})",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Provisioned",
+          "range": false,
+          "refId": "Total"
         }
       ],
-      "repeat": "Srp",
-      "title": "$Srp",
-      "type": "row"
+      "title": "Array Capacity",
+      "type": "stat"
     },
     {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 84
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "unit": "decgbytes"
+        },
+        "overrides": []
       },
-      "id": 23,
-      "panels": [
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 74
+      },
+      "id": 93,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
         {
           "datasource": "Prometheus",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 2,
-              "mappings": [
-                {
-                  "options": {
-                    "null": {
-                      "index": 0,
-                      "text": "N/A"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "dark-blue"
-                  }
-                ]
-              },
-              "unit": "decgbytes"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 86
-          },
-          "id": 99,
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "background",
-            "graphMode": "none",
-            "justifyMode": "center",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "8.5.0",
-          "targets": [
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg by (StorageGroupID) (powermax_storage_group_used_capacity_gigabytes{ArrayID=~\"$Array\", StorageGroupID=~\"$StorageGroup\"})",
-              "instant": true,
-              "legendFormat": "Used",
-              "range": false,
-              "refId": "Used"
-            },
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg by (StorageGroupID) (powermax_storage_group_total_capacity_gigabytes{ArrayID=~\"$Array\", StorageGroupID=~\"$StorageGroup\"})",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "Provisioned",
-              "range": false,
-              "refId": "Total"
-            }
-          ],
-          "title": "Storage Group Capacity",
-          "type": "stat"
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powermax_array_total_capacity_gigabytes{ArrayID=~\"$Array\"}",
+          "instant": true,
+          "legendFormat": "Provisioned",
+          "range": false,
+          "refId": "Total"
         },
         {
-          "aliasColors": {},
-          "breakPoint": "50%",
-          "combine": {
-            "label": "Others",
-            "threshold": 0
-          },
           "datasource": "Prometheus",
-          "decimals": 2,
-          "fontSize": "80%",
-          "format": "decgbytes",
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 86
-          },
-          "id": 101,
-          "legend": {
-            "percentage": true,
-            "show": true,
-            "values": true
-          },
-          "legendType": "Right side",
-          "links": [],
-          "nullPointMode": "connected",
-          "pieType": "donut",
-          "strokeWidth": "2",
-          "targets": [
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "powermax_storage_group_total_capacity_gigabytes{ArrayID=~\"$Array\", StorageGroupID=~\"$StorageGroup\"}",
-              "instant": true,
-              "legendFormat": "Provisioned",
-              "range": false,
-              "refId": "Total"
-            },
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "powermax_storage_group_used_capacity_gigabytes{ArrayID=~\"$Array\", StorageGroupID=~\"$StorageGroup\"}",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "Used",
-              "range": false,
-              "refId": "Used"
-            }
-          ],
-          "title": "Storage Group Summary",
-          "type": "grafana-piechart-panel",
-          "valueName": "current"
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powermax_array_used_capacity_gigabytes{ArrayID=~\"$Array\"}",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Used"
         }
       ],
-      "repeat": "StorageGroup",
-      "title": "$StorageGroup",
-      "type": "row"
-    },
-    {
-      "collapsed": true,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 85
-      },
-      "id": 14,
-      "panels": [
-        {
-          "datasource": "Prometheus",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 2,
-              "mappings": [
-                {
-                  "options": {
-                    "null": {
-                      "index": 0,
-                      "text": "N/A"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "dark-blue"
-                  }
-                ]
-              },
-              "unit": "decgbytes"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 87
-          },
-          "id": 16,
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "background",
-            "graphMode": "none",
-            "justifyMode": "center",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "8.5.0",
-          "targets": [
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg by (VolumeID) (powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$Volume\", Namespace=~\"$Namespace\"})",
-              "instant": true,
-              "legendFormat": "Used",
-              "range": false,
-              "refId": "Used"
-            },
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg by (VolumeID) (powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$Volume\", Namespace=~\"$Namespace\"})",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "Total",
-              "range": false,
-              "refId": "Total"
-            }
-          ],
-          "title": "Volume Capacity",
-          "type": "stat"
-        },
-        {
-          "aliasColors": {},
-          "breakPoint": "50%",
-          "combine": {
-            "label": "Others",
-            "threshold": 0
-          },
-          "datasource": "Prometheus",
-          "decimals": 2,
-          "fontSize": "80%",
-          "format": "decgbytes",
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 87
-          },
-          "id": 18,
-          "legend": {
-            "percentage": true,
-            "show": true,
-            "values": true
-          },
-          "legendType": "Right side",
-          "links": [],
-          "nullPointMode": "connected",
-          "pieType": "donut",
-          "strokeWidth": "2",
-          "targets": [
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "powermax_volume_total_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$Volume\", Namespace=~\"$Namespace\"}",
-              "instant": true,
-              "legendFormat": "Total",
-              "range": false,
-              "refId": "Total"
-            },
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "powermax_volume_used_capacity_gigabytes{ArrayID=~\"$Array\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$Volume\", Namespace=~\"$Namespace\"}",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "Used",
-              "range": false,
-              "refId": "Used"
-            }
-          ],
-          "title": "Volume Summary",
-          "type": "grafana-piechart-panel",
-          "valueName": "current"
-        }
-      ],
-      "repeat": "Volume",
-      "title": "$Volume",
-      "type": "row"
+      "title": "Array Summary",
+      "type": "piechart"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
         "datasource": "Prometheus",
         "definition": "label_values(powermax_volume_total_capacity_gigabytes,Namespace)",
-        "hide": 0,
         "includeAll": true,
         "label": "Namespace",
         "multi": true,
@@ -3320,23 +2778,17 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
         "datasource": "Prometheus",
         "definition": "label_values(powermax_storage_class_total_capacity_gigabytes,StorageClass)",
-        "hide": 0,
         "includeAll": true,
         "label": "Storage Class",
         "multi": true,
@@ -3348,23 +2800,17 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
         "datasource": "Prometheus",
         "definition": "label_values(powermax_volume_total_capacity_gigabytes,PersistentVolumeClaimName)",
-        "hide": 0,
         "includeAll": true,
         "label": "PVC Name",
         "multi": true,
@@ -3376,23 +2822,17 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
         "datasource": "Prometheus",
         "definition": "label_values(powermax_volume_total_capacity_gigabytes,PersistentVolumeName)",
-        "hide": 0,
         "includeAll": true,
         "label": "PV Name",
         "multi": true,
@@ -3404,23 +2844,17 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
         "datasource": "Prometheus",
         "definition": "label_values(powermax_volume_total_capacity_gigabytes,VolumeID)",
-        "hide": 0,
         "includeAll": true,
         "label": "Volume",
         "multi": true,
@@ -3432,23 +2866,17 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
         "datasource": "Prometheus",
         "definition": "label_values(powermax_storage_group_total_capacity_gigabytes,StorageGroupID)",
-        "hide": 0,
         "includeAll": true,
         "label": "Storage Group",
         "multi": true,
@@ -3460,23 +2888,17 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
         "datasource": "Prometheus",
         "definition": "label_values(powermax_srp_total_capacity_gigabytes,SrpID)",
-        "hide": 0,
         "includeAll": true,
         "label": "Srp",
         "multi": true,
@@ -3488,23 +2910,17 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
         "datasource": "Prometheus",
         "definition": "label_values(powermax_array_total_capacity_gigabytes,ArrayID)",
-        "hide": 0,
         "includeAll": true,
         "label": "Array",
         "multi": true,
@@ -3516,13 +2932,10 @@
         },
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": false,
           "text": "80",
           "value": "80"
         },
@@ -3537,7 +2950,6 @@
           }
         ],
         "query": "80",
-        "skipUrlSync": false,
         "type": "textbox"
       }
     ]
