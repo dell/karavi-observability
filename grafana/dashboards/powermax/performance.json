@@ -36,10 +36,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
           "links": []
@@ -75,7 +72,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -85,10 +82,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
           "hide": false,
@@ -98,10 +92,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
           "format": "time_series",
@@ -151,10 +142,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -189,7 +177,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -199,10 +187,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+         "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
           "interval": "",
@@ -211,10 +196,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+         "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
           "interval": "",
@@ -262,10 +244,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -300,7 +279,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -310,10 +289,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
           "interval": "",
@@ -322,10 +298,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
           "interval": "",
@@ -373,10 +346,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+     "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -411,7 +381,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -421,10 +391,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+         "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
           "interval": "",
@@ -433,10 +400,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+         "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
           "interval": "",
@@ -484,10 +448,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -522,7 +483,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -532,10 +493,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
           "interval": "",
@@ -544,10 +502,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
           "interval": "",
@@ -595,10 +550,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -633,7 +585,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -643,10 +595,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
           "interval": "",
@@ -655,10 +604,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+         "datasource": "Prometheus",
           "editorMode": "code",
           "exemplar": false,
           "expr": "sum(powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
@@ -707,10 +653,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -745,7 +688,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -755,10 +698,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+         "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
           "interval": "",
@@ -767,10 +707,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
           "interval": "",
@@ -818,10 +755,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -856,7 +790,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -866,10 +800,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+         "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
           "interval": "",
@@ -878,10 +809,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+         "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
           "hide": false,
@@ -929,10 +857,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -967,7 +892,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -977,10 +902,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+         "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
           "interval": "",
@@ -989,10 +911,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
           "hide": false,
@@ -1040,10 +959,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1078,7 +994,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1088,10 +1004,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
           "interval": "",
@@ -1100,10 +1013,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
           "hide": false,
@@ -1151,10 +1061,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1189,7 +1096,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1199,10 +1106,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
           "interval": "",
@@ -1211,10 +1115,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
           "hide": false,
@@ -1262,10 +1163,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1302,7 +1200,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1312,10 +1210,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
           "interval": "",
@@ -1324,10 +1219,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
           "hide": false,
@@ -1375,10 +1267,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -1413,7 +1302,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "8.5.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1423,10 +1312,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
           "interval": "",
@@ -1435,10 +1321,7 @@
           "refId": "A"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "editorMode": "code",
           "expr": "sum(powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PersistentVolumeClaimName\",Namespace=~\"$Namespace\"})",
           "hide": false,
@@ -1524,10 +1407,7 @@
             "$__all"
           ]
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
+        "datasource": "Prometheus",
         "definition": "label_values(powermax_storage_group_average_io_size_megabytes_per_second,ArrayID)",
         "hide": 0,
         "includeAll": true,
@@ -1684,10 +1564,7 @@
             "$__all"
           ]
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
+        "datasource": "Prometheus",
         "definition": "label_values(powermax_volume_read_bw_megabytes_per_second,VolumeID)",
         "hide": 0,
         "includeAll": true,
@@ -1715,10 +1592,7 @@
             "$__all"
           ]
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
+        "datasource": "Prometheus",
         "definition": "label_values(powermax_volume_read_bw_megabytes_per_second,StorageClass)",
         "hide": 0,
         "includeAll": true,
@@ -1746,10 +1620,7 @@
             "$__all"
           ]
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
+        "datasource": "Prometheus",
         "definition": "label_values(powermax_volume_read_bw_megabytes_per_second,PersistentVolumeName)",
         "hide": 0,
         "includeAll": true,
@@ -1777,10 +1648,7 @@
             "$__all"
           ]
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
+        "datasource": "Prometheus",
         "definition": "label_values(powermax_volume_read_bw_megabytes_per_second,PersistentVolumeClaimName)",
         "hide": 0,
         "includeAll": true,
@@ -1808,10 +1676,7 @@
             "$__all"
           ]
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
+        "datasource": "Prometheus",
         "definition": "label_values(powermax_volume_read_bw_megabytes_per_second,Namespace)",
         "hide": 0,
         "includeAll": true,
