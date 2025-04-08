@@ -15,10 +15,8 @@
   "description": "Storage Pool and Storage Class Capacity",
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "gnetId": 8162,
   "graphTooltip": 0,
-  "id": 10,
-    "iteration": 1597967072353,
+  "id": 1,
   "links": [
     {
       "asDropdown": true,
@@ -32,32 +30,14 @@
   ],
   "panels": [
     {
-      "columnAliases": [
-        {
-          "alias": "Total Capacity",
-          "name": "Value #A"
-        },
-        {
-          "alias": "Free Capacity",
-          "name": "Value #B"
-        },
-        {
-          "alias": "Provisioned",
-          "name": "Value #C"
-        }
-      ],
-      "columnFiltersEnabled": false,
-      "columnWidthHints": [],
-      "columns": [],
-      "compactRowsEnabled": false,
-        "datasource": "Prometheus",
-      "datatablePagingType": "simple_numbers",
-      "datatableTheme": "basic_theme",
-      "emptyData": true,
+      "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
           "custom": {
-              "align": null
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -114,17 +94,13 @@
           }
         ]
       },
-      "fontSize": "100%",
       "gridPos": {
         "h": 8,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "hoverEnabled": true,
       "id": 134,
-      "infoEnabled": true,
-      "lengthChangeEnabled": true,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -138,81 +114,10 @@
         },
         "showHeader": true
       },
-      "orderColumnEnabled": true,
-      "pagingTypes": [
-        {
-          "text": "Page number buttons only",
-          "value": "numbers"
-        },
-        {
-          "text": "'Previous' and 'Next' buttons only",
-          "value": "simple"
-        },
-        {
-          "text": "'Previous' and 'Next' buttons, plus page numbers",
-          "value": "simple_numbers"
-        },
-        {
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons",
-          "value": "full"
-        },
-        {
-          "text": "'First', 'Previous', 'Next' and 'Last' buttons, plus page numbers",
-          "value": "full_numbers"
-        },
-        {
-          "text": "'First' and 'Last' buttons, plus page numbers",
-          "value": "first_last_numbers"
-        }
-      ],
       "pluginVersion": "11.5.2",
-      "rowNumbersEnabled": false,
-      "rowsPerPage": 5,
-      "scroll": false,
-      "scrollHeight": "default",
-      "searchEnabled": true,
-      "showCellBorders": false,
-      "showHeader": true,
-      "showRowBorders": true,
-      "sort": {
-        "col": 0,
-        "desc": true
-      },
-      "sortByColumns": [
-        {
-          "columnData": 0,
-          "sortMethod": "desc"
-        }
-      ],
-      "sortByColumnsData": [
-        [
-          2,
-          "asc"
-        ]
-      ],
-      "stripedRowsEnabled": true,
-      "styles": [
-        {
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "splitPattern": "/ /",
-          "thresholds": [],
-          "type": "number",
-          "unit": "decgbytes"
-        }
-      ],
       "targets": [
         {
+          "datasource": "Prometheus",
           "expr": "powerflex_storage_pool_total_logical_capacity_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"}\r",
           "format": "table",
           "instant": true,
@@ -221,6 +126,7 @@
           "refId": "A"
         },
         {
+         "datasource": "Prometheus",
           "expr": "powerflex_storage_pool_logical_capacity_available_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"}\r",
           "format": "table",
           "instant": true,
@@ -229,6 +135,7 @@
           "refId": "B"
         },
         {
+          "datasource": "Prometheus",
           "expr": "powerflex_storage_pool_logical_provisioned_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"}",
           "format": "table",
           "instant": true,
@@ -237,34 +144,7 @@
           "refId": "C"
         }
       ],
-      "themeOptions": {
-        "dark": "./styles/dark.scss",
-        "light": "./styles/light.scss"
-      },
-      "themes": [
-        {
-          "disabled": false,
-          "text": "Basic",
-          "value": "basic_theme"
-        },
-        {
-          "disabled": true,
-          "text": "Bootstrap",
-          "value": "bootstrap_theme"
-        },
-        {
-          "disabled": true,
-          "text": "Foundation",
-          "value": "foundation_theme"
-        },
-        {
-          "disabled": true,
-          "text": "ThemeRoller",
-          "value": "themeroller_theme"
-        }
-      ],
       "title": "Capacities",
-      "transform": "table",
       "transformations": [
         {
           "id": "filterFieldsByName",
@@ -290,7 +170,7 @@
       "type": "table"
     },
     {
-        "datasource": "Prometheus",
+      "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -336,6 +216,16 @@
       "interval": "1h",
       "options": {
         "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -352,6 +242,7 @@
       "targets": [
         {
           "alias": "$tag_source",
+          "datasource": "Prometheus",
           "expr": "avg by (StoragePool) (powerflex_storage_pool_logical_capacity_in_use_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"}*100 / powerflex_storage_pool_total_logical_capacity_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "format": "time_series",
           "groupBy": [
@@ -395,7 +286,6 @@
         }
       ],
       "timeFrom": "3h",
-        "timeShift": null,
       "title": "Storage Pool Usage Capacity",
       "transformations": [
         {
@@ -413,7 +303,6 @@
     },
     {
       "collapsed": false,
-        "datasource": "Prometheus",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -427,11 +316,9 @@
       "type": "row"
     },
     {
-        "cacheTimeout": null,
-        "datasource": "Prometheus",
+     "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "decimals": 2,
           "mappings": [
             {
@@ -445,12 +332,12 @@
             }
           ],
           "min": 0,
-          "nullValueMode": "connected",
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-blue"
+                "color": "dark-blue",
+                "value": null
               }
             ]
           },
@@ -478,6 +365,7 @@
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -485,12 +373,15 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "Total Capacity",
+          "datasource": "Prometheus",
           "expr": "avg by (StoragePool) (powerflex_storage_pool_total_logical_capacity_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "groupBy": [
             {
@@ -522,6 +413,7 @@
         },
         {
           "alias": "Free Capacity",
+          "datasource": "Prometheus",
           "expr": "avg by (StoragePool) (powerflex_storage_pool_logical_capacity_available_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "groupBy": [
             {
@@ -554,6 +446,7 @@
         },
         {
           "alias": "Provisioned",
+         "datasource": "Prometheus",
           "expr": "avg by (StoragePool) (powerflex_storage_pool_logical_provisioned_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "groupBy": [
             {
@@ -590,25 +483,56 @@
       "type": "stat"
     },
     {
-      "aliasColors": {
-        "Free Capacity": "#5195ce",
-        "Used Capacity": "#ea6460"
-      },
-      "breakPoint": "50%",
-      "combine": {
-        "label": "Others",
-        "threshold": 0
-      },
-        "datasource": "Prometheus",
-      "decimals": 2,
+     "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "unit": "decgbytes"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Free Capacity"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#5195ce",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Used Capacity"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ea6460",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
-      "fontSize": "80%",
-      "format": "decgbytes",
       "gridPos": {
         "h": 8,
         "w": 15,
@@ -617,20 +541,37 @@
       },
       "id": 51,
       "interval": "1h",
-      "legend": {
-        "header": "",
-        "percentage": true,
-        "show": true,
-        "values": true
-      },
-      "legendType": "Right side",
       "maxDataPoints": 3,
-      "nullPointMode": "connected",
-      "pieType": "donut",
-      "strokeWidth": "2",
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "Used Capacity",
+          "datasource": "Prometheus",
           "expr": "avg by (StoragePool) (powerflex_storage_pool_logical_capacity_in_use_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "groupBy": [
             {
@@ -676,6 +617,7 @@
         },
         {
           "alias": "Free Capacity",
+         "datasource": "Prometheus",
           "expr": "avg by (StoragePool) (powerflex_storage_pool_logical_capacity_available_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "groupBy": [
             {
@@ -723,27 +665,24 @@
       ],
       "timeFrom": "3h",
       "title": "Capacity Summary",
-      "type": "grafana-piechart-panel",
-      "valueName": "current"
+      "type": "piechart"
     }
   ],
+  "preload": false,
   "refresh": "5m",
-    "schemaVersion": 26,
-    "style": "dark",
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": true,
-            "text": "All",
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
-          "datasource": "Prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StorageClass)",
-        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "StorageClass",
@@ -751,26 +690,17 @@
         "query": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StorageClass)",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "current": {
-          "selected": true,
-          "text": [
-            "All"
-          ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
-          "datasource": "Prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StoragePool)",
-        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "StoragePool",
@@ -778,22 +708,15 @@
         "query": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StoragePool)",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "current": {
-          "selected": false,
           "text": "All",
           "value": "$__all"
         },
-          "datasource": "Prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, Driver)",
-        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "Driver",
@@ -801,22 +724,15 @@
         "query": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, Driver)",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "current": {
-          "selected": false,
           "text": "All",
           "value": "$__all"
         },
-          "datasource": "Prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StorageSystemID)",
-        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "StorageSystemID",
@@ -824,12 +740,7 @@
         "query": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StorageSystemID)",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       }
     ]
   },
@@ -848,17 +759,6 @@
       "1h",
       "2h",
       "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
     ]
   },
   "timezone": "browser",
