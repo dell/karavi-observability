@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 6,
   "links": [],
   "panels": [
     {
@@ -259,7 +259,7 @@
       "type": "bargauge"
     },
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -267,170 +267,191 @@
         "y": 16
       },
       "id": 14,
-      "panels": [
-        {
-          "datasource": "Prometheus",
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "decimals": 2,
-              "mappings": [
-                {
-                  "options": {
-                    "null": {
-                      "index": 0,
-                      "text": "N/A"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "min": 0,
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                  "color": "dark-blue",
-                  "value": null
-                  }
-                ]
-              },
-              "unit": "decgbytes"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-          "y": 17
-          },
-          "id": 16,
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "background",
-            "graphMode": "none",
-            "justifyMode": "center",
-            "orientation": "auto",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "8.5.0",
-          "targets": [
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg by(VolumeID) (powerscale_volume_quota_subscribed_gigabytes{ClusterName=~\"$ClusterName\",PersistentVolumeName=~\"$PVName\",VolumeID=~\"$VolumeID\", PersistentVolumeClaim=~\"$PVCName\",Namespace=~\"$Namespace\"})",
-              "instant": true,
-              "legendFormat": "Subscribed",
-              "range": false,
-              "refId": "Quota Remaining"
-            },
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "avg by(VolumeID) (powerscale_volume_hard_quota_remaining_gigabytes{ClusterName=~\"$ClusterName\",PersistentVolumeName=~\"$PVName\",VolumeID=~\"$VolumeID\", PersistentVolumeClaim=~\"$PVCName\",Namespace=~\"$Namespace\"})",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "Remaining",
-              "range": false,
-              "refId": "Quota Subscribed"
-            }
-          ],
-          "title": "Volume Quota Capacity",
-          "type": "stat"
-        },
-        {
-        "aliasColors": {},
-        "breakPoint": "50%",
-        "combine": {
-          "label": "Others",
-          "threshold": 0
-        },
-          "datasource": "Prometheus",
-        "decimals": 2,
-        "fontSize": "80%",
-        "format": "decgbytes",
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-          "y": 17
-          },
-          "id": 18,
-        "legend": {
-          "percentage": true,
-          "show": true,
-          "values": true
-        },
-        "legendType": "Right side",
-        "links": [],
-        "nullPointMode": "connected",
-        "pieType": "donut",
-        "strokeWidth": "2",
-          "targets": [
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "powerscale_volume_quota_subscribed_gigabytes{ClusterName=~\"$ClusterName\",PersistentVolumeName=~\"$PVName\",VolumeID=~\"$VolumeID\", PersistentVolumeClaim=~\"$PVCName\",Namespace=~\"$Namespace\"}",
-              "instant": true,
-              "legendFormat": "Quota Subscribed",
-              "range": false,
-              "refId": "Quota Subscribed"
-            },
-            {
-              "datasource": "Prometheus",
-              "editorMode": "code",
-              "exemplar": false,
-              "expr": "powerscale_volume_hard_quota_remaining_gigabytes{ClusterName=~\"$ClusterName\",PersistentVolumeName=~\"$PVName\",VolumeID=~\"$VolumeID\", PersistentVolumeClaim=~\"$PVCName\",Namespace=~\"$Namespace\"}",
-              "hide": false,
-              "instant": true,
-              "legendFormat": "Quota Remaining",
-              "range": false,
-              "refId": "Quota Remaining"
-            }
-          ],
-          "title": "Volume Quota Summary",
-        "type": "grafana-piechart-panel",
-        "valueName": "current"
-        }
-      ],
+      "panels": [],
       "repeat": "VolumeID",
       "title": "$VolumeID",
       "type": "row"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "null": {
+                  "index": 0,
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "id": 16,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by(VolumeID) (powerscale_volume_quota_subscribed_gigabytes{ClusterName=~\"$ClusterName\",PersistentVolumeName=~\"$PVName\",VolumeID=~\"$VolumeID\", PersistentVolumeClaim=~\"$PVCName\",Namespace=~\"$Namespace\"})",
+          "instant": true,
+          "legendFormat": "Subscribed",
+          "range": false,
+          "refId": "Quota Remaining"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by(VolumeID) (powerscale_volume_hard_quota_remaining_gigabytes{ClusterName=~\"$ClusterName\",PersistentVolumeName=~\"$PVName\",VolumeID=~\"$VolumeID\", PersistentVolumeClaim=~\"$PVCName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Remaining",
+          "range": false,
+          "refId": "Quota Subscribed"
+        }
+      ],
+      "title": "Volume Quota Capacity",
+      "type": "stat"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powerscale_volume_quota_subscribed_gigabytes{ClusterName=~\"$ClusterName\",PersistentVolumeName=~\"$PVName\",VolumeID=~\"$VolumeID\", PersistentVolumeClaim=~\"$PVCName\",Namespace=~\"$Namespace\"}",
+          "instant": true,
+          "legendFormat": "Quota Subscribed",
+          "range": false,
+          "refId": "Quota Subscribed"
+        },
+        {
+          "datasource": "Prometheus",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powerscale_volume_hard_quota_remaining_gigabytes{ClusterName=~\"$ClusterName\",PersistentVolumeName=~\"$PVName\",VolumeID=~\"$VolumeID\", PersistentVolumeClaim=~\"$PVCName\",Namespace=~\"$Namespace\"}",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Quota Remaining",
+          "range": false,
+          "refId": "Quota Remaining"
+        }
+      ],
+      "title": "Volume Quota Summary",
+      "type": "piechart"
     }
   ],
   "preload": false,
   "refresh": "",
-"schemaVersion": 36,
-"style": "dark",
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-        "selected": true,
-        "text": [
-          "All"
-        ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
-      "datasource": "Prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,PersistentVolumeName)",
-      "hide": 0,
         "includeAll": true,
         "label": "PV Name",
         "multi": true,
@@ -442,23 +463,17 @@
         },
         "refresh": 1,
         "regex": "",
-      "skipUrlSync": false,
-      "sort": 0,
         "type": "query"
       },
       {
         "current": {
-        "selected": true,
-        "text": [
-          "All"
-        ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
-      "datasource": "Prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,PersistentVolumeClaim)",
-      "hide": 0,
         "includeAll": true,
         "label": "PVC Name",
         "multi": true,
@@ -470,23 +485,17 @@
         },
         "refresh": 1,
         "regex": "",
-      "skipUrlSync": false,
-      "sort": 0,
         "type": "query"
       },
       {
         "current": {
-        "selected": true,
-        "text": [
-          "All"
-        ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
-      "datasource": "Prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,Namespace)",
-      "hide": 0,
         "includeAll": true,
         "label": "Namespace",
         "multi": true,
@@ -498,23 +507,17 @@
         },
         "refresh": 1,
         "regex": "",
-      "skipUrlSync": false,
-      "sort": 0,
         "type": "query"
       },
       {
         "current": {
-        "selected": true,
-        "text": [
-          "All"
-        ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
-      "datasource": "Prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,VolumeID)",
-      "hide": 0,
         "includeAll": true,
         "label": "Volume ID",
         "multi": true,
@@ -526,23 +529,17 @@
         },
         "refresh": 1,
         "regex": "",
-      "skipUrlSync": false,
-      "sort": 0,
         "type": "query"
       },
       {
         "current": {
-        "selected": true,
-        "text": [
-          "All"
-        ],
+          "text": "All",
           "value": [
             "$__all"
           ]
         },
-      "datasource": "Prometheus",
+        "datasource": "Prometheus",
         "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,ClusterName)",
-      "hide": 0,
         "includeAll": true,
         "label": "Cluster Name",
         "multi": true,
@@ -554,8 +551,6 @@
         },
         "refresh": 1,
         "regex": "",
-      "skipUrlSync": false,
-      "sort": 0,
         "type": "query"
       }
     ]
