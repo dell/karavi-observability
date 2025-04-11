@@ -294,10 +294,7 @@
       "type": "bargauge"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -363,10 +360,7 @@
       "targets": [
         {
           "alias": "Total Capacity",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
           "groupBy": [
             {
@@ -398,10 +392,7 @@
         },
         {
           "alias": "Free Capacity",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
           "groupBy": [
             {
@@ -438,10 +429,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -529,10 +517,7 @@
       "targets": [
         {
           "alias": "Used Capacity",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "expr": "avg by (ArrayID) (powerstore_array_logical_used_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
           "groupBy": [
             {
@@ -578,10 +563,7 @@
         },
         {
           "alias": "Free Capacity",
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "expr": "avg by (ArrayID) (powerstore_array_logical_provisioned_megabytes{Driver=~\"$Driver\",ArrayID=~\"$ArrayID\"})",
           "groupBy": [
             {
@@ -904,10 +886,7 @@
       "id": 153,
       "panels": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+          "datasource": "Prometheus",
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -964,10 +943,7 @@
           "pluginVersion": "11.5.2",
           "targets": [
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
+             "datasource": "Prometheus",
               "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
               "instant": true,
               "interval": "",
@@ -975,10 +951,7 @@
               "refId": "A"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
+              "datasource": "Prometheus",
               "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
               "instant": true,
               "interval": "",
@@ -990,10 +963,7 @@
           "type": "stat"
         },
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
+         "datasource": "Prometheus",
           "description": "",
           "fieldConfig": {
             "defaults": {
@@ -1048,10 +1018,7 @@
           "pluginVersion": "11.5.2",
           "targets": [
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
+              "datasource": "Prometheus",
               "expr": "avg by (StorageClass) (powerstore_storage_class_logical_used_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
               "instant": true,
               "interval": "",
@@ -1059,10 +1026,7 @@
               "refId": "A"
             },
             {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
+              "datasource": "Prometheus",
               "expr": "avg by (StorageClass) (powerstore_storage_class_logical_provisioned_megabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\"})",
               "instant": true,
               "interval": "",
@@ -1171,8 +1135,8 @@
     ]
   },
   "timezone": "browser",
-  "title": "PowerStore Storage Class Capacity_3",
-  "uid": "Powerstore_scll3",
+  "title": "PowerStore Storage Class Capacity",
+  "uid": "Powerstore_scll",
   "version": 1,
   "weekStart": ""
 }
