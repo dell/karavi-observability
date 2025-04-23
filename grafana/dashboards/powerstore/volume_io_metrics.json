@@ -59,7 +59,7 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -94,7 +94,7 @@
         "sort": 2,
         "value_type": "individual"
       },
-      "type": "graph",
+      "type": "timeseries",
       "xaxis": {
         "buckets": null,
         "mode": "time",
@@ -164,7 +164,7 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -196,7 +196,7 @@
         "sort": 2,
         "value_type": "individual"
       },
-      "type": "graph",
+      "type": "timeseries",
       "xaxis": {
         "buckets": null,
         "mode": "time",
@@ -267,7 +267,7 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -299,7 +299,7 @@
         "sort": 2,
         "value_type": "individual"
       },
-      "type": "graph",
+      "type": "timeseries",
       "xaxis": {
         "buckets": null,
         "mode": "time",
@@ -369,7 +369,7 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -401,7 +401,7 @@
         "sort": 2,
         "value_type": "individual"
       },
-      "type": "graph",
+      "type": "timeseries",
       "xaxis": {
         "buckets": null,
         "mode": "time",
@@ -471,7 +471,7 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -503,7 +503,7 @@
         "sort": 2,
         "value_type": "individual"
       },
-      "type": "graph",
+      "type": "timeseries",
       "xaxis": {
         "buckets": null,
         "mode": "time",
@@ -573,7 +573,7 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -605,7 +605,7 @@
         "sort": 2,
         "value_type": "individual"
       },
-      "type": "graph",
+      "type": "timeseries",
       "xaxis": {
         "buckets": null,
         "mode": "time",
@@ -675,7 +675,7 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -707,7 +707,7 @@
         "sort": 2,
         "value_type": "individual"
       },
-      "type": "graph",
+      "type": "timeseries",
       "xaxis": {
         "buckets": null,
         "mode": "time",
@@ -777,7 +777,7 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "percentage": false,
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -809,7 +809,7 @@
         "sort": 2,
         "value_type": "individual"
       },
-      "type": "graph",
+      "type": "timeseries",
       "xaxis": {
         "buckets": null,
         "mode": "time",
