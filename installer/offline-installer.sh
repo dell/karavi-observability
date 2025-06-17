@@ -57,7 +57,7 @@ create_bundle() {
     run_command "helm pull ${CHARTNAME} --untar --untardir ${DISTDIR}/${HELMBACKUPDIR}"
 
     # search for all images from the values.yaml files that were contained in the Helm chart
-    find ${DISTDIR}/${HELMBACKUPDIR} -name "values.yaml" -type f -exec egrep -oh "image: (.+)" {} \; | awk '{print $2}' > ${DISTDIR}/images.txt
+    find ${DISTDIR}/${HELMBACKUPDIR} -name "values.yaml" -type f -exec grep -v '^[[:space:]]*#' {} \; | egrep -oh "image: (.+)" | awk '{print $2}' > ${DISTDIR}/images.txt
 
     status "Downloading and saving Docker images"
     while read line; do
