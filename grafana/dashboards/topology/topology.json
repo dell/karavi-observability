@@ -23,9 +23,10 @@
   "panels": [
     {
       "datasource": {
-        "type": "yesoreyeram-infinity-datasource"
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
       },
-      "description": "[Topology](https://github.com/dell/karavi-topology) provides Kubernetes administrators with the topology data related to containerized storage that is provisioned by a CSI (Container Storage Interface) Driver for Dell EMC storage products. Please visit the repository for more information",
+      "description": "Topology provides Kubernetes administrators with the topology data related to containerized storage that is provisioned by a CSI (Container Storage Interface) Driver for Dell storage products.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -36,7 +37,6 @@
             "cellOptions": {
               "type": "auto"
             },
-            "filterable": true,
             "inspect": false
           },
           "mappings": [],
@@ -58,18 +58,11 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 0
       },
       "id": 1,
-      "links": [
-        {
-          "targetBlank": true,
-          "title": "CSM Topology",
-          "url": "\r\n\r\n\r\nhttps://github.com/dell/karavi-topology"
-        }
-      ],
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -81,69 +74,107 @@
           ],
           "show": false
         },
-        "showHeader": true,
-        "sortBy": []
+        "showHeader": true
       },
       "pluginVersion": "11.5.2",
       "targets": [
         {
-          "columns": [],
           "datasource": {
-            "type": "yesoreyeram-infinity-datasource"
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
           },
-          "filters": [],
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "karavi_topology_metrics",
           "format": "table",
-          "global_query_id": "",
-          "pagination_max_pages": 1,
-          "pagination_mode": "page",
-          "parser": "backend",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
           "refId": "A",
-          "root_selector": "",
-          "source": "url",
-          "type": "json",
-          "url": "",
-          "url_options": {
-            "data": "",
-            "method": "GET"
-          }
+          "useBackend": false
         }
       ],
-      "title": "CSI Driver Topologies",
+      "title": "CSM Topology",
       "transformations": [
         {
           "id": "organize",
           "options": {
-            "excludeByName": {},
+            "excludeByName": {
+              "PlotWithMean": true,
+              "Time": true,
+              "Value": true,
+              "__name__": true,
+              "exported_job": true,
+              "instance": true,
+              "job": true
+            },
             "includeByName": {},
             "indexByName": {
-              "created": 6,
-              "csi_driver": 11,
-              "namespace": 0,
-              "persistent_volume": 2,
-              "persistent_volume_claim": 1,
-              "protocol": 8,
-              "provisioned_size": 4,
-              "status": 5,
-              "storage_class": 3,
-              "storage_pool": 9,
-              "storage_system": 7,
-              "storage_system_volume_name": 10
+              "CreatedTime": 6,
+              "Driver": 11,
+              "Namespace": 0,
+              "PersistentVolume": 2,
+              "PersistentVolumeClaim": 1,
+              "PersistentVolumeStatus": 5,
+              "PlotWithMean": 12,
+              "Protocol": 7,
+              "ProvisionedSize": 4,
+              "StorageClass": 3,
+              "StorageSystem": 8,
+              "StorageSystemVolumeName": 9,
+              "Time": 0,
+              "Value": 17,
+              "__name__": 13,
+              "exported_job": 14,
+              "instance": 15,
+              "job": 16
             },
             "renameByName": {
-              "created": "Created",
-              "csi_driver": "CSI Driver",
-              "namespace": "Namespace",
-              "persistent_volume": "Persistent Volume",
-              "persistent_volume_claim": "Persistent Volume Claim",
-              "protocol": "Protocol",
-              "provisioned_size": "Provisioned Size",
-              "status": "Status",
-              "storage_class": "Storage Class",
-              "storage_pool": "Storage Pool",
-              "storage_system": "Storage System",
-              "storage_system_volume_name": "Storage System Volume Name"
+              "CreatedTime": "Created",
+              "Driver": "CSI Driver",
+              "Namespace": "Namespace",
+              "PersistentVolume": "Persistent Volume",
+              "PersistentVolumeClaim": "Persistent Volume Claim",
+              "PersistentVolumeStatus": "Status",
+              "Protocol": "Protocol",
+              "ProvisionedSize": "Provisioned Size",
+              "StorageClass": "Storage Class",
+              "StorageSystem": "Storage System",
+              "StorageSystemVolumeName": "Storage System Volume Name"
             }
-          }
+          },
+          "transformations": [
+            {
+              "id": "sortBy",
+              "options": {
+                "fields": {},
+                "sort": [
+                  {
+                    "desc": true,
+                    "field": "Created"
+                  }
+                ]
+              }
+            },
+            {
+              "options": {
+                "aggregations": [
+                  {
+                    "field": "PersistentVolumeStatus",
+                    "id": "keep-released",
+                    "type": "lastNotNull"
+                  }
+                ],
+                "fields": {
+                  "PersistentVolume": "PersistentVolume"
+                }
+              },
+              "type": "groupBy"
+            }
+          ]
         }
       ],
       "type": "table"
@@ -162,8 +193,8 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Kubernetes Admin Dashboard",
-  "uid": "fegi7zl1jbdhcc",
-  "version": 7,
+  "title": "CSM Topology Dashboard",
+  "uid": "ees6830hbn9q8e11",
+  "version": 5,
   "weekStart": ""
 }
