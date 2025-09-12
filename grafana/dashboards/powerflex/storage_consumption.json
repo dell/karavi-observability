@@ -3,7 +3,7 @@
     "list": [
       {
         "builtIn": 1,
-          "datasource": "-- Grafana --",
+        "datasource": "-- Grafana --",
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -16,7 +16,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 177,
   "links": [
     {
       "asDropdown": true,
@@ -30,10 +30,15 @@
   ],
   "panels": [
     {
-      "datasource": "Prometheus",
+      "datasource": {
+        "name": "${datasource}",
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
+            "align": "auto",
             "cellOptions": {
               "type": "auto"
             },
@@ -114,10 +119,13 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
-          "datasource": "Prometheus",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "powerflex_storage_pool_total_logical_capacity_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"}\r",
           "format": "table",
           "instant": true,
@@ -126,7 +134,10 @@
           "refId": "A"
         },
         {
-         "datasource": "Prometheus",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "powerflex_storage_pool_logical_capacity_available_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"}\r",
           "format": "table",
           "instant": true,
@@ -135,7 +146,10 @@
           "refId": "B"
         },
         {
-          "datasource": "Prometheus",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "powerflex_storage_pool_logical_provisioned_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"}",
           "format": "table",
           "instant": true,
@@ -170,7 +184,11 @@
       "type": "table"
     },
     {
-      "datasource": "Prometheus",
+      "datasource": {
+        "name": "${datasource}",
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -238,11 +256,14 @@
         "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "alias": "$tag_source",
-          "datasource": "Prometheus",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg by (StoragePool) (powerflex_storage_pool_logical_capacity_in_use_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"}*100 / powerflex_storage_pool_total_logical_capacity_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "format": "time_series",
           "groupBy": [
@@ -316,7 +337,11 @@
       "type": "row"
     },
     {
-     "datasource": "Prometheus",
+      "datasource": {
+        "name": "${datasource}",
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
@@ -377,11 +402,14 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "11.2.0",
       "targets": [
         {
           "alias": "Total Capacity",
-          "datasource": "Prometheus",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg by (StoragePool) (powerflex_storage_pool_total_logical_capacity_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "groupBy": [
             {
@@ -413,7 +441,10 @@
         },
         {
           "alias": "Free Capacity",
-          "datasource": "Prometheus",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg by (StoragePool) (powerflex_storage_pool_logical_capacity_available_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "groupBy": [
             {
@@ -446,7 +477,10 @@
         },
         {
           "alias": "Provisioned",
-         "datasource": "Prometheus",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg by (StoragePool) (powerflex_storage_pool_logical_provisioned_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "groupBy": [
             {
@@ -483,7 +517,11 @@
       "type": "stat"
     },
     {
-     "datasource": "Prometheus",
+      "datasource": {
+        "name": "${datasource}",
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -571,7 +609,10 @@
       "targets": [
         {
           "alias": "Used Capacity",
-          "datasource": "Prometheus",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg by (StoragePool) (powerflex_storage_pool_logical_capacity_in_use_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "groupBy": [
             {
@@ -617,7 +658,10 @@
         },
         {
           "alias": "Free Capacity",
-         "datasource": "Prometheus",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "expr": "avg by (StoragePool) (powerflex_storage_pool_logical_capacity_available_gigabytes{Driver=~\"$Driver\",StorageClass=~\"$StorageClass\",StoragePool=~\"$StoragePool\",StorageSystemID=~\"$StorageSystemID\"})",
           "groupBy": [
             {
@@ -668,21 +712,46 @@
       "type": "piechart"
     }
   ],
-  "preload": false,
   "refresh": "5m",
-  "schemaVersion": 40,
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "text": "All",
+          "selected": false,
+          "text": "OCP-HUB Observatorium",
+          "value": "bexk1twlwmd4wc"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Datasource",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
         },
-        "datasource": "Prometheus",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
         "definition": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StorageClass)",
+        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "StorageClass",
@@ -690,17 +759,26 @@
         "query": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StorageClass)",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "text": "All",
+          "selected": true,
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
         },
-        "datasource": "Prometheus",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
         "definition": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StoragePool)",
+        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "StoragePool",
@@ -708,15 +786,22 @@
         "query": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StoragePool)",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
         "type": "query"
       },
       {
         "current": {
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "Prometheus",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
         "definition": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, Driver)",
+        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "Driver",
@@ -724,15 +809,22 @@
         "query": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, Driver)",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
         "type": "query"
       },
       {
         "current": {
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
-        "datasource": "Prometheus",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
         "definition": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StorageSystemID)",
+        "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "StorageSystemID",
@@ -740,6 +832,8 @@
         "query": "label_values(powerflex_storage_pool_total_logical_capacity_gigabytes, StorageSystemID)",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
         "type": "query"
       }
     ]
@@ -764,6 +858,6 @@
   "timezone": "browser",
   "title": "PowerFlex Storage Pool and Storage Class Capacity",
   "uid": "nr_QGP0iz",
-  "version": 1,
+  "version": 5,
   "weekStart": ""
 }
