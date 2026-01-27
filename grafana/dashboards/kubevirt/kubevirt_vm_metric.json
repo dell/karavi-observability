@@ -1,0 +1,477 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 32,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #A"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bits"
+              },
+              {
+                "id": "displayName",
+                "value": "Allocated Size"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Cpu Usage"
+              },
+              {
+                "id": "unit",
+                "value": "m"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Namespace"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": false
+              },
+              {
+                "id": "custom.width",
+                "value": 159
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #C"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "decbytes"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Pod"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 175
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Virtual Machine"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 177
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PVC"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 134
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Device"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Volume Mode"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 171
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${cluster}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "kubevirt_vm_disk_allocated_size_bytes{namespace=~\"$namespace\", persistentvolumeclaim=~\"$pvc\"}",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${cluster}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "kubevirt_vmi_cpu_usage_seconds_total{namespace=~\"$namespace\", node=~\"$node\"}",
+          "format": "table",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "B",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${cluster}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+         "expr": "kubevirt_vmi_memory_available_bytes{namespace=~\"$namespace\", kubernetes_vmi_label_kubevirt_io_nodeName=~\"$node\"}",
+          "format": "table",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "C",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${cluster}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "exemplar": false,
+          "expr": "kubevirt_vmi_info{namespace=~\"$namespace\", node=~\"$node\", vmi_pod=~\"$pod\"}",
+          "format": "table",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "D",
+          "useBackend": false
+        }
+      ],
+      "title": " KubeVirt VM Metrics",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "name",
+            "mode": "inner"
+          }
+        },
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "namespace",
+            "mode": "inner"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time 1": true,
+              "Time 2": true,
+              "Time 3": true,
+              "Time 4": true,
+              "Value #D": true,
+              "__name__ 1": true,
+              "__name__ 2": true,
+              "__name__ 3": true,
+              "__name__ 4": true,
+              "evictable": true,
+              "guest_os_machine": true,
+              "instance 1": true,
+              "instance 2": true,
+              "instance 3": true,
+              "instance 4": true,
+              "job 1": true,
+              "job 2": true,
+              "job 3": true,
+              "job 4": true,
+              "kubernetes_vmi_label_kubevirt_io_domain": true,
+              "kubernetes_vmi_label_kubevirt_io_domain 1": true,
+              "kubernetes_vmi_label_kubevirt_io_domain 2": true,
+              "kubernetes_vmi_label_kubevirt_io_nodeName": true,
+              "kubernetes_vmi_label_kubevirt_io_nodeName 1": true,
+              "kubernetes_vmi_label_kubevirt_io_nodeName 2": true,
+              "namespace 2": true,
+              "namespace 3": true,
+              "namespace 4": true,
+              "node": true,
+              "node 1": true,
+              "node 2": true,
+              "node 3": true,
+              "outdated": true,
+              "phase": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "Value #A": 10,
+              "Value #B": 16,
+              "Value #C": 28,
+              "device": 6,
+              "name": 0,
+              "namespace 1": 3,
+              "persistentvolumeclaim": 2,
+              "vmi_pod": 1,
+              "volume_mode": 9
+            },
+            "renameByName": {
+              "Value #A": "Allocated Size",
+              "Value #B": "CPU Usage",
+              "Value #C": "Available Memory",
+              "device": "Device",
+              "name": "Virtual Machine",
+              "namespace 1": "Namespace",
+              "persistentvolumeclaim": "PVC",
+              "vmi_pod": "Pod",
+              "volume_mode": "Volume Mode"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+  "list": [
+    {
+      "name": "cluster",
+      "label": "Cluster",
+      "type": "datasource",
+      "query": "prometheus",
+      "refresh": 1,
+      "includeAll": false,
+      "multi": false,
+      "options": [],
+      "hide": 0,
+      "current": {
+        "selected": false,
+        "text": "",
+        "value": ""
+      }
+    },
+    {
+      "name": "namespace",
+      "label": "Namespace",
+      "type": "query",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${cluster}"
+      },
+      "query": "label_values(kubevirt_vmi_info, namespace)",
+      "refresh": 2,
+      "includeAll": true,
+      "multi": false,
+      "sort": 1,
+      "hide": 0,
+      "current": {
+        "selected": false,
+        "text": "All",
+        "value": "$__all"
+      }
+    },
+    {
+      "name": "node",
+      "label": "Node",
+      "type": "query",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${cluster}"
+      },
+      "query": "label_values(kubevirt_vmi_info{namespace=~\"$namespace\"}, node)",
+      "refresh": 2,
+      "includeAll": true,
+      "multi": false,
+      "sort": 1,
+      "hide": 0,
+      "current": {
+        "selected": false,
+        "text": "All",
+        "value": "$__all"
+      }
+    },
+    {
+      "name": "pod",
+      "label": "Pod",
+      "type": "query",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${cluster}"
+      },
+      "query": "label_values(kubevirt_vmi_info{namespace=~\"$namespace\"}, vmi_pod)",
+      "refresh": 2,
+      "includeAll": true,
+      "multi": false,
+      "sort": 1,
+      "hide": 0,
+      "current": {
+        "selected": false,
+        "text": "All",
+        "value": "$__all"
+      }
+    },
+    {
+      "name": "pvc",
+      "label": "PVC",
+      "type": "query",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${cluster}"
+      },
+      "query": "label_values(kubevirt_vm_disk_allocated_size_bytes{namespace=~\"$namespace\"}, persistentvolumeclaim)",
+      "refresh": 2,
+      "includeAll": true,
+      "multi": false,
+      "sort": 1,
+      "hide": 0,
+      "current": {
+        "selected": false,
+        "text": "All",
+        "value": "$__all"
+      }
+    }
+  ]
+},
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "KubeVirt VM Metric",
+  "uid": "cf0lid41jf8jka11",
+  "version": 1,
+  "weekStart": ""
+}

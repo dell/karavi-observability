@@ -1,0 +1,2034 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 19,
+      "panels": [],
+      "repeat": "VolumeID",
+      "title": "$VolumeID",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "null": {
+                  "index": 0,
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-blue",
+                "value": null
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 16,
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (VolumeID) (powermax_volume_used_capacity_gigabytes{ArrayID=~\"$ArrayID\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$VolumeID\", Namespace=~\"$Namespace\"})",
+          "instant": true,
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Used"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg by (VolumeID) (powermax_volume_total_capacity_gigabytes{ArrayID=~\"$ArrayID\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$VolumeID\", Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Total",
+          "range": false,
+          "refId": "Total"
+        }
+      ],
+      "title": "Volume Capacity",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 17,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powermax_volume_total_capacity_gigabytes{ArrayID=~\"$ArrayID\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$VolumeID\", Namespace=~\"$Namespace\"}",
+          "instant": true,
+          "legendFormat": "Total",
+          "range": false,
+          "refId": "Total"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powermax_volume_used_capacity_gigabytes{ArrayID=~\"$ArrayID\", PersistentVolumeClaimName=~\"$PVCName\", PersistentVolumeName=~\"$PVName\", VolumeID=~\"$VolumeID\", Namespace=~\"$Namespace\"}",
+          "hide": false,
+          "instant": true,
+          "legendFormat": "Used",
+          "range": false,
+          "refId": "Used"
+        }
+      ],
+      "title": "Volume Summary",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 4,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_average_io_size_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Average IO Size",
+          "refId": "B"
+        }
+      ],
+      "title": "Storage Group Average IO Size (MB/S)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "id": 2,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Read Bandwidth",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Storage Group Read Bandwidth (MB/s)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
+      "id": 7,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Write Bandwidth",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Storage Group Write Bandwidth (MB/s)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 25
+      },
+      "id": 6,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Read Latency",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Storage Group Read Latency (ms)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 25
+      },
+      "id": 10,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Write Latency",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Storage Group Write Latency (ms)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 33
+      },
+      "id": 5,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_read_io_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Read IOPS",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Storage Group Read IOPS",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 33
+      },
+      "id": 8,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"} and topk($TopX, avg_over_time(powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)\", ArrayID=~\"$ArrayID\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{ArrayID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)|No\", ArrayID=~\"$ArrayID\"}) / count(powermax_storage_group_write_io_per_second{PlotWithMean=~\"($ShowMean)|No\",ArrayID=~\"$ArrayID\"})",
+          "interval": "",
+          "legendFormat": "Average Write IOPS",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Storage Group Write IOPS",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 41
+      },
+      "id": 9,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_read_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Read Bandwidth",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Volume Read Bandwidth (MB/s)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 41
+      },
+      "id": 13,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_write_bw_megabytes_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Write Bandwidth",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Volume Write Bandwidth (MB/s)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 49
+      },
+      "id": 12,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_read_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Read Latency",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Volume Read Latency (ms)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 49
+      },
+      "id": 15,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_write_latency_milliseconds{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Write Latency",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Volume Write Latency (ms)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 57
+      },
+      "id": 11,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_read_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Read IOPS",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Volume Read IOPS",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 57
+      },
+      "id": 14,
+      "options": {
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"} and topk($TopX, avg_over_time(powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}[$TimeFrame]))",
+          "interval": "",
+          "legendFormat": "{{VolumeID}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "editorMode": "code",
+          "expr": "sum(powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"}) / count(powermax_volume_write_io_per_second{PlotWithMean=~\"($ShowMean)\", VolumeID=~\"$VolumeID\", PersistentVolumeName=~\"$PVName\", PersistentVolumeClaimName=~\"$PVCName\",Namespace=~\"$Namespace\"})",
+          "hide": false,
+          "legendFormat": "Average Write IOPS",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Volume Write IOPS",
+      "type": "timeseries"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "No",
+          "value": "No"
+        },
+        "includeAll": false,
+        "label": "Hide Details",
+        "name": "ShowMean",
+        "options": [
+          {
+            "selected": false,
+            "text": "Yes",
+            "value": "Yes"
+          },
+          {
+            "selected": true,
+            "text": "No",
+            "value": "No"
+          }
+        ],
+        "query": "Yes, No",
+        "type": "custom"
+      },
+      {
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "text": "10",
+          "value": "10"
+        },
+        "label": "Ranking",
+        "name": "TopX",
+        "options": [
+          {
+            "selected": false,
+            "text": "2",
+            "value": "2"
+          },
+          {
+            "selected": false,
+            "text": "5",
+            "value": "5"
+          },
+          {
+            "selected": true,
+            "text": "10",
+            "value": "10"
+          },
+          {
+            "selected": false,
+            "text": "15",
+            "value": "15"
+          },
+          {
+            "selected": false,
+            "text": "20",
+            "value": "20"
+          },
+          {
+            "selected": false,
+            "text": "100",
+            "value": "100"
+          }
+        ],
+        "query": "2,5,10,15,20,100",
+        "refresh": 2,
+        "type": "interval"
+      },
+      {
+        "auto": false,
+        "auto_count": 30,
+        "auto_min": "10s",
+        "current": {
+          "text": "1m",
+          "value": "1m"
+        },
+        "label": "Average over Time",
+        "name": "TimeFrame",
+        "options": [
+          {
+            "selected": true,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": false,
+            "text": "5m",
+            "value": "5m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
+          },
+          {
+            "selected": false,
+            "text": "30m",
+            "value": "30m"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "1h"
+          },
+          {
+            "selected": false,
+            "text": "6h",
+            "value": "6h"
+          },
+          {
+            "selected": false,
+            "text": "12h",
+            "value": "12h"
+          },
+          {
+            "selected": false,
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "selected": false,
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "selected": false,
+            "text": "14d",
+            "value": "14d"
+          },
+          {
+            "selected": false,
+            "text": "30d",
+            "value": "30d"
+          }
+        ],
+        "query": "1m,5m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+        "refresh": 2,
+        "type": "interval"
+      },
+      {
+        "current": {
+          "text": "Prometheus",
+          "value": "PBFA97CFB590B2093"
+        },
+        "label": "Cluster",
+        "name": "Cluster",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": [
+            "000120001647"
+          ],
+          "value": [
+            "000120001647"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${Cluster}"
+        },
+        "definition": "label_values(powermax_storage_group_average_io_size_megabytes_per_second,ArrayID)",
+        "includeAll": true,
+        "label": "Symmetrix ID",
+        "multi": true,
+        "name": "ArrayID",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(powermax_storage_group_average_io_size_megabytes_per_second,ArrayID)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "sort": 2,
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${Cluster}"
+        },
+        "definition": "label_values(kubevirt_vmi_info,node)",
+        "includeAll": true,
+        "label": "Node",
+        "multi": true,
+        "name": "Node",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(kubevirt_vmi_info,node)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${Cluster}"
+        },
+        "definition": "label_values(kubevirt_vmi_info,namespace)",
+        "includeAll": false,
+        "label": "Namespace",
+        "multi": true,
+        "name": "Namespace",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(kubevirt_vmi_info,namespace)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${Cluster}"
+        },
+        "definition": "query_result(kubevirt_vmi_info{namespace=\"$Namespace\"})",
+        "includeAll": false,
+        "label": "VM",
+        "name": "VM",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result(kubevirt_vmi_info{namespace=\"$Namespace\"})",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/name=\"([^\"]+)\"/g",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${Cluster}"
+        },
+        "definition": "query_result(kubevirt_vmi_info{namespace=\"$Namespace\", name=\"$VM\"})",
+        "includeAll": false,
+        "label": "VMPod",
+        "name": "VMPod",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result(kubevirt_vmi_info{namespace=\"$Namespace\", name=\"$VM\"})",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/vmi_pod=\"([^\"]+)\"/g",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${Cluster}"
+        },
+        "definition": "query_result((  powermax_volume_read_bw_megabytes_per_second{Namespace=\"$Namespace\"}    * on(PersistentVolumeClaimName) group_left(pod)  label_replace(    kube_pod_spec_volumes_persistentvolumeclaims_info{namespace=\"$Namespace\", pod=\"$VMPod\"},    \"PersistentVolumeClaimName\", \"$1\", \"persistentvolumeclaim\", \"(.*)\"  ))* on(pod) group_left(name) label_replace(  kubevirt_vmi_info{namespace=\"$Namespace\", vmi_pod=\"$VMPod\"}, \"pod\", \"$1\", \"vmi_pod\", \"(.*)\"))",
+        "label": "PVCName",
+        "multi": true,
+        "name": "PVCName",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result((  powermax_volume_read_bw_megabytes_per_second{Namespace=\"$Namespace\"}    * on(PersistentVolumeClaimName) group_left(pod)  label_replace(    kube_pod_spec_volumes_persistentvolumeclaims_info{namespace=\"$Namespace\", pod=\"$VMPod\"},    \"PersistentVolumeClaimName\", \"$1\", \"persistentvolumeclaim\", \"(.*)\"  ))* on(pod) group_left(name) label_replace(  kubevirt_vmi_info{namespace=\"$Namespace\", vmi_pod=\"$VMPod\"}, \"pod\", \"$1\", \"vmi_pod\", \"(.*)\"))",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/PersistentVolumeClaimName=\"([^\"]+)\"/g",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${Cluster}"
+        },
+        "definition": "query_result((  powermax_volume_read_bw_megabytes_per_second{Namespace=\"$Namespace\"}    * on(PersistentVolumeClaimName) group_left(pod)  label_replace(    kube_pod_spec_volumes_persistentvolumeclaims_info{namespace=\"$Namespace\", pod=\"$VMPod\"},    \"PersistentVolumeClaimName\", \"$1\", \"persistentvolumeclaim\", \"(.*)\"  ))* on(pod) group_left()label_replace(  kubevirt_vmi_info{namespace=\"$Namespace\"}, \"pod\", \"$1\", \"vmi_pod\", \"(.*)\"))",
+        "includeAll": false,
+        "label": "PV Name",
+        "multi": true,
+        "name": "PVName",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result((  powermax_volume_read_bw_megabytes_per_second{Namespace=\"$Namespace\"}    * on(PersistentVolumeClaimName) group_left(pod)  label_replace(    kube_pod_spec_volumes_persistentvolumeclaims_info{namespace=\"$Namespace\", pod=\"$VMPod\"},    \"PersistentVolumeClaimName\", \"$1\", \"persistentvolumeclaim\", \"(.*)\"  ))* on(pod) group_left()label_replace(  kubevirt_vmi_info{namespace=\"$Namespace\"}, \"pod\", \"$1\", \"vmi_pod\", \"(.*)\"))",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/PersistentVolumeClaimName=\"$PVCName\".*?PersistentVolumeName=\"([^\"]+)\"/g",
+        "type": "query"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${Cluster}"
+        },
+        "definition": "query_result((  powermax_volume_read_bw_megabytes_per_second{Namespace=\"$Namespace\"}    * on(PersistentVolumeClaimName) group_left(pod)  label_replace(    kube_pod_spec_volumes_persistentvolumeclaims_info{namespace=\"$Namespace\", pod=\"$VMPod\"},    \"PersistentVolumeClaimName\", \"$1\", \"persistentvolumeclaim\", \"(.*)\"  ))* on(pod) group_left()label_replace(  kubevirt_vmi_info{namespace=\"$Namespace\"}, \"pod\", \"$1\", \"vmi_pod\", \"(.*)\"))",
+        "includeAll": false,
+        "label": "Volume ID",
+        "multi": true,
+        "name": "VolumeID",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result((  powermax_volume_read_bw_megabytes_per_second{Namespace=\"$Namespace\"}    * on(PersistentVolumeClaimName) group_left(pod)  label_replace(    kube_pod_spec_volumes_persistentvolumeclaims_info{namespace=\"$Namespace\", pod=\"$VMPod\"},    \"PersistentVolumeClaimName\", \"$1\", \"persistentvolumeclaim\", \"(.*)\"  ))* on(pod) group_left()label_replace(  kubevirt_vmi_info{namespace=\"$Namespace\"}, \"pod\", \"$1\", \"vmi_pod\", \"(.*)\"))",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/PersistentVolumeName=\"$PVName\".*?VolumeID=\"([^\"]+)\"/g",
+        "type": "query"
+      }
+    ]
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "PowerMax Performance Metrics for Kubevirt Loads",
+  "uid": "PmaxKubevirt",
+  "version": 1,
+  "weekStart": ""
+}
