@@ -1,0 +1,220 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${Cluster}"
+      },
+      "description": "Topology provides Kubernetes administrators with the topology data related to containerized storage that is provisioned by a CSI (Container Storage Interface) Driver for Dell storage products.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Provision Size (GB)"
+          }
+        ]
+      },
+      "pluginVersion": "12.2.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${Cluster}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "label_replace(\r\n  label_replace(\r\n    label_replace(\r\n      label_replace(\r\n        (\r\n          kube_persistentvolume_info{csi_driver=~\"(csi-isilon\\\\.dellemc\\\\.com|csi-powerstore\\\\.dellemc\\\\.com|csi-vxflexos\\\\.dellemc\\\\.com|csi-powermax\\\\.dellemc\\\\.com)\"}\r\n          * on(persistentvolume) group_left(namespace, persistentvolumeclaim)\r\n            kube_persistentvolume_claim_ref\r\n          * on(persistentvolume) group_left()\r\n            kube_persistentvolume_capacity_bytes\r\n          * on(persistentvolume) group_left(phase)\r\n            (kube_persistentvolume_status_phase{phase=\"Bound\"} == 1)\r\n          * on(persistentvolume) group_left(namespace, persistentvolumeclaim)\r\n            label_replace(\r\n              max by (persistentvolume) (\r\n                label_replace(\r\n                  kube_persistentvolumeclaim_info,\r\n                  \"persistentvolume\", \"$1\", \"volumename\", \"(.*)\"\r\n                )\r\n              ),\r\n              \"namespace\", \"$1\", \"namespace\", \"(.*)\"\r\n            )\r\n        )\r\n        or\r\n        (\r\n          label_replace(\r\n            \r\n              kube_persistentvolume_info{csi_driver=~\"(csi-isilon\\\\.dellemc\\\\.com|csi-powerstore\\\\.dellemc\\\\.com|csi-vxflexos\\\\.dellemc\\\\.com|csi-powermax\\\\.dellemc\\\\.com)\"}\r\n            \r\n            * on(persistentvolume) group_left()\r\n              kube_persistentvolume_capacity_bytes\r\n            * on(persistentvolume) group_left(phase)\r\n              (kube_persistentvolume_status_phase{phase=~\"Released|Available|Failed\"} == 1),\r\n            \"namespace\", \"\", \"namespace\", \".*\"\r\n          )\r\n        ),\r\n        \"protocol\", \"$1\", \"csi_volume_handle\", \".*/(nfs|scsi|fc)$\"\r\n      ),\r\n      \"system_id\", \"$1\", \"csi_volume_handle\", \".*System=_=_=([^/]+)$\"\r\n    ),\r\n    \"system_id\", \"$1\", \"csi_volume_handle\", \".*/(PS[0-9a-f]+).*\"\r\n  ),\r\n  \"protocol\", \"nfs\", \"csi_driver\", \".*csi-isilon\\\\.dellemc\\\\.com.*\"\r\n)",
+          "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": true,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Kubernetes Admin Dashboard",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value": false,
+              "app_kubernetes_io_component": true,
+              "app_kubernetes_io_instance": true,
+              "app_kubernetes_io_managed_by": true,
+              "app_kubernetes_io_name": true,
+              "app_kubernetes_io_part_of": true,
+              "app_kubernetes_io_version": true,
+              "container": true,
+              "endpoint": true,
+              "helm_sh_chart": true,
+              "host_path": true,
+              "instance": true,
+              "job": true,
+              "node": true,
+              "reclaim_policy": true,
+              "service": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Value": "Provision Size",
+              "csi_driver": "CSI Driver",
+              "csi_volume_handle": "Volume Handle",
+              "namespace": "Namespace",
+              "persistentvolume": "PV",
+              "persistentvolumeclaim": "PVC",
+              "phase": "PV Status",
+              "storageclass": "",
+              "system_id": "System ID"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Provision Size (GB)",
+            "binary": {
+              "left": {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Provision Size"
+                }
+              },
+              "operator": "/",
+              "right": {
+                "fixed": "1073741824"
+              }
+            },
+            "cumulative": {
+              "field": "Provision Size",
+              "reducer": "sum"
+            },
+            "mode": "binary",
+            "reduce": {
+              "include": [
+                "Provision Size"
+              ],
+              "reducer": "sum"
+            },
+            "unary": {
+              "fieldName": "Provision Size",
+              "operator": "exp"
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Provision Size": true,
+              "container": true,
+              "endpoint": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 42,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "Topology",
+          "value": "af2an5qgksruod"
+        },
+        "label": "Cluster",
+        "name": "Cluster",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Topology Dashboard with Kube State Metrics Join Queries",
+  "uid": "df1bn379bxd6oe",
+  "version": 1
+}
+

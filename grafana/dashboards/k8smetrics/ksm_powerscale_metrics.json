@@ -1,0 +1,578 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 22,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 64,
+      "panels": [],
+      "title": "PVC",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${cluster}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "id": 69,
+      "maxDataPoints": 100,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${cluster}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (phase) ( label_replace(kube_persistentvolumeclaim_status_phase{persistentvolumeclaim=~\"$PVCName\"},\"PVCName\", \"$1\", \"persistentvolumeclaim\", \"(.*)\") )",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "__auto",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "PVC Phase",
+      "transformations": [
+        {
+          "id": "groupBy",
+          "options": {}
+        }
+      ],
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${cluster}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "filterable": true,
+            "inspect": false
+          },
+          "decimals": 2,
+          "displayName": "",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Time"
+              },
+              {
+                "id": "unit",
+                "value": "time: YYYY-MM-DD HH:mm:ss"
+              },
+              {
+                "id": "custom.align"
+              },
+              {
+                "id": "custom.width",
+                "value": 109
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bits"
+              },
+              {
+                "id": "displayName",
+                "value": "Capacity"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Metric"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 465
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 313
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 20,
+        "x": 4,
+        "y": 1
+      },
+      "id": 166,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${cluster}"
+          },
+          "editorMode": "code",
+          "expr": "label_replace(kube_persistentvolumeclaim_resource_requests_storage_bytes{persistentvolumeclaim=~\"$PVCName\",namespace=~\"$Namespace\"},\"PVCName\", \"$1\", \"persistentvolumeclaim\", \"(.*)\")",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "{{persistentvolumeclaim}} / {{ namespace}}",
+          "refId": "A"
+        }
+      ],
+      "title": "PVC",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "PVCName": true,
+              "Time": true,
+              "__name__": true,
+              "app_kubernetes_io_component": true,
+              "app_kubernetes_io_instance": true,
+              "app_kubernetes_io_managed_by": true,
+              "app_kubernetes_io_name": true,
+              "app_kubernetes_io_part_of": true,
+              "app_kubernetes_io_version": true,
+              "container": true,
+              "endpoint": true,
+              "helm_sh_chart": true,
+              "instance": true,
+              "job": true,
+              "node": true,
+              "service": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "Time": 0,
+              "Value": 13,
+              "__name__": 1,
+              "app_kubernetes_io_component": 2,
+              "app_kubernetes_io_instance": 3,
+              "app_kubernetes_io_managed_by": 4,
+              "app_kubernetes_io_name": 5,
+              "app_kubernetes_io_part_of": 6,
+              "app_kubernetes_io_version": 7,
+              "helm_sh_chart": 8,
+              "instance": 9,
+              "job": 10,
+              "namespace": 11,
+              "node": 14,
+              "persistentvolumeclaim": 12,
+              "service": 15
+            },
+            "renameByName": {
+              "Value": "Capacity",
+              "namespace": "Namespace ",
+              "node": "Node",
+              "persistentvolumeclaim": "Name"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 2,
+      "panels": [],
+      "title": "Volume Capacity Usage",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${cluster}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 6,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.5.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${cluster}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powerscale_volume_hard_quota_remaining_gigabytes{ClusterName=~\"$ClusterName\", PersistentVolumeClaim=~\"$PVCName\",Namespace=~\"$Namespace\"}",
+          "format": "table",
+          "instant": true,
+          "range": false,
+          "refId": "PowerScale Volume Hard Quota Remaining"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${cluster}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "powerscale_volume_quota_subscribed_gigabytes{ClusterName=~\"$ClusterName\", PersistentVolumeClaim=~\"$PVCName\",Namespace=~\"$Namespace\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "range": false,
+          "refId": "PowerScale Volume Quota Subscribed"
+        }
+      ],
+      "title": "Volume Quota",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "ClusterName",
+                "PersistentVolumeClaim",
+                "PersistentVolumeName",
+                "VolumeID",
+                "Value #PowerScale Volume Hard Quota Remaining",
+                "Value #PowerScale Volume Quota Subscribed",
+                "Namespace"
+              ]
+            }
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "ClusterName": 4,
+              "Namespace": 2,
+              "PersistentVolumeClaim": 1,
+              "PersistentVolumeName": 0,
+              "Value #PowerScale Volume Hard Quota Remaining": 6,
+              "Value #PowerScale Volume Quota Subscribed": 5,
+              "VolumeID": 3
+            },
+            "renameByName": {
+              "ClusterName": "PowerScale Cluster Name",
+              "Namespace": "Namespace",
+              "PersistentVolumeClaim": "PVC",
+              "PersistentVolumeName": "PV Name",
+              "Value #PowerScale Volume Hard Quota Remaining": "Hard Quota Remaining",
+              "Value #PowerScale Volume Quota Subscribed": "Quota Subscribed",
+              "VolumeID": "Volume ID"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "refresh": "",
+  "schemaVersion": 40,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "Prometheus",
+          "value": "PBFA97CFB590B2093"
+        },
+        "includeAll": false,
+        "label": "Cluster",
+        "name": "cluster",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${cluster}"
+        },
+        "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,PersistentVolumeClaim)",
+        "includeAll": true,
+        "label": "PVC Name",
+        "multi": true,
+        "name": "PVCName",
+        "options": [],
+        "query": {
+          "query": "label_values(powerscale_volume_quota_subscribed_gigabytes,PersistentVolumeClaim)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": [
+            "pscale-test-2"
+          ],
+          "value": [
+            "pscale-test-2"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${cluster}"
+        },
+        "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,Namespace)",
+        "includeAll": true,
+        "label": "Namespace",
+        "multi": true,
+        "name": "Namespace",
+        "options": [],
+        "query": {
+          "query": "label_values(powerscale_volume_quota_subscribed_gigabytes,Namespace)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${cluster}"
+        },
+        "definition": "label_values(powerscale_volume_quota_subscribed_gigabytes,ClusterName)",
+        "includeAll": true,
+        "label": "PowerScale Cluster Name",
+        "multi": true,
+        "name": "ClusterName",
+        "options": [],
+        "query": {
+          "query": "label_values(powerscale_volume_quota_subscribed_gigabytes,ClusterName)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "PowerScale Volume Capacity for KSM",
+  "uid": "wpDLqf37z34dvdf",
+  "version": 1,
+  "weekStart": ""
+}

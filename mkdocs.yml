@@ -1,0 +1,7 @@
+site_name: 'karavi-observability'
+site_description: 'karavi-observability Documentation.'
+docs_dir: docs
+plugins:
+  - techdocs-core
+theme:
+  name: material
