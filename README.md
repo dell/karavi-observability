@@ -21,8 +21,6 @@ It is an OpenTelemetry agent that collects array-level metrics for Dell storage 
 
 Thanks to pre-packaged Grafana dashboards, you will be able to go through these metrics history and see the topology between a Kubernetes PV (Persistent Volume) and its translation as a LUN or file share in the backend array. This module also allows Kubernetes admins to collect array level metrics to check the overall capacity and performance directly from the Prometheus/Grafana tools rather than interfacing directly with the storage system itself.
 
-For documentation, please visit [Container Storage Modules documentation](https://dell.github.io/csm-docs/).
-
 ## Table of Contents
 
 - [Code of Conduct](https://github.com/dell/csm/blob/main/docs/CODE_OF_CONDUCT.md)
