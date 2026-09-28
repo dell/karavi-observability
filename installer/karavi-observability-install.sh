@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2021 Dell Inc., or its subsidiaries. All Rights Reserved.
+# Copyright © 2021-2026 Dell Inc., or its subsidiaries. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -52,6 +52,7 @@ export DEBUGLOG="${SCRIPTDIR}/install-debug.log"
 export HELMLOG="${SCRIPTDIR}/helm-install.log"
 
 HELMREPO="https://dell.github.io/helm-charts"
+EXPLICIT_CHART_PATH=""
 
 CRD="kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.10.0/cert-manager.crds.yaml"
 
@@ -335,6 +336,117 @@ function upgrade_certmanager_crds() {
   fi
 }
 
+# patch_certmanager_crds_for_helm_v4 patches existing cert-manager CRDs with the version label
+# to avoid Helm v4 SSA conflicts. This is called when Helm v4 is detected.
+# Note: Helm v4 requires cert-manager CRDs to include version labels to avoid SSA conflicts.
+# This function downloads the chart (if remote), extracts the CRD version, and patches existing
+# CRDs with the appropriate version label. The cluster should not have cert-manager 1.11.0
+# installed, as the installation uses CRD version 1.10.0 for Helm v4 compatibility.
+function patch_certmanager_crds_for_helm_v4() {
+  local chart_path="${1}"
+  local crd_file=""
+  local version=""
+  local temp_dir=""
+  local cleanup_temp=false
+
+  log info  "chart_path: ${chart_path}"
+  # If chart_path is a remote chart reference (not a directory, not an absolute path), download it first
+  # This includes both traditional Helm repos (dell/karavi-observability) and OCI registries (oci://...)
+  if [[ ! -d "${chart_path}" ]] && [[ "${chart_path}" != /* ]]; then
+    log step "Downloading remote chart to extract CRD version" "small"
+    temp_dir=$(mktemp -d)
+    cleanup_temp=true
+    
+    # Build helm pull command with appropriate flags
+    local pull_cmd="helm pull \"${chart_path}\" --destination \"${temp_dir}\""
+    
+    # Add version flag if VERSION is set
+    if [ -n "${VERSION}" ]; then
+      pull_cmd="${pull_cmd} --version ${VERSION}"
+    fi
+    
+    # Add --plain-http flag for localhost OCI registries
+    if [[ "${chart_path}" == oci://* ]]; then
+      local registry_domain
+      registry_domain=$(echo "${chart_path}" | sed -E 's|^oci://([^/]+).*|\1|')
+      if [[ "${registry_domain}" == localhost* ]] || [[ "${registry_domain}" == 127.0.0.1* ]]; then
+        pull_cmd="${pull_cmd} --plain-http"
+      fi
+    fi
+    
+    if eval "${pull_cmd}" &>/dev/null; then
+      log info "Downloaded chart to ${temp_dir}, contents:"
+      ls -la "${temp_dir}"
+      # Extract the tarball
+      tar -xzf "${temp_dir}"/*.tgz -C "${temp_dir}"
+      chart_path="${temp_dir}/karavi-observability"
+    else
+      log info "Failed to download remote chart ${chart_path}, skipping CRD patching"
+      rm -rf "${temp_dir}"
+      return 0
+    fi
+  fi
+ 
+  # Determine the path to cert-manager.crds.yaml
+  if [ -n "${EXPLICIT_CHART_PATH}" ]; then
+    crd_file="${EXPLICIT_CHART_PATH}/crds/cert-manager.crds.yaml"
+  elif [ -d "${chart_path}/crds" ]; then
+    crd_file="${chart_path}/crds/cert-manager.crds.yaml"
+  else
+    log info "Unable to locate cert-manager.crds.yaml in chart, skipping CRD patching"
+    if [ "${cleanup_temp}" = true ]; then
+      rm -rf "${temp_dir}"
+    fi
+    return 0
+  fi
+
+  # Extract the version from the CRD file
+  if [ -f "${crd_file}" ]; then
+    version=$(grep 'app.kubernetes.io/version' "${crd_file}" | head -1 | sed 's/.*app.kubernetes.io\/version: *//;s/"//g;s/[[:space:]]*$//')
+    if [ -z "${version}" ]; then
+      log info "Unable to extract version from ${crd_file}, skipping CRD patching"
+      return 0
+    fi
+  else
+    log info "CRD file not found at ${crd_file}, skipping CRD patching"
+    return 0
+  fi
+
+  log step "Patching cert-manager CRDs with version label ${version} for Helm v4 SSA compatibility" "small"
+
+  # Patch all cert-manager CRDs with the version label
+  local crds=("certificates.cert-manager.io" "certificaterequests.cert-manager.io" "orders.acme.cert-manager.io" "challenges.acme.cert-manager.io" "clusterissuers.cert-manager.io" "issuers.cert-manager.io")
+  local patched=0
+  local failed=0
+
+  for crd in "${crds[@]}"; do
+    if kubectl get crd "${crd}" &>/dev/null; then
+      if kubectl label crd "${crd}" "app.kubernetes.io/version=${version}" --overwrite &>/dev/null; then
+        patched=$((patched + 1))
+      else
+        failed=$((failed + 1))
+      fi
+    fi
+  done
+
+  if [ ${patched} -gt 0 ]; then
+    log step_success
+    log info "Patched ${patched} cert-manager CRDs with version ${version}"
+  else
+    log step_warning
+    log info "No cert-manager CRDs found to patch"
+  fi
+
+  if [ ${failed} -gt 0 ]; then
+    log info "Failed to patch ${failed} cert-manager CRDs"
+  fi
+
+  # Cleanup temp directory if it was created
+  if [ "${cleanup_temp}" = true ]; then
+    rm -rf "${temp_dir}"
+  fi
+}
+
 # is_karavi_observability_installed returns 0 if Karavi Observability is already installed in the namespace
 function is_karavi_observability_installed() {
   NUM=$(run_command helm list --namespace "${NAMESPACE}" | grep "${RELEASE}" | wc -l)
@@ -370,16 +482,75 @@ function install_karavi_observability() {
     OPT_VALUES_ARG+="--set karaviMetricsPowermax.enabled=false "
   fi
 
+  # Handle OCI registry authentication if needed
+  if [ -n "${OCI_CHART}" ] && [ -n "${REGISTRY_AUTH_SECRET}" ]; then
+    log section "Authenticating to OCI Registry"
+    extract_registry_credentials_from_secret "${REGISTRY_AUTH_SECRET}" "${NAMESPACE}"
+
+    local registry_domain
+    registry_domain=$(echo "${OCI_CHART}" | sed -E 's|^oci://([^/]+).*|\1|')
+
+    local use_plain_http="false"
+    if [[ "${registry_domain}" == localhost* ]] || [[ "${registry_domain}" == 127.0.0.1* ]]; then
+      use_plain_http="true"
+    fi
+
+    helm_registry_login "${registry_domain}" "${REGISTRY_USERNAME}" "${REGISTRY_PASSWORD}" "${use_plain_http}"
+    if [ $? -ne 0 ]; then
+      log error "Failed to authenticate to OCI registry ${registry_domain}"
+    fi
+    log step_success
+  fi
+
+  # Determine chart source: OCI URI or remote repository
+  local CHART_SOURCE
+  local HELM_EXTRA_FLAGS=""
+  if [ -n "${OCI_CHART}" ]; then
+    CHART_SOURCE="${OCI_CHART}"
+    log step "Using OCI chart: ${CHART_SOURCE}"
+
+    local registry_domain
+    registry_domain=$(echo "${OCI_CHART}" | sed -E 's|^oci://([^/]+).*|\1|')
+    if [[ "${registry_domain}" == localhost* ]] || [[ "${registry_domain}" == 127.0.0.1* ]]; then
+      HELM_EXTRA_FLAGS="--plain-http"
+    fi
+  else
+    if [ -n "${EXPLICIT_CHART_PATH}" ]; then
+      CHART_SOURCE="${EXPLICIT_CHART_PATH}"
+      log step "Using explicit chart path: ${CHART_SOURCE}"
+    else
+      CHART_SOURCE="dell/karavi-observability"
+      log step "Using remote chart: ${CHART_SOURCE}"
+    fi
+  fi
+
+  if [[ -z "${HELM_MAJOR_VERSION}" ]]; then
+    detect_helm_version
+  fi
+
+  if [[ "${HELM_MAJOR_VERSION}" == "4" ]]; then
+    local patch_chart_path="${CHART_SOURCE}"
+    if [ -n "${EXPLICIT_CHART_PATH}" ]; then
+      patch_chart_path="${EXPLICIT_CHART_PATH}"
+    fi
+    patch_certmanager_crds_for_helm_v4 "${patch_chart_path}"
+  fi
+
   log step "Installing Karavi Observability helm chart"
+  record_helm_telemetry "install" "karavi-observability" "pending"
   run_command "helm install \
     ${OPT_VALUES_ARG} \
     --namespace ${NAMESPACE} karavi-observability \
-    dell/karavi-observability > ${HELMLOG} 2>&1"
+    ${CHART_SOURCE} ${HELM_EXTRA_FLAGS} > ${HELMLOG} 2>&1"
+  HELM_RC=$?
 
-  if [ $? -ne 0 ]; then
+  if [ $HELM_RC -ne 0 ]; then
     cat "${HELMLOG}"
+    detect_ssa_conflict_in_output "${HELMLOG}"
+    record_helm_telemetry "install" "karavi-observability" "failure"
     log error "Helm operation failed, output can be found in ${HELMLOG}. The failure should be examined, before proceeding."
   fi
+  record_helm_telemetry "install" "karavi-observability" "success"
   log step_success
 }
 
@@ -423,16 +594,76 @@ function upgrade_karavi_observability() {
       OPT_VALUES_ARG+="--values ${VALUES} "
   fi
 
+  if [[ -z "${HELM_MAJOR_VERSION}" ]]; then
+    detect_helm_version
+  fi
+
+  # Handle OCI registry authentication if needed
+  if [ -n "${OCI_CHART}" ] && [ -n "${REGISTRY_AUTH_SECRET}" ]; then
+    log section "Authenticating to OCI Registry"
+    extract_registry_credentials_from_secret "${REGISTRY_AUTH_SECRET}" "${NAMESPACE}"
+
+    local registry_domain
+    registry_domain=$(echo "${OCI_CHART}" | sed -E 's|^oci://([^/]+).*|\1|')
+
+    local use_plain_http="false"
+    if [[ "${registry_domain}" == localhost* ]] || [[ "${registry_domain}" == 127.0.0.1* ]]; then
+      use_plain_http="true"
+    fi
+
+    helm_registry_login "${registry_domain}" "${REGISTRY_USERNAME}" "${REGISTRY_PASSWORD}" "${use_plain_http}"
+    if [ $? -ne 0 ]; then
+      log error "Failed to authenticate to OCI registry ${registry_domain}"
+    fi
+    log step_success
+  fi
+
+  # Determine chart source: OCI URI or remote repository
+  local CHART_SOURCE
+  local HELM_EXTRA_FLAGS=""
+  if [ -n "${OCI_CHART}" ]; then
+    CHART_SOURCE="${OCI_CHART}"
+    log step "Using OCI chart: ${CHART_SOURCE}"
+
+    local registry_domain
+    registry_domain=$(echo "${OCI_CHART}" | sed -E 's|^oci://([^/]+).*|\1|')
+    if [[ "${registry_domain}" == localhost* ]] || [[ "${registry_domain}" == 127.0.0.1* ]]; then
+      HELM_EXTRA_FLAGS="--plain-http"
+    fi
+  else
+    if [ -n "${EXPLICIT_CHART_PATH}" ]; then
+      CHART_SOURCE="${EXPLICIT_CHART_PATH}"
+      log step "Using explicit chart path: ${CHART_SOURCE}"
+    else
+      CHART_SOURCE="dell/karavi-observability"
+      log step "Using remote chart: ${CHART_SOURCE}"
+    fi
+  fi
+
+  if [[ "${HELM_MAJOR_VERSION}" == "4" ]]; then
+    local patch_chart_path="${CHART_SOURCE}"
+    if [ -n "${EXPLICIT_CHART_PATH}" ]; then
+      patch_chart_path="${EXPLICIT_CHART_PATH}"
+    fi
+    patch_certmanager_crds_for_helm_v4 "${patch_chart_path}"
+  fi
+
   log step "Upgrading Karavi Observability helm chart"
+  record_helm_telemetry "upgrade" "karavi-observability" "pending"
+
   run_command "helm upgrade \
     ${OPT_VALUES_ARG} \
     --namespace ${NAMESPACE} karavi-observability \
-    dell/karavi-observability > ${HELMLOG} 2>&1"
+    ${CHART_SOURCE} ${HELM_EXTRA_FLAGS} > ${HELMLOG} 2>&1"
+  HELM_RC=$?
 
-  if [ $? -ne 0 ]; then
+  if [ $HELM_RC -ne 0 ]; then
     cat "${HELMLOG}"
+    detect_ssa_conflict_in_output "${HELMLOG}"
+    record_helm_telemetry "upgrade" "karavi-observability" "failure"
     log error "Unable to upgrade Karavi Observability. View logs at ${HELMLOG}."
   fi
+  record_helm_telemetry "upgrade" "karavi-observability" "success"
   log step_success
 }
 
@@ -442,8 +673,8 @@ function verify_karavi_observability() {
     log info "Skipping verification of the environment"
     return
   fi
-  verify_k8s_versions "1.34" "1.36"
-  verify_openshift_versions "4.18" "4.21"
+  verify_k8s_versions "1.35" "1.37"
+  verify_openshift_versions "4.19" "4.22"
   verify_helm_3
 }
 
@@ -521,23 +752,48 @@ function verify_openshift_versions() {
   check_error error
 }
 
-# verify that helm is v3 or above
+# verify that helm is v3 or above (supports v3 and v4)
 function verify_helm_3() {
   log step "Verifying helm version"
-  error=0
-  # Check helm installer version
-  helm --help >&/dev/null || {
-    log step_warning "helm is required for installation"
-    log step_failure
-    return
-  }
-
-  run_command helm version | grep "v3." --quiet
-  if [ $? -ne 0 ]; then
-    error=1
-    log step_warning "Driver installation is supported only using helm 3"
+  if [[ -z "${HELM_MAJOR_VERSION}" ]]; then
+    detect_helm_version
+    validate_helm_version "${HELM_MAJOR_VERSION}"
   fi
-  check_error error
+  log step_success
+}
+
+# extract_registry_credentials_from_secret
+function extract_registry_credentials_from_secret() {
+  local secret_name="${1}"
+  local namespace="${2}"
+
+  if [ -z "${secret_name}" ] || [ -z "${namespace}" ]; then
+    log error "Secret name and namespace are required for credential extraction"
+  fi
+
+  log step "Extracting registry credentials from secret ${secret_name}"
+
+  local username_b64
+  local password_b64
+
+  username_b64=$(kubectl get secret "${secret_name}" -n "${namespace}" -o jsonpath='{.data.username}' 2>/dev/null)
+  if [ -z "${username_b64}" ]; then
+    log error "Failed to extract username from secret ${secret_name} in namespace ${namespace}"
+  fi
+
+  password_b64=$(kubectl get secret "${secret_name}" -n "${namespace}" -o jsonpath='{.data.password}' 2>/dev/null)
+  if [ -z "${password_b64}" ]; then
+    log error "Failed to extract password from secret ${secret_name} in namespace ${namespace}"
+  fi
+
+  REGISTRY_USERNAME=$(echo "${username_b64}" | base64 -d)
+  REGISTRY_PASSWORD=$(echo "${password_b64}" | base64 -d)
+
+  if [ -z "${REGISTRY_USERNAME}" ] || [ -z "${REGISTRY_PASSWORD}" ]; then
+    log error "Decoded credentials are empty from secret ${secret_name}"
+  fi
+
+  log step_success
 }
 
 # validate_params will validate the parameters passed in
@@ -623,12 +879,15 @@ function usage() {
   decho "  --csi-powerflex-namespace[=]<csi powerflex namespace>       Namespace where CSI PowerFlex is installed, default is 'vxflexos'"
   decho "  --csi-powerstore-namespace[=]<csi powerstore namespace>     Namespace where CSI PowerStore is installed, default is 'csi-powerstore'"
   decho "  --csi-powerscale-namespace[=]<csi powerscale namespace>     Namespace where CSI PowerScale is installed, default is 'isilon'"
-  decho "  --csi-powermax-namespace[=]<csi powermax namespace>         Namespace where CSI PoPowerMax is installed, default is 'powermax'"
+  decho "  --csi-powermax-namespace[=]<csi powermax namespace>         Namespace where CSI PowerMax is installed, default is 'powermax'"
   decho "  --set-file                                                  Set values from files used during helm installation (can be specified multiple times)"
   decho "  --skip-verify                                               Skip verification of the environment"
   decho "  --values[=]<values.yaml>                                    Values file, which defines configuration values"
   decho "  --verbose                                                   Display verbose logging"
   decho "  --version[=]<helm chart version>                            Helm chart version to install, default value will be latest"
+  decho "  --oci-chart[=]<oci-uri>                                     OCI registry URI for Helm chart (e.g., oci://registry.example.com/charts/karavi-observability)"
+  decho "  --registry-auth-secret[=]<secret-name>                      Kubernetes secret containing registry credentials (username/password keys)"
+  decho "  --explicit-chart-path[=]<path>                              Explicit local chart path to use instead of remote (e.g., /path/to/charts/karavi-observability)"
   decho "  --help                                                      Help"
   decho
 
@@ -709,6 +968,27 @@ while getopts ":h-:" optchar; do
       ;;
     version=*)
       VERSION=${OPTARG#*=}
+      ;;
+    oci-chart)
+      OCI_CHART="${!OPTIND}"
+      OPTIND=$((OPTIND + 1))
+      ;;
+    oci-chart=*)
+      OCI_CHART=${OPTARG#*=}
+      ;;
+    registry-auth-secret)
+      REGISTRY_AUTH_SECRET="${!OPTIND}"
+      OPTIND=$((OPTIND + 1))
+      ;;
+    registry-auth-secret=*)
+      REGISTRY_AUTH_SECRET=${OPTARG#*=}
+      ;;
+    explicit-chart-path)
+      EXPLICIT_CHART_PATH="${!OPTIND}"
+      OPTIND=$((OPTIND + 1))
+      ;;
+    explicit-chart-path=*)
+      EXPLICIT_CHART_PATH=${OPTARG#*=}
       ;;
     help)
       usage
@@ -792,6 +1072,9 @@ function verify_authorization_environment() {
   fi
   decho
 }
+
+detect_helm_version
+validate_helm_version "${HELM_MAJOR_VERSION}"
 
 case $MODE in
   "install")

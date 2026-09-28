@@ -57,7 +57,14 @@ create_bundle() {
     run_command "helm pull ${CHARTNAME} --untar --untardir ${DISTDIR}/${HELMBACKUPDIR}"
 
     # search for all images from the values.yaml files that were contained in the Helm chart
-    find ${DISTDIR}/${HELMBACKUPDIR} -name "values.yaml" -type f -exec grep -v '^[[:space:]]*#' {} \; | egrep -oh "image: (.+)" | awk '{print $2}' > ${DISTDIR}/images.txt
+    # Add docker.io/ prefix if image doesn't have a registry prefix for podman compatibility
+    find ${DISTDIR}/${HELMBACKUPDIR} -name "values.yaml" -type f -exec grep -v '^[[:space:]]*#' {} \; | egrep -oh "image: (.+)" | awk '{print $2}' | while read img; do
+        if [[ "$img" != */*/* ]] && [[ "$img" != docker.io/* ]] && [[ "$img" != ghcr.io/* ]] && [[ "$img" != quay.io/* ]] && [[ "$img" != gcr.io/* ]] && [[ "$img" != registry.k8s.io/* ]]; then
+            echo "docker.io/${img}"
+        else
+            echo "$img"
+        fi
+    done | sort -u > ${DISTDIR}/images.txt
 
     status "Downloading and saving Docker images"
     while read line; do

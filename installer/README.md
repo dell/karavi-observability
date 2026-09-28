@@ -79,6 +79,9 @@ Options:
   --values[=]<values.yaml>                                    Values file, which defines configuration values
   --verbose                                                   Display verbose logging
   --version[=]<helm chart version>                            Helm chart version to install, default value will be latest
+  --oci-chart[=]<oci-uri>                                     OCI registry URI for Helm chart (e.g., oci://registry.example.com/charts/karavi-observability)
+  --registry-auth-secret[=]<secret-name>                      Kubernetes secret containing registry credentials (username/password keys)
+  --explicit-chart-path[=]<path>                              Explicit local chart path to use instead of remote to use the local charts (e.g., /path/to/charts/karavi-observability)
   --help                                                      Help
 ```
 
@@ -150,6 +153,45 @@ The following example will install Karavi Observability into the `karavi` namesp
 |
 |- Waiting for pods in namespace karavi to be ready                 Success
 ```
+
+#### Installing from OCI Registry
+
+Observability Module can be installed from an OCI-compliant registry instead of using local Helm charts. This requires:
+
+1. A Kubernetes secret containing registry credentials (if authentication is required)
+2. The OCI registry URI for the Helm chart
+
+**Create a registry credentials secret:**
+```bash
+kubectl create secret generic oci-registry-credentials \
+  --from-literal=username=<username> \
+  --from-literal=password=<password> \
+  --namespace <observability-namespace>
+```
+
+**Install from OCI registry:**
+```bash
+./karavi-observability-install.sh \
+  install \
+  --namespace <observability-namespace> \
+  --values <values-file.yaml> \
+  --oci-chart oci://registry.example.com/charts/karavi-observability \
+  --registry-auth-secret oci-registry-credentials \
+  --version <1.16.0>
+```
+
+**Upgrade from OCI registry:**
+```bash
+./karavi-observability-install.sh \
+  upgrade \
+  --namespace <observability-namespace> \
+  --values <upgrade-values-file.yaml> \
+  --oci-chart oci://registry.example.com/charts/karavi-observability \
+  --registry-auth-secret oci-registry-credentials \
+  --version <1.17.0>
+```
+
+**Note:** If the OCI registry does not require authentication, you can omit the `--registry-auth-secret` parameter.
 
 # Offline Karavi Observability Helm Chart Installer
 
